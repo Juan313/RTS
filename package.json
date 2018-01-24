@@ -4,17 +4,17 @@
   "description": "HTML5 RTS Game",
   "main": "app.js",
   "scripts": {
-		"start": "",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./server/server.js"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CapstoneWEB1/RTS.git"
   },
   "author": "Juan Du, Cameron Brown, James Todd",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/CapstoneWEB1/RTS/issues"
-  },
-  "homepage": "https://github.com/CapstoneWEB1/RTS#readme"
+  "homepage": "https://github.com/CapstoneWEB1/RTS",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
 }
