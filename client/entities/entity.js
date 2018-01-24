@@ -1,11 +1,10 @@
 //Shared entity class definition file
-
 class Entity {
 	/* Parameters -
 	 * health: health points for determining if entity still alive
 	 * width, length : determines size for map drawing
-	 * x, y : map position of entity
-	 * sight : how much of the map is revealed around unit in square area
+	 * x, y : map position of entity starting from the lowest it's lowest left point
+	 * sight : how much of the map is revealed around entity in square area
 	 * cost : how much of wheat/timber player needs to construct entity
 	 * buildTime: how long the player waits in seconds to construct the entity
 	 */
@@ -13,15 +12,12 @@ class Entity {
 		this.health = health;
 		this.width = width;
 		this.length = length;
+		this.x = x;
+		this.y = y
 		this.sight = sight;
 		this.cost = cost;
 		this.buildTime = buildTime;
-		this.speed = speed;
-		this.firePower = firePower;
-		this.builtFrom = builtFrom;
-		this.skills = skills;
 	}
-
 	/*If the player has enough in their inventory return the remaining inventory
 	 * after purchasing to player, otherwise return -1*/
 	buy(inventory){	
@@ -30,13 +26,14 @@ class Entity {
 		}
 		return -1;
 	}	
-	get coordinates(){
-		return [this.x, this.y];
-	}
 	//receive attacks from units, decreasing health accordingly
 	getAttacked(firePower){
 		this.health -= firePower;
 		return this.health;
 	}
+	//return the entity to the player after waiting for the given build time
+	build(){
+		setTimeOut(() => this, this.buildTime);
+	}
 }
-export default Unit;
+export default Entity;
