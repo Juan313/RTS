@@ -2,10 +2,11 @@ var game =
 {
   init: function(){
     // document.getElementById("gamecontainer").style.width = document.body.clientWidth+"px";
-    // document.getElementById("gamecontainer").style.height = document.body.clientWidth/16*9+"px";
     game.canvas = document.getElementById("gamecanvas");
     game.canvas.width = 1120;
-    game.canvas.height = 630 ;
+    game.canvas.height = 630;
+    houses.init();
+    loader.init();
     this.hideScreens();
     this.showScreen("gamestartscreen");
 
@@ -16,15 +17,22 @@ var game =
       screens[i].style.display="none";
     }
   },
+  hideScreen: function(id) {
+        var screen = document.getElementById(id);
+
+        screen.style.display = "none";
+    },
+
   showScreen:function(id){
     var screen = document.getElementById(id);
     screen.style.display="block";
-  }
+  },
 
-  showLevelScreen: function(){
+  showSelectHouse: function(){
     this.hideScreens();
-    this.showScreen("levelselectscreen");
-  }
+    this.showScreen("selectHouseScreen");
+  },
+
 }
 
 // Intialize game once page has fully loaded
