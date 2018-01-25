@@ -1,0 +1,20 @@
+{
+  "name": "pictor",
+  "version": "0.1.0",
+  "description": "HTML5 RTS Game",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./server/server.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CapstoneWEB1/RTS.git"
+  },
+  "author": "Juan Du, Cameron Brown, James Todd",
+  "homepage": "https://github.com/CapstoneWEB1/RTS",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
