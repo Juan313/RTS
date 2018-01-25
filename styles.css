@@ -1,0 +1,49 @@
+body{
+  user-select: none;
+
+  background-color: #052203;
+}
+
+#wrapper {
+  position: absolute;
+  width: 1200px;
+}
+
+#gamecontainer {
+
+    /* Set game container width, height and background */
+    width: 1120px;
+    height: 630px;
+    margin: 0 auto;
+    padding: 10px;
+    background: url("images/splashscreen.jpeg");
+}
+
+#gamestartscreen{
+  /* background-repeat: no-repeat;
+  background-size: auto; */
+  padding-top: 300px;
+  text-align: center;
+
+}
+#scorescreen {
+    height: 50px;
+
+    color: white;
+    text-shadow: 0 0 2px black;
+
+    font: 32px "Comic Sans MS";
+}
+
+#scorescreen img{
+  position: absolute;
+  top:0px;
+
+  display:block;
+
+  max-width: 100%;
+  padding-top: 0px;
+  padding-left: 0px;
+
+  opacity:.7;
+}
