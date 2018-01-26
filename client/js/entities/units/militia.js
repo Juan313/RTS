@@ -1,16 +1,30 @@
 //Object defintion for militia unit
 import Unit from './unit.js';
-
-	let health = 250,
-	width = 1,
-	length = 1,
-	sight = 4,
+let name = 'militia',
+	//TODO: determine image size
+	pixelWidth = 0,
+	pixelHeight = 0,
+	//TODO: determine base proportions
+	baseWidth = 0,
+	baseHeight = 0;
+	//TODO: determine base offset
+	pixelOffsetX = 0,
+	piexlOffsetY = 0,
+	//TODO: determine grid dimensions
+	buildableGrid = 0,
+	passableGrid = 0,
+	sight = 2,
+	health = 250,
 	cost = 100,
 	buildTime = 10,
-	speed = 3,
+	moveSpeed = 0.75,
+	interactSpeed = 1,
 	firePower = 30,
-	builtFrom = 'Barrack';
+	builtFrom = 'barracks',
+	special = null;
 
-export let militia = new Unit(health, width, length, sight,
-wheatCost, buildTime, speed, firePower, builtFrom);
+export let militia = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
+buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, 
+firePower, builtFrom, special);
+
 

@@ -1,35 +1,32 @@
 //Shared unit class definition file
 import Entity from '../entity.js';
-
-class Unit extends Entity {
-	/* Parameters -
+export default class Unit extends Entity {
+	/* Additional Parameters -
 	 * range : How far a unit can interact with buildings / units in square area
-	 * speed : Multiplier for base unit speed to determine how many squares on map can be moved per second
-	 * firePower: attack damage per second dealt to targeted units / buildings  
+	 * moveSpeed : How many map tiles can be moved by the unit per second
+	 * interactSpeed: How many interactions (attack, construct, collect, repair) can be performed per second by unit
+	 * firePower: attack damage
 	 * builtFrom: building this item must be constructed from,
-	 * skills: array of actions a unit can do
+	 * special: Special actions unit can perform
 	 */
-	constructor(){
-		super();
+	constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
+		sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, firePower, builtFrom, special){
+		super(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
+		sight, health, cost, buildTime, spriteImages);
 		this.range = range;
-		this.speed = speed;
+		this.moveSpeed = moveSpeed;
+		this.interactSpeed = interactSpeed;
 		this.firePower = firePower;
 		this.builtFrom = builtFrom;
-		this.skills = skills;
+		this.special = special;
 	}
-	//If the unit can be built from the fromBuilding parameter return the time required to build the unit, otherwise return -1
-	build(fromBuilding){
-		if(fromBuilding === this.builtFrom){
-			super.build();
-		}else return null;
+
+	load(){
+		//TODO: Create function for loading entity's sprite sheets
 	}
-	//attack another entity if the entity is within the unit's range and the unit has positive firepower, otherwise return null
-	attack(entity){
-		if(this.firePower > 0){
-			//TODO: implement range check
-			entity.getAttacked(this.firePower);	
-		}
-		return null;
+
+	add(){
+		//TODO: Create function for adding entity into the game
 	}
+
 }
-export default Unit;
