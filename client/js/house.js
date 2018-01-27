@@ -1,3 +1,11 @@
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
 var houses = {
   data: [{
       "name": "Stark",
@@ -37,20 +45,24 @@ var houses = {
       while (AIHouse == this.value){
         AIHouse = Math.floor(Math.random() * 5);
       }
+
       game.AIHouse = houses.data[AIHouse].name;
 
-      console.log(game.userHouse + " vs. " + game.AIHouse);
+      houses.populateBothHouseScreen(this.value,AIHouse);
 
-      game.hideScreen("selectHouseScreen");
+      game.hideScreens();
+      game.showScreen("showSelectedHouses");
+      setTimeout(function(){
+        game.hideScreens();
+      }, 1000);
 
-      // Level label values are 1, 2. Levels are 0, 1
+
 
     };
 
 
     for (let i = 0; i < houses.data.length; i++) {
       var button = document.createElement("input");
-
       button.type = "button";
       button.value = i;
       var img_url = "url("+houses.data[i].img_url + ".png)";
@@ -67,6 +79,33 @@ var houses = {
     }
 
   },
+  populateBothHouseScreen: function(user1, user2)
+  {
+    console.log(game.userHouse + " vs. " + game.AIHouse);
+    var showSelectedHouses = document.getElementById("showSelectedHouses");
+    var button1 = document.getElementById("button1");
+    button1.type = "button";
+    var img_url = "url("+houses.data[user1].img_url + ".png)";
+    button1.style.top = "200px";
+    button1.style.margin = "80px";
+    button1.style.width="150px";
+    button1.style.height="150px";
+    button1.style.backgroundImage = img_url;
+    showSelectedHouses.appendChild(button1);
+
+    var button2 = document.getElementById("button2");
+    button2.type = "button";
+    var img_url = "url("+houses.data[user2].img_url + ".png)";
+    button2.style.top = "200px";
+    button2.style.margin = "80px";
+    button2.style.width="150px";
+    button2.style.height="150px";
+    button2.style.backgroundImage = img_url;
+    showSelectedHouses.appendChild(button2);
+
+  },
+
+
   loadImages: function(){
     for (let i = 0; i < houses.data.length; i++) {
       loader.loadImage(houses.data[i].img_url+".png");
