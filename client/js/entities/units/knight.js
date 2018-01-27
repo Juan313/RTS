@@ -1,9 +1,8 @@
 //Object defintion for knight unit
 import Unit from './unit.js';
 let name = 'knight',
-	//TODO: determine image size
-	pixelWidth = 0,
-	pixelHeight = 0,
+	pixelWidth = 16,
+	pixelHeight = 16,
 	//TODO: determine base proportions
 	baseWidth = 0,
 	baseHeight = 0;
