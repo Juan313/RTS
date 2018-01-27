@@ -20,13 +20,4 @@ export default class Unit extends Entity {
 		this.builtFrom = builtFrom;
 		this.special = special;
 	}
-
-	load(){
-		//TODO: Create function for loading entity's sprite sheets
-	}
-
-	add(){
-		//TODO: Create function for adding entity into the game
-	}
-
 }

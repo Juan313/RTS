@@ -52,8 +52,10 @@ var houses = {
 
       game.hideScreens();
       game.showScreen("showSelectedHouses");
+      game.loadLevelData();
+      // loader.onload = game.play();
       setTimeout(function(){
-        game.hideScreens();
+        game.play();
       }, 1000);
 
 
