@@ -92,3 +92,22 @@ body{
   text-align: center;
 
 }
+
+#showSelectedHouses {
+  margin-top: 150px;
+  text-align: center;
+
+}
+#showSelectedHouses #vs{
+  position:relative;
+  top:25%;
+  left:0%;
+  /* margin-top: 200px; */
+  display:block;
+
+  font-family: "Courier New", Courier, monospace;
+  font-size: 50px;
+
+  color:white;
+  text-shadow: -2px 0 green, 0 2px green, 2px 0 green, 0 -2px green;
+}
