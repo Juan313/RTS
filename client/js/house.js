@@ -83,7 +83,7 @@ var houses = {
   },
   populateBothHouseScreen: function(user1, user2)
   {
-    console.log(game.userHouse + " vs. " + game.AIHouse);
+    //console.log(game.userHouse + " vs. " + game.AIHouse);
     var showSelectedHouses = document.getElementById("showSelectedHouses");
     var button1 = document.getElementById("button1");
     button1.type = "button";
