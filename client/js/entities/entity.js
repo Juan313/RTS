@@ -1,6 +1,5 @@
 //Shared entity class definition file
-//TODO: Define class for loading images and sounds to be used to load entity sprite images
-//import loader from '../loader.js';
+import loader from '../common.js';
 export default class Entity {
 	/* Parameters -
 	 * name: name of entity
@@ -10,7 +9,8 @@ export default class Entity {
 	 * buildableGrid - grid squares for building entity,
 	 * passableGrid - grid squres obstructed or passable for pathfinding
 	 * sight - how far around entity is revealed on map
-	 * health - hit point of entity
+	 * health - total health pool of entity
+	 * currentHP - current hits point of entity
 	 * cost - how much in wheat or timber required to build entity
 	 * buildTime - how long in seconds required to build the entity
 	 * spriteImages - Definitions for sprite images used for animations
@@ -34,6 +34,7 @@ export default class Entity {
 		this.passableGrid = passableGrid;
 		this.sight = sight;
 		this.health = health;
+		this.currentHP = this.health;
 		this.cost = cost;
 		this.buildTime = buildTime;
 		this.spriteImages = spriteImages;
@@ -64,5 +65,4 @@ export default class Entity {
 			}
 		}
 	}
-	
 }

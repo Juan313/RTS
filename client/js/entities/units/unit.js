@@ -1,5 +1,6 @@
 //Shared unit class definition file
 import Entity from '../entity.js';
+//TODO: implement player class with inventory for collection
 export default class Unit extends Entity {
 	/* Additional Parameters -
 	 * range : How far a unit can interact with buildings / units in square area
@@ -19,5 +20,54 @@ export default class Unit extends Entity {
 		this.firePower = firePower;
 		this.builtFrom = builtFrom;
 		this.special = special;
+	}
+	//unit collects a given resource for the player of the specified amount
+	collect(type, amount, player){
+		if(type === 'timber'){
+			player.timber += amount;
+		}else{
+			player.wheat += amount;
+		}
+	}
+	//construct a given building at interactSpeed times per second or until the build progess is equal to the health of the building
+	construct(building, condition){
+		while(condition){
+			setInterval(()=>{ 
+				for(i = 0; i < this.interactSpeed; i++){
+					building.progress = Math.min(building.health, building.progress + 5); 
+					if(building.progress == building.health){
+						return 0;
+					}
+				}
+			}, 1000);
+		}
+	}
+	//repair a given building at interactSpeed times per second or until the currentHP is equal to its max value
+	repair(building, condition){
+		while(condition){
+			setInterval(()=>{ 
+				for(i = 0; i < this.interactSpeed; i++){
+					building.currentHP = Math.min(building.health, building.currentHP + 5);
+					if(building.currentHP == building.health){
+						return 0;
+					}
+				}
+			}, 1000);
+		}
+	}
+	//attack a given entity will the condition holds interactSpeed times per second or until the entities currentHP is 0
+	attack(entity, condition){
+		if(this.firePower){
+			while(condition){
+				setInterval(()=>{ 
+					for(i = 0; i < this.interactSpeed; i++){
+						entity.currentHP = Math.max(0, entity.currentHP - this.firePower);
+						if(entity.currentHP === 0){
+							return 0;
+						}
+					}
+				}, 1000);
+			}
+		}
 	}
 }
