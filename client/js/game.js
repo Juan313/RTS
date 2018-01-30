@@ -48,7 +48,7 @@ var game = {
   },
 
   loadLevelData: function() {
-    game.currentMapImage = loader.loadImage("./images/super_basic_world_map.png");
+    game.currentMapImage = loader.loadImage("./images/base-map-tiled.png");
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
