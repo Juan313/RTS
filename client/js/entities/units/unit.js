@@ -21,12 +21,16 @@ export default class Unit extends Entity {
 		this.builtFrom = builtFrom;
 		this.special = special;
 	}
-	//unit collects a given resource for the player of the specified amount
-	collect(type, amount, player){
-		if(type === 'timber'){
-			player.timber += amount;
-		}else{
-			player.wheat += amount;
+	//unit collects a given resource for the player interactSpeed times per second while a condition holds
+	collect(type, condition, player){
+		while(condition){
+			setInterval(()=>{
+				if(type === 'timber'){
+					player.timber += this.interactSpeed;
+				}else{
+					player.wheat += this.interactSpeed;
+				}
+			}, 1000);
 		}
 	}
 	//construct a given building at interactSpeed times per second or until the build progess is equal to the health of the building
