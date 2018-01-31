@@ -48,7 +48,7 @@ var game = {
   },
 
   loadLevelData: function() {
-    game.currentMapImage = loader.loadImage("./images/base-map-tiled.png");
+    game.currentMapImage = loader.loadImage("./images/base-map-tiled-with-grid.png");
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
