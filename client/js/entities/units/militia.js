@@ -16,14 +16,17 @@ let name = 'militia',
 	health = 250,
 	cost = 100,
 	buildTime = 10,
+	//TODO: get sprite images
+	spriteImages = null,
 	moveSpeed = 0.75,
 	interactSpeed = 1,
 	firePower = 30,
 	builtFrom = 'barracks',
-	special = null;
+	special = null,
+	directions = 8;
 
 export let militia = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
 buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, 
-firePower, builtFrom, special);
+firePower, builtFrom, special, directions);
 
 

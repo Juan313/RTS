@@ -16,14 +16,17 @@ let name = 'knight',
 	health = 400,
 	cost = 200,
 	buildTime = 15,
+	//TODO: get sprite images
+	spriteImages = null,
 	moveSpeed = 2,
 	interactSpeed = 1,
 	firePower = 50,
 	builtFrom = 'stable',
-	special = null;
+	special = null,
+	directions = 8;
 
 export let knight = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
 buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, 
-firePower, builtFrom, special);
+firePower, builtFrom, special, directions);
 
 

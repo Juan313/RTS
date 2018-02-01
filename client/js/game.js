@@ -1,4 +1,4 @@
-var game = {
+export var game = {
   init: function() {
     // document.getElementById("gamecontainer").style.width = document.body.clientWidth+"px";
     game.canvas = document.getElementById("gamecanvas");

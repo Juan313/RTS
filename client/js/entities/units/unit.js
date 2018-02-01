@@ -11,9 +11,12 @@ export default class Unit extends Entity {
 	 * special: Special actions unit can perform
 	 */
 	constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-		sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, firePower, builtFrom, special){
+		sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, firePower,
+		builtFrom, special, directions = 1, direction = 0, selected = false,
+		spriteArray = null, spriteSheet = null){
 		super(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-		sight, health, cost, buildTime, spriteImages);
+	sight, health, cost, buildTime, spriteImages, spriteArray, spriteSheet, directions, direction, 
+		selected);
 		this.range = range;
 		this.moveSpeed = moveSpeed;
 		this.interactSpeed = interactSpeed;

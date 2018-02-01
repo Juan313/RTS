@@ -1,5 +1,5 @@
 //Shared entity class definition file
-import loader from '../common.js';
+import { loader } from '../common.js';
 export default class Entity {
 	/* Parameters -
 	 * name: name of entity
@@ -65,4 +65,9 @@ export default class Entity {
 			}
 		}
 	}
+	//create the given entity by returning it to caller after waiting its specified build time
+	create(){
+		setInterval(()=> this, this.buildTime);
+	}
+
 }
