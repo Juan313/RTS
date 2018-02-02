@@ -12,7 +12,7 @@ export default class Building extends Entity {
 		selected = false);
 		//set the list of buildable units based on each units builtFrom property
 		this.unitList = [];
-		for(Unit u of units){
+		for(let u of units){
 			if(u.builtFrom === this.name){
 				this.unitList.push(u);
 			}

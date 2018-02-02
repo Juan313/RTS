@@ -1,5 +1,5 @@
 //Shared entity class definition file
-import { loader } from '../common.js';
+import {loader} from '../common.js';
 export default class Entity {
 	/* Parameters -
 	 * name: name of entity
