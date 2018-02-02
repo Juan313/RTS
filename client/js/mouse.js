@@ -45,8 +45,6 @@ var mouse = {
 
   mouseouthandler: function(){
     mouse.insideCanvas = true;
-  },
-  
-
-
+  }
 }
+export {mouse};

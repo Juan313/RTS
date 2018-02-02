@@ -1,3 +1,6 @@
+import {loader} from './common.js';
+import {game} from './game.js';
+
 function wait(ms){
    var start = new Date().getTime();
    var end = start;
@@ -117,3 +120,5 @@ var houses = {
   },
 
 };
+
+export {houses};

@@ -1,3 +1,12 @@
+import {loader} from './common.js';
+import {houses} from './house.js';
+import {mouse} from './mouse.js';
+
+//load house images when clicking span on start screen
+window.onload = ()=> {
+    document.getElementById("startSpan").onclick = houses.loadImages();
+}
+
 var game = {
   init: function() {
     // document.getElementById("gamecontainer").style.width = document.body.clientWidth+"px";
@@ -159,3 +168,5 @@ window.addEventListener("load", function() {
   game.resize();
   game.init();
 });
+
+export {game};

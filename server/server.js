@@ -7,13 +7,14 @@ const path = require('path');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../client')));
 
 //start on port 3001
 app.set('port', 3001);
 
-//homepage
+//get homepage acessing index.html
 app.get('/', (req, res) => {
-	res.send('Pictor RTS Homepage');
+	res.sendFile('index.html', {root: path.join(__dirname, '../client')});
 });
 
 //listen on specified port

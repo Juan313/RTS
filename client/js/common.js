@@ -1,3 +1,4 @@
+import {game} from './game.js';
 // The code below is provided by the PRO HTML5 GAMES book
 var loader = {
     loaded: true,
@@ -79,3 +80,5 @@ var loader = {
         }
     }
 };
+
+export {loader};

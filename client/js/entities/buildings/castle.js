@@ -1,15 +1,15 @@
 //Object defintion for castle building
-import Unit from './building.js';
+import Building from './building.js';
 let name = 'castle',
 	//TODO: determine building sizes
 	pixelWidth = 0,
 	pixelHeight = 0,
 	//TODO: determine base proportions
 	baseWidth = 0,
-	baseHeight = 0;
+	baseHeight = 0,
 	//TODO: determine base offset
 	pixelOffsetX = 0,
-	piexlOffsetY = 0,
+	pixelOffsetY = 0,
 	//TODO: determine grid dimensions
 	buildableGrid = 0,
 	passableGrid = 0,

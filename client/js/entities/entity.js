@@ -1,5 +1,5 @@
 //Shared entity class definition file
-import { loader } from '../common.js';
+import {loader} from '../common.js';
 export default class Entity {
 	/* Parameters -
 	 * name: name of entity
@@ -43,7 +43,8 @@ export default class Entity {
 		this.direction = directions;
 		this.selected = selected;
 	}
-	//load the sprite images for the entity	
+	//not sure if we need this in entity or in common.js file yet
+	/*load the sprite images for the entity	
 	load(){
 		//if we haven't loaded the sprites for the entity load them
 		if(!this.spriteArray){
@@ -64,7 +65,7 @@ export default class Entity {
 				}
 			}
 		}
-	}
+	}*/
 	//create the given entity by returning it to caller after waiting its specified build time
 	create(){
 		setInterval(()=> this, this.buildTime);

@@ -5,10 +5,10 @@ let name = 'militia',
 	pixelHeight = 16,
 	//TODO: determine base proportions
 	baseWidth = 0,
-	baseHeight = 0;
+	baseHeight = 0,
 	//TODO: determine base offset
 	pixelOffsetX = 0,
-	piexlOffsetY = 0,
+	pixelOffsetY = 0,
 	//TODO: determine grid dimensions
 	buildableGrid = 0,
 	passableGrid = 0,
@@ -18,6 +18,7 @@ let name = 'militia',
 	buildTime = 10,
 	//TODO: get sprite images
 	spriteImages = null,
+	range = 2,
 	moveSpeed = 0.75,
 	interactSpeed = 1,
 	firePower = 30,
