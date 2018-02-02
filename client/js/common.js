@@ -1,5 +1,5 @@
 // The code below is provided by the PRO HTML5 GAMES book
-export var loader = {
+var loader = {
     loaded: true,
     loadedCount: 0, // Assets that have been loaded so far
     totalCount: 0, // Total number of assets that need loading

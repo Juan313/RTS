@@ -141,7 +141,7 @@ var game = {
     } else if (mouse.y >= game.canvasHeight - game.panningThreshold) {
       let panDistance = game.currentMapImage.height - game.offsetY - game.canvasHeight;
       if (panDistance > 0) {
-        console.log(panDistance);
+        // console.log(panDistance);
         game.offsetY += Math.min(game.maximumPanDistance, panDistance);
         game.refreshBackground = true;
       }

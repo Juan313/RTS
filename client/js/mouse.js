@@ -29,8 +29,6 @@ var mouse = {
 
     mouse.x = (clientX - offset.left) / game.scale;
     mouse.y = (clientY - offset.top) / game.scale;
-    // console.log(clientX, clientY);
-    // console.log(offset.left, offset.top);
     mouse.calculateGameCoordinates();
   },
 
@@ -48,10 +46,7 @@ var mouse = {
   mouseouthandler: function(){
     mouse.insideCanvas = true;
   },
-  mousedownhandler: function(){
-    // console.log(game.scale);
-    console.log(mouse.gridX + " " +mouse.gridY);
-  }
+  
 
 
 }
