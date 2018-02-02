@@ -4,15 +4,12 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>RTS Game - GoT</title>
-  <script src="js/house.js" type="text/javascript"></script>
-  <script src="js/mouse.js" type="text/javascript"></script>
-  <script src="js/game.js" type="text/javascript"></script>
-  <script src="js/common.js" type="text/javascript"></script>
-
-
+  <script src="/js/house.js" type="module"></script>
+  <script src="/js/mouse.js" type="moudle"></script>
+  <script src="/js/game.js" type="module"></script>
+  <script src="/js/common.js" type="module"></script>
   <link rel="stylesheet" href="styles.css" type="text/css" media="screen">
 </head>
-
 <body>
   <div id="wrapper">
     <div id="gamecontainer">
@@ -24,7 +21,7 @@
       </div>
       <div id="gamestartscreen" class="gamelayer">
         <span class="game-title">RTS Game<br>GoT</span>
-        <span class="game-option" onclick="houses.loadImages();">Start</span>
+        <span class="game-option" id="startSpan">Start</span>
       </div>
 
       <div id="loadingscreen" class="gamelayer">

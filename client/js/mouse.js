@@ -50,6 +50,5 @@ var mouse = {
   mousedownhandler: function(){
     console.log(mouse.gridX + " " +mouse.gridY);
   }
-
-
 }
+export {mouse};
