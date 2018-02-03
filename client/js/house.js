@@ -42,15 +42,15 @@ var houses = {
 
     // An event handler to call
     var buttonClickHandler = function() {
-      game.userHouse = houses.data[this.value].name;
-
+      //game.userHouse = houses.data[this.value].name;
+      game.userHouse = this.value;
       var AIHouse = Math.floor(Math.random() * 5);
       while (AIHouse == this.value){
         AIHouse = Math.floor(Math.random() * 5);
       }
 
-      game.AIHouse = houses.data[AIHouse].name;
-
+      //game.AIHouse = houses.data[AIHouse].name;
+      game.AIHouse = AIHouse;
       houses.populateBothHouseScreen(this.value,AIHouse);
 
       game.hideScreens();

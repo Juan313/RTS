@@ -1,6 +1,8 @@
 import {loader} from './common.js';
 import {houses} from './house.js';
 import {mouse} from './mouse.js';
+import {buildings} from './entities/buildings/list.js';
+import {initialGameState} from './levels.js';
 
 //load house images when clicking span on start screen
 window.onload = ()=> {
@@ -57,9 +59,26 @@ var game = {
     gameContainer.style.width = 640 * scale + "px";
     gameContainer.style.height = 480 * scale + "px";
   },
-
   loadLevelData: function() {
     game.currentMapImage = loader.loadImage("./images/base-map-tiled-with-grid.png");
+    game.itemArray = [];
+    // buildings.load();
+    // game.itemArray.push(barrack);
+
+    var userGameSetup = initialGameState[game.userHouse];
+
+    userGameSetup.forEach(function(entity){
+      Object.assign(entity, {"team": parseInt(game.userHouse)});
+      game.itemArray.push(buildings[entity.name].add(entity));
+    })
+
+    var AIGameSetup = initialGameState[game.AIHouse];
+
+    AIGameSetup.forEach(function(entity){
+      Object.assign(entity, {"team": parseInt(game.AIHouse)});
+      game.itemArray.push(buildings[entity.name].add(entity));
+    })
+    //console.log(game.itemArray);
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
