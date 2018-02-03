@@ -13,21 +13,23 @@ let name = 'villager',
 	buildableGrid = 0,
 	passableGrid = 0,
 	sight = 1,
-	health = 150,
+	hitPoints = 150,
 	cost = 50,
-	buildTime = 5,
 	//TODO: get sprite images
 	spriteImages = null,
-	range = 1,
-	moveSpeed = 1,
-	interactSpeed = 1,
-	firePower = 0,
-	builtFrom = 'castle',
-	special = null,
-	directions = 8;
+	defaults = {
+		buildTime : 5,
+		range : 1,
+		moveSpeed : 1,
+		interactSpeed : 1,
+		firePower : 0,
+		builtFrom : 'castle',
+		special : null
+	};
 
-export let villager = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
-buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, 
-firePower, builtFrom, special, directions);
+let villager = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, 
+pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+
+export {villager};
 
 

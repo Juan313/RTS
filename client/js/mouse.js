@@ -1,3 +1,4 @@
+import {game} from './game.js';
 var mouse = {
   init: function(){
     let canvas = document.getElementById("gameforegroundcanvas");

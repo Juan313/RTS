@@ -4,7 +4,9 @@ import {mouse} from './mouse.js';
 
 //load house images when clicking span on start screen
 window.onload = ()=> {
-    document.getElementById("startSpan").onclick = houses.loadImages();
+    document.getElementById("startSpan").onclick = ()=> {
+			houses.loadImages();
+		}
 }
 
 var game = {

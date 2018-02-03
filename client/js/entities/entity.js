@@ -9,20 +9,13 @@ export default class Entity {
 	 * buildableGrid - grid squares for building entity,
 	 * passableGrid - grid squres obstructed or passable for pathfinding
 	 * sight - how far around entity is revealed on map
-	 * health - total health pool of entity
-	 * currentHP - current hits point of entity
+	 * hitPoints - total health pool of entity
 	 * cost - how much in wheat or timber required to build entity
-	 * buildTime - how long in seconds required to build the entity
 	 * spriteImages - Definitions for sprite images used for animations
-	 * spriteArray - loaded array of sprites after calling the load method, default: null
-	 * spriteSheet - sprite sheet image, default: null
-	 * directions - number of directions entity can face, default: 1
-	 * direction - current direction of entity, default: 0 (up)
-	 * selected - whether or not the entity is selected in the game: default: false
+	 * defaults - default information for the given entity
 	 */
 	constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-	sight, health, cost, buildTime, spriteImages, spriteArray = null, spriteSheet = null, directions = 1, direction = 0, 
-		selected = false){
+	sight, hitPoints, cost, spriteImages, defaults){
 		this.name = name;
 		this.pixelWidth = pixelWidth;
 		this.pixelHeight = pixelHeight;
@@ -33,42 +26,57 @@ export default class Entity {
 		this.buildableGrid = buildableGrid;
 		this.passableGrid = passableGrid;
 		this.sight = sight;
-		this.health = health;
-		this.currentHP = this.health;
+		this.hitPoints = hitPoints;
 		this.cost = cost;
-		this.buildTime = buildTime;
 		this.spriteImages = spriteImages;
-		this.spriteArray = spriteArray;
-		this.directions = directions;
-		this.direction = directions;
-		this.selected = selected;
+		this.defaults = defaults;
+		this.spriteArray = null;
 	}
-	//not sure if we need this in entity or in common.js file yet
-	/*load the sprite images for the entity	
+	//load the sprites for the given entity
 	load(){
-		//if we haven't loaded the sprites for the entity load them
-		if(!this.spriteArray){
-			//load each sprite sheet from the 'images/sprites/entityName.png' file
-			this.spriteSheet = loader.loadImage('images/sprites/' + this.name + '.png');
-			this.spriteCount = 0;	
-			//iterate through each sprite image defintion and assign it values in the sprite array for each direction of the sprite
-			for(let spriteImage of this.spriteImages){
-				let imgCount = spriteImage.count;
-				for(let i = 0; i < this.directions; i++){
-						let imgName = spriteImage.name + '-' + i;
-						this.spriteArray[imgName] = {
-							name: imgName,
-							count: imgCount,
-							offset: this.spriteCount
-						};
-						item.spriteCount += imgCount;
+		if(this.spriteArray){
+			return;
+		}
+		this.spriteSheet = loader.loadImage(`../images/${this.defaults.type}/${this.name}.png`);
+		this.spriteArray = [];
+		this.spriteCount = 0;
+		for(let spriteImage of this.spriteImages){
+			let constructImageCount = spriteImage.count;
+			let constructDirectionCount = spriteImage.directions;
+			if(constructDIrectionCount){
+				for(let i = 0; i < constructDirectionCount; i++){
+					let constructImageName = spriteImage.name + '-' + i;
+					this.spriteArray[constructImageName] = {
+						name: constructImageName,
+						count: constructImageCount,
+						offset: this.spriteCount
+					};
+					this.spriteCount += constructImageCount;
 				}
+			}else{
+				let constructImageName = spriteImage.name;
+				this.spriteArray[constructImageName] = {
+					name: constructImageName,
+					count: constructImageCount,
+					offset: this.spriteCount
+				};
+				this.spriteCount += constructImageCount;
 			}
 		}
-	}*/
-	//create the given entity by returning it to caller after waiting its specified build time
-	create(){
-		setInterval(()=> this, this.buildTime);
 	}
-
+	//return an entity based on default properties, details, and base properties
+	add(details){
+		//apply base item properties
+		this.animationIndex = 0;
+		this.direction = 0;
+		this.selected = false;
+		this.selectable = true;
+		this.orders = {type: 'stand'};
+		this.action = 'stand';
+		this.life = this.hitPoints;
+		//apply entity defaults and details
+		Object.assign(this, this.defaults);
+		Object.assign(this, this.details);
+		return this;
+	}
 }

@@ -13,21 +13,20 @@ let name = 'militia',
 	buildableGrid = 0,
 	passableGrid = 0,
 	sight = 2,
-	health = 250,
+	hitPoints = 250,
 	cost = 100,
-	buildTime = 10,
 	//TODO: get sprite images
 	spriteImages = null,
-	range = 2,
-	moveSpeed = 0.75,
-	interactSpeed = 1,
-	firePower = 30,
-	builtFrom = 'barracks',
-	special = null,
-	directions = 8;
+	defaults = {
+		buildTime : 10,
+		moveSpeed : 0.75,
+		interactSpeed : 1,
+		firePower : 30,
+		builtFrom : 'barracks',
+		special : null
+	};
 
-export let militia = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
-buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, 
-firePower, builtFrom, special, directions);
+let militia = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, 
+pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
 
-
+export {militia};

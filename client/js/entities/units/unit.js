@@ -2,7 +2,7 @@
 import Entity from '../entity.js';
 //TODO: implement player class with inventory for collection
 export default class Unit extends Entity {
-	/* Additional Parameters -
+	/* Additional Defaults -
 	 * range : How far a unit can interact with buildings / units in square area
 	 * moveSpeed : How many map tiles can be moved by the unit per second
 	 * interactSpeed: How many interactions (attack, construct, collect, repair) can be performed per second by unit
@@ -11,18 +11,10 @@ export default class Unit extends Entity {
 	 * special: Special actions unit can perform
 	 */
 	constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-		sight, health, cost, buildTime, spriteImages, range, moveSpeed, interactSpeed, firePower,
-		builtFrom, special, directions = 1, direction = 0, selected = false,
-		spriteArray = null, spriteSheet = null){
+	sight, hitPoints, cost, spriteImages, defaults){
 		super(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-	sight, health, cost, buildTime, spriteImages, spriteArray, spriteSheet, directions, direction, 
-		selected);
-		this.range = range;
-		this.moveSpeed = moveSpeed;
-		this.interactSpeed = interactSpeed;
-		this.firePower = firePower;
-		this.builtFrom = builtFrom;
-		this.special = special;
+		sight, hitPoints, cost, spriteImages, defaults);
+		this.defaults.type = 'units';
 	}
 	//unit collects a given resource for the player interactSpeed times per second while a condition holds
 	collect(type, condition, player){

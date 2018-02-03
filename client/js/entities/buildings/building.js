@@ -3,13 +3,11 @@ import Entity from '../entity.js';
 import { units } from '../units/list.js';
 
 export default class Building extends Entity {
-	//No parameters in addition to entity parameters
+	//Additional parameter defaults: set defaults of building
 	constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-	sight, health, cost, buildTime, spriteImages, spriteArray = null, spriteSheet = null, directions = 1, direction = 0, 
-		selected = false){
+	sight, hitPoints, cost, spriteImages, defaults){
 		super(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-		sight, health, cost, buildTime, spriteImages, spriteArray = null, spriteSheet = null, directions = 1, direction = 0, 
-		selected = false);
+		sight, hitPoints, cost, spriteImages, defaults);
 		//set the list of buildable units based on each units builtFrom property
 		this.unitList = [];
 		for(let u of units){
@@ -17,8 +15,10 @@ export default class Building extends Entity {
 				this.unitList.push(u);
 			}
 		}
+		//set default building specific properties
+		this.defaults.type = 'buildings';
+		this.defaults.unitList = this.unitList;
 	}
-
 	//construct a given unit and return it
 	construct(unit){
 			constructedUnit = unit.create();
