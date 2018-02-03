@@ -68,18 +68,19 @@ export default class Entity {
 	}
 	//return an entity based on default properties, details, and base properties
 	add(details){
-		//apply base item properties
-		this.animationIndex = 0;
-		this.direction = 0;
-		this.selected = false;
-		this.selectable = true;
-		this.orders = {type: 'stand'};
-		this.action = 'stand';
-		this.life = this.hitPoints;
+		//create a copy of the current object, apply properties and return it to the caller
+		let that = Object.assign({}, this); 
+		that.animationIndex = 0;
+		that.direction = 0;
+		that.selected = false;
+		that.selectable = true;
+		that.orders = {type: 'stand'};
+		that.action = 'stand';
+		that.life = this.hitPoints;
 		//apply entity defaults and details
-		Object.assign(this, this.defaults);
-		Object.assign(this, this.details);
-		return this;
+		Object.assign(that, this.defaults);
+		Object.assign(that, details); 
+		return that;
 	}
 	//animate the entity setting its life code based on life, removing it from the game if it is dead
 	animate(){
