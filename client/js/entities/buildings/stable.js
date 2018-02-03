@@ -14,13 +14,16 @@ let name = 'stable',
 	buildableGrid = 0,
 	passableGrid = 0,
 	sight = 2,
-	health = 2500,
+	hitPoints = 2500,
 	cost = 800,
-	buildTime = 30,
 	//TODO: get images for stable
-	spriteImages = null;
+	spriteImages = null,
+	defaults = {
+		buildTime: 30
+	};
 
-export let stable = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
-buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages);
+let stable = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY,
+buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
 
+export {stable};
 

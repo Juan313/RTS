@@ -14,13 +14,15 @@ let name = 'castle',
 	buildableGrid = 0,
 	passableGrid = 0,
 	sight = 3,
-	health = 3000,
+	hitPoints = 3000,
 	cost = 0,
-	buildTime = 0,
 	//TODO: get images for castle
-	spriteImages = null;
+	spriteImages = null,
+	defaults = {
+		buildTime: 0
+	}
 
-export let castle = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, 
-buildableGrid, passableGrid, sight, health, cost, buildTime, spriteImages);
+let castle = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
 
+export {castle};
 
