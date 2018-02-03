@@ -1,5 +1,7 @@
 //Shared entity class definition file
 import {loader} from '../common.js';
+import {game} from '../game.js';
+
 export default class Entity {
 	/* Parameters -
 	 * name: name of entity
@@ -78,5 +80,23 @@ export default class Entity {
 		Object.assign(this, this.defaults);
 		Object.assign(this, this.details);
 		return this;
+	}
+	//animate the entity setting its life code based on life, removing it from the game if it is dead
+	animate(){
+		this.lifeCode = 'alive';
+		if(this.life < 0){
+			this.lifeCode = 'dead';
+			game.remove(this);
+			return;
+		}
+		//process current action
+		this.processActions();
+	}
+
+	//draw the entity
+	draw(){
+		this.drawingX = (this.x * game.gridSize) - game.offsetX - this.pixelOffsetX;
+		this.drawingX = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
+		this.drawSprite();
 	}
 }
