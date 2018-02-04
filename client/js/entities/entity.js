@@ -45,7 +45,7 @@ export default class Entity {
 		for(let spriteImage of this.spriteImages){
 			let constructImageCount = spriteImage.count;
 			let constructDirectionCount = spriteImage.directions;
-			if(constructDIrectionCount){
+			if(constructDirectionCount){
 				for(let i = 0; i < constructDirectionCount; i++){
 					let constructImageName = spriteImage.name + '-' + i;
 					this.spriteArray[constructImageName] = {
@@ -69,7 +69,7 @@ export default class Entity {
 	//return an entity based on default properties, details, and base properties
 	add(details){
 		//create a copy of the current object, apply properties and return it to the caller
-		let that = Object.assign({}, this); 
+		let that = Object.assign({}, this);
 		that.animationIndex = 0;
 		that.direction = 0;
 		that.selected = false;
@@ -79,7 +79,7 @@ export default class Entity {
 		that.life = this.hitPoints;
 		//apply entity defaults and details
 		Object.assign(that, this.defaults);
-		Object.assign(that, details); 
+		Object.assign(that, details);
 		return that;
 	}
 	//animate the entity setting its life code based on life, removing it from the game if it is dead
@@ -100,4 +100,8 @@ export default class Entity {
 		this.drawingX = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
 		this.drawSprite();
 	}
+  // 
+	// test(){
+	// 	console.log("test function being called");
+	// }
 }

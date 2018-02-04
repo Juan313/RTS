@@ -61,30 +61,51 @@ var game = {
   },
   loadLevelData: function() {
     game.currentMapImage = loader.loadImage("./images/base-map-tiled-with-grid.png");
-    game.itemArray = [];
-    // buildings.load();
-    // game.itemArray.push(barrack);
+    var testEntity = buildings["castle"].add();
+    testEntity.test();
+    game.resetArrays();
 
+    // buildings.forEach(function(building){
+    //   building.load();
+    // })
+    buildings['castle'].load();
     var userGameSetup = initialGameState[game.userHouse];
 
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
-      game.itemArray.push(buildings[entity.name].add(entity));
+      var newEntity = buildings[entity.name].add(entity);
+      Object.assign(newEntity, {"uid": ++game.counter});
+
+      game.items.push(newEntity);
+      game[newEntity.defaults.type].push(newEntity);
     })
 
     var AIGameSetup = initialGameState[game.AIHouse];
 
     AIGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.AIHouse)});
-      game.itemArray.push(buildings[entity.name].add(entity));
+      var newEntity = buildings[entity.name].add(entity);
+      Object.assign(newEntity, {"uid": ++game.counter});
+      game.items.push(newEntity);
+      game[newEntity.defaults.type].push(newEntity);
+
     })
-    //console.log(game.itemArray);
+    //console.log(game.items);
+    console.log(game.buildings);
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
 
   animationLoop: function() {
+    game.items.forEach(function(item) {
+            item.animate();
+        });
 
+        // Sort game items into a sortedItems array based on their x,y coordinates
+        game.sortedItems = Object.assign([], game.items);
+        game.sortedItems.sort(function(a, b) {
+            return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
+        });
   },
 
   play: function() {
@@ -112,6 +133,15 @@ var game = {
     //
     // // Draw the background whenever necessary
     game.drawBackground();
+
+    // Clear the foreground canvas
+    game.foregroundContext.clearRect(0, 0, game.canvasWidth, game.canvasHeight);
+
+    // Start drawing the foreground elements
+    game.sortedItems.forEach(function(item) {
+      if (item[type] == "buildings")
+        item.draw();
+    });
 
     // Call the drawing loop for the next frame using request animation frame
     if (game.running) {
@@ -180,7 +210,19 @@ var game = {
       mouse.calculateGameCoordinates();
     }
 
-  }
+  },
+  resetArrays: function() {
+        // Count items added in game, to assign them a unique id
+        game.counter = 0;
+
+        // Track all the items currently in the game
+        game.items = [];
+        game.buildings = [];
+        game.units = [];
+
+        // Track items that have been selected by the player
+        game.selectedItems = [];
+    },
 
 }
 
