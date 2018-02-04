@@ -78,7 +78,8 @@ export default class Entity {
 		that.action = 'stand';
 		that.life = this.hitPoints;
 		//apply entity defaults and details
-		Object.assign(that, this.defaults);
+		Object.assign(that, that.defaults);
+		delete that.defaults;
 		Object.assign(that, details); 
 		return that;
 	}
