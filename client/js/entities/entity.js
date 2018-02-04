@@ -69,7 +69,7 @@ export default class Entity {
 	//return an entity based on default properties, details, and base properties
 	add(details){
 		//create a copy of the current object, apply properties and return it to the caller
-		let that = Object.assign({}, this); 
+		let that = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 		that.animationIndex = 0;
 		that.direction = 0;
 		that.selected = false;

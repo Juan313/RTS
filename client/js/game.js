@@ -2,6 +2,7 @@ import {loader} from './common.js';
 import {houses} from './house.js';
 import {mouse} from './mouse.js';
 import {buildings} from './entities/buildings/list.js';
+import {units} from './entities/units/list.js';
 import {initialGameState} from './levels.js';
 
 //load house images when clicking span on start screen
@@ -23,8 +24,7 @@ var game = {
     game.initCanvases();
     this.hideScreens();
     // this.showScreen("gamestartscreen");
-    this.showScreen("gamestartscreen");
-
+    this.showScreen("gamestartscreen");		
   },
   hideScreens: function() {
     var screens = document.getElementsByClassName("gamelayer");

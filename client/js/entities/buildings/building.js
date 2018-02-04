@@ -10,9 +10,12 @@ export default class Building extends Entity {
 		sight, hitPoints, cost, spriteImages, defaults);
 		//set the list of buildable units based on each units builtFrom property
 		this.unitList = [];
-		for(let u of units){
-			if(u.builtFrom === this.name){
-				this.unitList.push(u);
+		//add all the units that the building can build to its unit list
+		for(let unit in units) {
+			if(units.hasOwnProperty(unit)) {
+					if(units[unit].builtFrom === this.name){
+						this.unitList.push(units[unit]);
+					}
 			}
 		}
 		//set default building specific properties
