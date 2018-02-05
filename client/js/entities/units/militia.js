@@ -22,7 +22,7 @@ let name = 'militia',
 		moveSpeed : 0.75,
 		interactSpeed : 1,
 		firePower : 30,
-		builtFrom : 'barracks',
+		builtFrom : 'barrack',
 		special : null
 	};
 

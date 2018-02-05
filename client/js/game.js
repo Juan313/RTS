@@ -2,6 +2,7 @@ import {loader} from './common.js';
 import {houses} from './house.js';
 import {mouse} from './mouse.js';
 import {buildings} from './entities/buildings/list.js';
+import {units} from './entities/units/list.js';
 import {initialGameState} from './levels.js';
 
 //load house images when clicking span on start screen
@@ -24,7 +25,6 @@ var game = {
     this.hideScreens();
     // this.showScreen("gamestartscreen");
     this.showScreen("gamestartscreen");
-
   },
   hideScreens: function() {
     var screens = document.getElementsByClassName("gamelayer");
@@ -61,23 +61,23 @@ var game = {
   },
   loadLevelData: function() {
     game.currentMapImage = loader.loadImage("./images/base-map-tiled-with-grid.png");
-    var testEntity = buildings["castle"].add();
-    testEntity.test();
+
     game.resetArrays();
 
     // buildings.forEach(function(building){
     //   building.load();
     // })
     buildings['castle'].load();
+
     var userGameSetup = initialGameState[game.userHouse];
 
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
       var newEntity = buildings[entity.name].add(entity);
       Object.assign(newEntity, {"uid": ++game.counter});
-
+      //console.log(newEntity);
       game.items.push(newEntity);
-      game[newEntity.defaults.type].push(newEntity);
+      game[newEntity.type].push(newEntity);
     })
 
     var AIGameSetup = initialGameState[game.AIHouse];
@@ -87,11 +87,11 @@ var game = {
       var newEntity = buildings[entity.name].add(entity);
       Object.assign(newEntity, {"uid": ++game.counter});
       game.items.push(newEntity);
-      game[newEntity.defaults.type].push(newEntity);
+      game[newEntity.type].push(newEntity);
 
     })
-    //console.log(game.items);
-    console.log(game.buildings);
+    // console.log(game.items);
+    //console.log(game.buildings);
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
@@ -137,10 +137,12 @@ var game = {
     // Clear the foreground canvas
     game.foregroundContext.clearRect(0, 0, game.canvasWidth, game.canvasHeight);
 
-    // Start drawing the foreground elements
+    //Start drawing the foreground elements
     game.sortedItems.forEach(function(item) {
-      if (item[type] == "buildings")
+      if (item["name"] == "castle"){
+        //console.log(item.spriteSheet);
         item.draw();
+      }
     });
 
     // Call the drawing loop for the next frame using request animation frame

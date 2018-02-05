@@ -69,7 +69,7 @@ export default class Entity {
 	//return an entity based on default properties, details, and base properties
 	add(details){
 		//create a copy of the current object, apply properties and return it to the caller
-		let that = Object.assign({}, this);
+		let that = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 		that.animationIndex = 0;
 		that.direction = 0;
 		that.selected = false;
@@ -78,7 +78,8 @@ export default class Entity {
 		that.action = 'stand';
 		that.life = this.hitPoints;
 		//apply entity defaults and details
-		Object.assign(that, this.defaults);
+		Object.assign(that, that.defaults);
+		delete that.defaults;
 		Object.assign(that, details);
 		return that;
 	}
@@ -97,10 +98,19 @@ export default class Entity {
 	//draw the entity
 	draw(){
 		this.drawingX = (this.x * game.gridSize) - game.offsetX - this.pixelOffsetX;
-		this.drawingX = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
+		this.drawingY = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
 		this.drawSprite();
+
 	}
-  // 
+
+	drawSprite(){
+		console.log("drawing from entity");
+	}
+
+	processActions(){
+
+	}
+  //
 	// test(){
 	// 	console.log("test function being called");
 	// }

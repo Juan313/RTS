@@ -19,11 +19,13 @@ let name = 'stable',
 	//TODO: get images for stable
 	spriteImages = null,
 	defaults = {
-		buildTime: 30
+		buildTime: 30,
+		drawSprite: function(){
+			console.log("drawing from stable")
+		}
 	};
 
 let stable = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY,
 buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
 
 export {stable};
-
