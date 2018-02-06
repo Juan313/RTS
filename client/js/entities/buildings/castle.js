@@ -42,17 +42,17 @@ let name = 'castle',
 			this.imageOffset = 0;
       // Draw the sprite at x, y
       game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
-			console.log("spritesheet "+this.spriteSheet);
-			console.log("imageOffset "+this.imageOffset);
-			console.log("pixelWidth "+this.pixelWidth);
-			console.log("colorOffset "+colorOffset);
-			console.log("pixelWidth "+this.pixelWidth);
-			console.log("pixelHeight "+this.pixelHeight);
-			console.log("x "+x);
-			console.log("y "+y);
-			console.log("pixelwidth "+this.pixelWidth);
-			console.log("pixelheight "+this.pixelHeight);
-			console.log();
+			// console.log("spritesheet "+this.spriteSheet);
+			// console.log("imageOffset "+this.imageOffset);
+			// console.log("pixelWidth "+this.pixelWidth);
+			// console.log("colorOffset "+colorOffset);
+			// console.log("pixelWidth "+this.pixelWidth);
+			// console.log("pixelHeight "+this.pixelHeight);
+			// console.log("x "+x);
+			// console.log("y "+y);
+			// console.log("pixelwidth "+this.pixelWidth);
+			// console.log("pixelheight "+this.pixelHeight);
+			// console.log();
 		}
 	};
 

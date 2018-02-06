@@ -64,9 +64,6 @@ var game = {
 
     game.resetArrays();
 
-    // buildings.forEach(function(building){
-    //   building.load();
-    // })
     buildings['castle'].load();
 
     var userGameSetup = initialGameState[game.userHouse];
@@ -144,6 +141,9 @@ var game = {
         item.draw();
       }
     });
+
+    // Draw the mouse
+    mouse.draw();
 
     // Call the drawing loop for the next frame using request animation frame
     if (game.running) {
@@ -224,6 +224,32 @@ var game = {
 
         // Track items that have been selected by the player
         game.selectedItems = [];
+    },
+    clearSelection: function() {
+        while (game.selectedItems.length > 0) {
+            game.selectedItems.pop().selected = false;
+        }
+    },
+    selectItem: function(item, shiftPressed) {
+        // Pressing shift and clicking on a selected item will deselect it
+        if (shiftPressed && item.selected) {
+            // Deselect item
+            item.selected = false;
+
+            for (let i = game.selectedItems.length - 1; i >= 0; i--) {
+                if (game.selectedItems[i].uid === item.uid) {
+                    game.selectedItems.splice(i, 1);
+                    break;
+                }
+            }
+
+            return;
+        }
+
+        if (item.selectable && !item.selected) {
+            item.selected = true;
+            game.selectedItems.push(item);
+        }
     },
 
 }
