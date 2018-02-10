@@ -264,6 +264,35 @@ var game = {
             // console.log(game.selectedItems);
         }
     },
+    sendCommand: function(uids, details){
+      var toObject;
+      if (details.toUid){
+        toObject = game.getItemByUid(details.toUid);
+        if (!toObject || toObject.lifeCode == "dead"){
+          return;
+        }
+      }
+      uids.forEach(function(id){
+        let item = game.getItemByUid(id);
+        // console.log(item);
+        if (item && item.lifeCode != "dead"){
+          item.orders = Object.assign({}, details);
+          //console.log(details);
+          if (toObject)
+            item.orders.to = toObject;
+        }
+      });
+    },
+
+    getItemByUid: function(uid){
+      for (let i = 0; i< game.items.length; i++){
+        if (game.items[i].uid == uid)
+          return game.items[i];
+      }
+    },
+
+
+
 
 }
 

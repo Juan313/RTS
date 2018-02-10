@@ -9,6 +9,7 @@ var mouse = {
     canvas.addEventListener("mouseout", mouse.mouseouthandler, false);
     canvas.addEventListener("mousedown", mouse.mousedownhandler, false);
     canvas.addEventListener("mouseup", mouse.mouseuphandler, false);
+    canvas.addEventListener("contextmenu", mouse.mouserightclickhandler, false);
     mouse.canvas = canvas;
   },
   x: 0,
@@ -193,6 +194,55 @@ var mouse = {
             }
         }
     },
+
+  mouserightclickhandler: function(ev){
+    // console.log("right clicked!");
+    mouse.rightClick(ev,true);
+    ev.preventDefault(true);
+  },
+
+  rightClick: function(){
+    let clickedItem = mouse.itemUnderMouse();
+    if (clickedItem) {
+      // if right-click on an entity
+      if(clickedItem.team != game.userHouse){
+        // if right-click on AI's Object
+        let uids = [];
+        game.selectedItems.forEach(function(item){
+          if (item.team == game.userHouse && item.canAttack && item.canMove){
+            uids.push(item.uid);
+          }
+        })
+        if (uids.length > 0){
+          game.sendCommand(uids, {type: "attack", toUid: clickedItem.uid});
+        }
+      }
+      else {
+        // if right-click on player's own Object
+        let uids = [];
+        game.selectedItems.forEach(function(item){
+          if (item.team == game.userHouse && item.canAttack && item.canMove){
+            uids.push(item.uid);
+          }
+        })
+        if (uids.length > 0){
+          game.sendCommand(uids, {type: "guard", toUid: clickedItem.uid});
+        }
+      }
+    }
+    else {
+      // if right-click is not on an entity
+      let uids = [];
+      game.selectedItems.forEach(function(item){
+        if (item.team == game.userHouse && item.canMove){
+          uids.push(item.uid);
+        }
+      })
+      if (uids.length > 0){
+        game.sendCommand(uids, {type: "move", to: {x: mouse.gameX / game.gridSize, y: mouse.gameY / game.gridSize }});
+      }
+    }
+  }
 }
 export {
   mouse

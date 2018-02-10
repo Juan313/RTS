@@ -8,6 +8,7 @@ var initialGameState = {
     {"type": "buildings", "name": "stable", "x": 6, "y": 7},
     {"type": "buildings", "name": "barrack", "x": 9, "y": 9},
     {"type": "units", "name": "villager", "x": 8, "y": 8, "life": 70},
+    {"type": "units", "name": "villager", "x": 10, "y": 10},
   ],
 
   "1": [
