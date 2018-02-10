@@ -137,6 +137,7 @@ export default class Entity {
     game.foregroundContext.lineWidth = 1;
 
     game.foregroundContext.strokeRect(x, y, this.baseWidth, lifeBarHeight);
+
   }
 
   drawSelection() {

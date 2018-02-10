@@ -65,23 +65,31 @@ var game = {
     game.resetArrays();
 
     buildings['castle'].load();
+    units['villager'].load();
 
     var userGameSetup = initialGameState[game.userHouse];
 
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
-      var newEntity = buildings[entity.name].add(entity);
+      if (entity['type'] == 'buildings')
+        var newEntity = buildings[entity.name].add(entity);
+      if (entity['type'] == 'units')
+        var newEntity = units[entity.name].add(entity);
+
       Object.assign(newEntity, {"uid": ++game.counter});
+
       //console.log(newEntity);
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     })
-
     var AIGameSetup = initialGameState[game.AIHouse];
 
     AIGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.AIHouse)});
-      var newEntity = buildings[entity.name].add(entity);
+      if (entity['type'] == 'buildings')
+        var newEntity = buildings[entity.name].add(entity);
+      if (entity['type'] == 'units')
+        var newEntity = units[entity.name].add(entity);
       Object.assign(newEntity, {"uid": ++game.counter});
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
@@ -137,6 +145,10 @@ var game = {
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item) {
       if (item["name"] == "castle"){
+        //console.log(item.spriteSheet);
+        item.draw();
+      }
+      if (item["name"] == "villager"){
         //console.log(item.spriteSheet);
         item.draw();
       }
@@ -249,6 +261,7 @@ var game = {
         if (item.selectable && !item.selected) {
             item.selected = true;
             game.selectedItems.push(item);
+            // console.log(game.selectedItems);
         }
     },
 

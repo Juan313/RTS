@@ -91,6 +91,7 @@ var mouse = {
     if (ev.button === 0) { // Left mouse button was released
       if (mouse.dragSelect) {
         // If currently drag-selecting, attempt to select items with the selection rectangle
+
         mouse.finishDragSelection(shiftPressed);
       } else {
         // If not dragging, treat this as a normal click once the mouse is released
@@ -116,20 +117,19 @@ var mouse = {
 
     game.items.forEach(function(item) {
       // Unselectable items, dead items, opponent team items and buildings are not drag-selectable
-      if (!item.selectable || item.lifeCode === "dead" || item.team !== game.userHouse || item.type === "buildings") {
+      if (!item.selectable || item.lifeCode === "dead" || item.team != game.userHouse || item.type === "buildings") {
         return;
       }
-
       let x = item.x * game.gridSize;
       let y = item.y * game.gridSize;
-
       if (x1 <= x && x2 >= x) {
-        if ((item.type === "vehicles" && y1 <= y && y2 >= y)
+        if ((item.type === "units" && y1 <= y && y2 >= y)
           // In case of aircraft, adjust for pixelShadowHeight
           ||
           (item.type === "aircraft" && (y1 <= y - item.pixelShadowHeight) && (y2 >= y - item.pixelShadowHeight))) {
 
           game.selectItem(item, shiftPressed);
+
         }
       }
     });
@@ -147,7 +147,7 @@ var mouse = {
 
       game.foregroundContext.strokeStyle = "white";
       game.foregroundContext.strokeRect(x - game.offsetX, y - game.offsetY, width, height);
-      console.log(this.dragSelect);
+      //console.log(this.dragSelect);
     }
   },
   leftClick: function(shiftPressed) {
@@ -184,7 +184,8 @@ var mouse = {
                 if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY - item.pixelShadowHeight, 2) < Math.pow(item.radius, 2)) {
                     return item;
                 }
-            } else if (item.type === "vehicles") {
+            } else if (item.type === "units") {
+
                     // If mouse coordinates are within radius of item
                 if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY, 2) < Math.pow(item.radius, 2)) {
                     return item;
