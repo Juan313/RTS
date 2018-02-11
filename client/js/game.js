@@ -67,37 +67,36 @@ var game = {
 
     game.resetArrays();
 
-    buildings['castle'].load();
-    units['villager'].load();
 
     var userGameSetup = initialGameState[game.userHouse];
-
+		let newEntity = null;
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
-      if (entity['type'] == 'buildings')
-        var newEntity = buildings[entity.name].add(entity);
-      if (entity['type'] == 'units')
-        var newEntity = units[entity.name].add(entity);
-
+      if(entity['type'] === 'buildings'){
+        newEntity = buildings[entity.name].add(entity);
+			}else newEntity = units[entity.name].add(entity);
+			//load villager and castle sprites
+			if(newEntity.name === 'villager' || newEntity.name === 'castle'){
+				newEntity.load();
+			}
       Object.assign(newEntity, {"uid": ++game.counter});
-
-      //console.log(newEntity);
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
-    })
+    });
     var AIGameSetup = initialGameState[game.AIHouse];
-
     AIGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.AIHouse)});
-      if (entity['type'] == 'buildings')
-        var newEntity = buildings[entity.name].add(entity);
-      if (entity['type'] == 'units')
-        var newEntity = units[entity.name].add(entity);
+      if(entity['type'] == 'buildings'){
+        newEntity = buildings[entity.name].add(entity);
+			}else newEntity = units[entity.name].add(entity);
+			//load villager and castle sprites
+			if(newEntity.name == 'villager' || newEntity.name == 'castle'){
+				newEntity.load();
+			}
       Object.assign(newEntity, {"uid": ++game.counter});
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
-
-    })
+    });
     game.createTerrainGrid();
     game.rebuildPassableGrid();
   },
@@ -146,17 +145,12 @@ var game = {
     game.foregroundContext.clearRect(0, 0, game.canvasWidth, game.canvasHeight);
 
     //Start drawing the foreground elements
-    game.sortedItems.forEach(function(item) {
-      if (item["name"] == "castle"){
-        console.log(item);
-        item.draw();
-      }
-      if (item["name"] == "villager"){
-        //console.log(item.spriteSheet);
+    game.sortedItems.forEach(function(item){
+      if (item.name == "castle" || item.name == "villager"){
+				console.log('drawing ' + item.name);
         item.draw();
       }
     });
-
     // Draw the mouse
     mouse.draw();
 
@@ -317,18 +311,16 @@ var game = {
       game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
       for (let i = game.items.length-1; i>=0; i--){
         var item = game.items[i];
-        if (item.name = "castle" || item.type == "terrain"){
+        if (item.name == "castle" || item.type == "terrain"){
           for (let y = item.passableGrid.length - 1; y>=0; y--){
             for (let x = item.passableGrid[y].length-1; x>=0; x--){
               if (item.passableGrid[y][x]){
-
                 game.currentMapPassableGrid[item.y+y][item.x+x] = 1;
               }
             }
           }
         }
       };
-
       console.log(game.currentMapPassableGrid);
     },
 

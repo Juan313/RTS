@@ -19,9 +19,9 @@ let dragonUnit = dragon.add();
 dragonUnit.special.action = dragonUnit.special.action(dragonUnit);
 
 export let units = {
-  "villager": villager,
-  "knight": knight,
-  "militia": militia,
+  "villager": villager.add(),
+  "knight": knight.add(),
+  "militia": militia.add(),
 	"melisandre": melisandreUnit,
 	"direwolf": direwolfUnit,
 	"warship": warshipUnit,

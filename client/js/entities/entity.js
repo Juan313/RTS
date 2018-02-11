@@ -43,7 +43,7 @@ export default class Entity {
     if (this.spriteArray) {
       return;
     }
-    this.spriteSheet = loader.loadImage(`../images/${this.defaults.type}/${this.name}.png`);
+    this.spriteSheet = loader.loadImage(`../images/${this.type}/${this.name}.png`);
     this.spriteArray = [];
     this.spriteCount = 0;
     for (let spriteImage of this.spriteImages) {

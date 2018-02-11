@@ -32,22 +32,26 @@ let name = 'villager',
 		firePower : 0,
 		builtFrom : 'castle',
 		special : null,
-		drawSprite: function(){
-			let x = this.drawingX;
-      let y = this.drawingY;
+		drawSprite: function(self){
+			return function(){
+				let x = this.drawingX;
+				let y = this.drawingY;
 
-      // All sprite sheets will have blue in the first row and green in the second row
-      // let colorIndex = (this.team === "blue") ? 0 : 1;
-			let colorIndex = 0;
-      let colorOffset = colorIndex * this.pixelHeight;
-			// imageOffset needs to be set from animate() function
-			this.imageOffset = 0;
-      // Draw the sprite at x, y
-      game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
+				// All sprite sheets will have blue in the first row and green in the second row
+				// let colorIndex = (this.team === "blue") ? 0 : 1;
+				let colorIndex = 0;
+				let colorOffset = colorIndex * this.pixelHeight;
+				// imageOffset needs to be set from animate() function
+				this.imageOffset = 0;
+				// Draw the sprite at x, y
+				game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
+			}
 		}
 	};
 
 let villager = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX,
 pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+
+villager.defaults.drawSprite = villager.defaults.drawSprite(villager);
 
 export {villager};

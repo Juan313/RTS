@@ -31,17 +31,18 @@ let name = 'castle',
             ],
 	defaults = {
 		buildTime: 0,
-		drawSprite: function(){
-			let x = this.drawingX;
-      let y = this.drawingY;
-
-      // All sprite sheets will have blue in the first row and green in the second row
-      let colorIndex = (this.team === "blue") ? 0 : 1;
-      let colorOffset = colorIndex * this.pixelHeight;
-			// imageOffset needs to be set from animate() function
-			this.imageOffset = 0;
-      // Draw the sprite at x, y
-      game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
+		drawSprite: function(self){
+			return function(){
+				let x = self.drawingX;
+				let y = self.drawingY;
+				// All sprite sheets will have blue in the first row and green in the second row
+				let colorIndex = (self.team === "blue") ? 0 : 1;
+				let colorOffset = colorIndex * self.pixelHeight;
+				// imageOffset needs to be set from animate() function
+				self.imageOffset = 0;
+				// Draw the sprite at x, y
+				game.foregroundContext.drawImage(self.spriteSheet, self.imageOffset * self.pixelWidth, colorOffset, self.pixelWidth, self.pixelHeight, x, y, self.pixelWidth, self.pixelHeight);
+			}
 		}
 	};
 
