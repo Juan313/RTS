@@ -4,6 +4,7 @@ import {mouse} from './mouse.js';
 import {buildings} from './entities/buildings/list.js';
 import {units} from './entities/units/list.js';
 import {initialGameState} from './levels.js';
+import {map} from './map.js'
 
 //load house images when clicking span on start screen
 window.onload = ()=> {
@@ -59,8 +60,10 @@ var game = {
     gameContainer.style.width = 640 * scale + "px";
     gameContainer.style.height = 480 * scale + "px";
   },
+
   loadLevelData: function() {
-    game.currentMapImage = loader.loadImage("./images/base-map-tiled-with-grid.png");
+    game.currentMapImage = loader.loadImage("./images/"+map['plains']['mapImage']);
+    game.currentMap = map['plains'];
 
     game.resetArrays();
 
@@ -95,8 +98,8 @@ var game = {
       game[newEntity.type].push(newEntity);
 
     })
-    // console.log(game.items);
-    //console.log(game.buildings);
+    game.createTerrainGrid();
+    game.rebuildPassableGrid();
   },
 
   animationTimeout: 100, // 100 milliseconds or 10 times a second
@@ -135,7 +138,7 @@ var game = {
   drawingLoop: function() {
     // Pan the map if the cursor is near the edge of the canvas
     game.handlePanning();
-    //
+
     // // Draw the background whenever necessary
     game.drawBackground();
 
@@ -145,7 +148,7 @@ var game = {
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item) {
       if (item["name"] == "castle"){
-        //console.log(item.spriteSheet);
+        console.log(item);
         item.draw();
       }
       if (item["name"] == "villager"){
@@ -291,7 +294,51 @@ var game = {
       }
     },
 
+    createTerrainGrid: function(){
+      let map = game.currentMap;
+      game.currentMapTerrainGrid = new Array(map.mapGridHeight);
+      var row = new Array(map.mapGridWidth);
+      for (let i = 0; i< map.mapGridWidth; i++){
+        row[i] = 0;
+      }
 
+      for (let i = 0; i<map.mapGridHeight; i++){
+        game.currentMapTerrainGrid[i] = row.slice(0);
+      }
+      map.mapObstructedTerrain.forEach(function(ob){
+        game.currentMapTerrainGrid[ob[1]][ob[0]] = 1;
+      });
+
+      game.currentMapPassableGrid = undefined;
+      // console.log(game.currentMapTerrainGrid);
+    },
+
+    rebuildPassableGrid: function(){
+      game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+      for (let i = game.items.length-1; i>=0; i--){
+        var item = game.items[i];
+        if (item.name = "castle" || item.type == "terrain"){
+          for (let y = item.passableGrid.length - 1; y>=0; y--){
+            for (let x = item.passableGrid[y].length-1; x>=0; x--){
+              if (item.passableGrid[y][x]){
+
+                game.currentMapPassableGrid[item.y+y][item.x+x] = 1;
+              }
+            }
+          }
+        }
+      };
+
+      console.log(game.currentMapPassableGrid);
+    },
+
+    makeArrayCopy: function(oldArray){
+      let newArray = new Array(oldArray.length);
+      for (let y = 0; y<oldArray.length; y++){
+        newArray[y] = oldArray[y].slice(0);
+      }
+      return newArray;
+    }
 
 
 }

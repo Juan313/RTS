@@ -91,11 +91,18 @@ export default class Entity {
   }
   //animate the entity setting its life code based on life, removing it from the game if it is dead
   animate() {
-    this.lifeCode = 'alive';
-    if (this.life < 0) {
-      this.lifeCode = 'dead';
-      game.remove(this);
-      return;
+    if (this.life > this.hitPoints * 0.4) {
+        // Consider item healthy if it has more than 40% life
+        this.lifeCode = "healthy";
+    } else if (this.life > 0) {
+        // Consider item damaged it it has less than 40% life
+        this.lifeCode = "damaged";
+    } else {
+        // Remove item from the game if it has died (life is 0 or negative)
+        this.lifeCode = "dead";
+        game.remove(this);
+
+        return;
     }
     //process current action
     this.processActions();

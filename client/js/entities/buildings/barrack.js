@@ -18,13 +18,13 @@ let name = 'barrack',
 	cost = 500,
 	//TODO: get images for barrack
 	spriteImages = null,
-	details = {
+	defaults = {
 		buildTime: 20,
 		drawSprite: function(){
 			console.log("drawing from barrack")
 		}
 	};
 
-let barrack = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, details);
+let barrack = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
 
 export {barrack};
