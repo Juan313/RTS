@@ -67,14 +67,15 @@ var game = {
 
     game.resetArrays();
 
-
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
       if(entity['type'] === 'buildings'){
         newEntity = buildings[entity.name].add(entity);
-			}else newEntity = units[entity.name].add(entity);
+			}else {
+        newEntity = units[entity.name].add(entity);
+      }
 			//load villager and castle sprites
 			if(newEntity.name === 'villager' || newEntity.name === 'castle'){
 				newEntity.load();
@@ -88,7 +89,11 @@ var game = {
       Object.assign(entity, {"team": parseInt(game.AIHouse)});
       if(entity['type'] == 'buildings'){
         newEntity = buildings[entity.name].add(entity);
-			}else newEntity = units[entity.name].add(entity);
+        //newEntity = buildings[entity.name];
+			}else {
+        newEntity = units[entity.name].add(entity);
+        //newEntity = units[entity.name];
+      }
 			//load villager and castle sprites
 			if(newEntity.name == 'villager' || newEntity.name == 'castle'){
 				newEntity.load();
@@ -97,6 +102,7 @@ var game = {
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     });
+    console.log(game.items);
     game.createTerrainGrid();
     game.rebuildPassableGrid();
   },
@@ -104,6 +110,11 @@ var game = {
   animationTimeout: 100, // 100 milliseconds or 10 times a second
 
   animationLoop: function() {
+    game.items.forEach(function(item){
+      if (item.processOrders){
+        item.processOrders();
+      }
+    })
     game.items.forEach(function(item) {
             item.animate();
         });
@@ -147,7 +158,7 @@ var game = {
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item){
       if (item.name == "castle" || item.name == "villager"){
-				console.log('drawing ' + item.name);
+				//console.log('drawing ' + item.name);
         item.draw();
       }
     });
@@ -234,6 +245,14 @@ var game = {
         // Track items that have been selected by the player
         game.selectedItems = [];
     },
+    add: function(itemDetails){
+      // if (type == "building" or "terrain")
+      // game.currentMapPassableGrid = undefined;
+    },
+    remove: function(item){
+      // if (type == "building" or "terrain")
+      // game.currentMapPassableGrid = undefined;
+    },
     clearSelection: function() {
         while (game.selectedItems.length > 0) {
             game.selectedItems.pop().selected = false;
@@ -309,6 +328,7 @@ var game = {
 
     rebuildPassableGrid: function(){
       game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+      console.log(game.currentMapPassableGrid);
       for (let i = game.items.length-1; i>=0; i--){
         var item = game.items[i];
         if (item.name == "castle" || item.type == "terrain"){
