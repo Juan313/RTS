@@ -39,10 +39,31 @@ var game = {
     screen.style.display = "none";
   },
 
+	//set up AI and player inventory
+	inventory: {
+		player: {
+			wheat: 0,
+			timber: 0,
+		},
+		AI: {
+			wheat: 0,
+			timber: 0,
+		}
+	},
+
+	//function to reset player and AI inventories
+	resetInventories: function(){
+		inventory.player.wheat = 0;
+		inventory.player.timber = 0;
+		inventory.AI.wheat = 0;
+		inventory.AI.timber = 0;
+	},
+
   showScreen: function(id) {
     var screen = document.getElementById(id);
     screen.style.display = "block";
   },
+
 
   showSelectHouse: function() {
     this.hideScreens();

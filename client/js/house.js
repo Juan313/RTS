@@ -52,7 +52,14 @@ var houses = {
       //game.AIHouse = houses.data[AIHouse].name;
       game.AIHouse = AIHouse;
       houses.populateBothHouseScreen(this.value,AIHouse);
-
+			//Lannister resource bonus
+			if(game.AIHouse === 1){
+				game.inventory.AI.wheat = 200;
+				game.inventory.AI.timber = 200;
+			}else if(game.userHouse === 1){
+				game.inventory.player.wheat = 200;
+				game.inventory.player.timber = 200;
+			}
       game.hideScreens();
       game.showScreen("showSelectedHouses");
       game.loadLevelData();
