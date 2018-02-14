@@ -9,17 +9,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client')));
 
-//start on port 3001
-app.set('port', 3001);
+//start on passed in command line argument for port or port 3001
+app.set('port', process.argv[2] || 3001);
 
 //get homepage acessing index.html
 app.get('/', (req, res) => {
 	res.sendFile('index.html', {root: path.join(__dirname, '../client')});
 });
 
-//listen on specified port
-app.listen(app.get('port'), () => {
-  console.log(`Server started at http://localhost:${app.get('port')}/`);
-});
+//Don't display console dialog when deploying
+if(process.env.DEPLOY == 1){
+	app.listen(app.get('port'));
+}else{
+	//listen on specified port
+	app.listen(app.get('port'), () => {
+		console.log(`Server started at http://localhost:${app.get('port')}/`);
+	});
+}
 
 

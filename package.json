@@ -4,7 +4,8 @@
   "description": "HTML5 RTS Game",
   "main": "app.js",
   "scripts": {
-    "start": "node ./server/server.js"
+    "start": "node ./server/server.js",
+		"dep": "DEPLOY=1 ./node_modules/forever/bin/forever start ./server/server.js"
   },
   "license": "MIT",
   "repository": {
@@ -15,6 +16,7 @@
   "homepage": "https://github.com/CapstoneWEB1/RTS",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "forever": "^0.15.3"
   }
 }
