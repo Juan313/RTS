@@ -43,15 +43,15 @@ var houses = {
     // An event handler to call
     var buttonClickHandler = function() {
       //game.userHouse = houses.data[this.value].name;
-      game.userHouse = this.value;
+      game.userHouse = this.name;
       var AIHouse = Math.floor(Math.random() * 5);
-      while (AIHouse == this.value){
+      while (AIHouse == this.name){
         AIHouse = Math.floor(Math.random() * 5);
       }
 
       //game.AIHouse = houses.data[AIHouse].name;
       game.AIHouse = AIHouse;
-      houses.populateBothHouseScreen(this.value,AIHouse);
+      houses.populateBothHouseScreen(this.name,AIHouse);
 			//Lannister resource bonus
 			if(game.AIHouse === 1){
 				game.inventory.AI.wheat = 200;
@@ -76,13 +76,16 @@ var houses = {
     for (let i = 0; i < houses.data.length; i++) {
       var button = document.createElement("input");
       button.type = "button";
-      button.value = i;
+      button.name = i;
       var img_url = "url("+houses.data[i].img_url + ".png)";
       button.style.top = "200px";
       button.style.margin = "20px";
       button.style.width="150px";
       button.style.height="150px";
       button.style.backgroundImage = img_url;
+			button.style.backgroundPosition = "center";
+			button.style.backgroundRepeat = "no-repeat";
+			button.style.backgroundSize = "contain";
       // button.style.backgroundImage = "url('./images/icons/targaryen.png')";
       // button.style.backgroundColor = "red";
       button.addEventListener("click", buttonClickHandler);
@@ -103,6 +106,9 @@ var houses = {
     button1.style.width="150px";
     button1.style.height="150px";
     button1.style.backgroundImage = img_url;
+		button1.style.backgroundPosition = "center";
+		button1.style.backgroundRepeat = "no-repeat";
+		button1.style.backgroundSize = "contain";
     showSelectedHouses.appendChild(button1);
 
     var button2 = document.getElementById("button2");
@@ -113,6 +119,9 @@ var houses = {
     button2.style.width="150px";
     button2.style.height="150px";
     button2.style.backgroundImage = img_url;
+		button2.style.backgroundPosition = "center";
+		button2.style.backgroundRepeat = "no-repeat";
+		button2.style.backgroundSize = "contain";
     showSelectedHouses.appendChild(button2);
 
   },
