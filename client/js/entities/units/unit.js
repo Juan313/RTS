@@ -3,6 +3,7 @@ import Entity from '../entity.js';
 import {
   game
 } from '../../game.js';
+import {AStar} from '../../astar.js'
 
 //TODO: implement player class with inventory for collection
 export default class Unit extends Entity {
@@ -110,23 +111,86 @@ export default class Unit extends Entity {
     game.foregroundContext.strokeRect(x, y, this.pixelWidth, lifeBarHeight);
   }
 
+  // moveTo(destination, distanceFromDestination){
+	// 	// console.log("moving to x: "+destination.x + " y: "+destination.y);
+	// 	let newDirection = this.findAngle(destination);
+	// 	console.log("direction in moveTo function "+this.direction);
+	// 	this.turnTo(newDirection);
+  //
+	// 	let maximumMovement = this.moveSpeed * (this.turning ? this.speedAdjustmentWhileTurningFactor:1);
+	// 	let movement = Math.min(distanceFromDestination,maximumMovement);
+  //
+	// 	let angleRadians = -(this.direction / this.directions) * 2 * Math.PI;
+  //
+	// 	this.lastMovementX = -(movement * Math.sin(angleRadians));
+	// 	this.lastMovementY = -(movement * Math.cos(angleRadians));
+	// 	// console.log(newDirection);
+	// 	this.x = this.x + this.lastMovementX;
+	// 	this.y = this.y + this.lastMovementY;
+	// }
+
   moveTo(destination, distanceFromDestination){
-		// console.log("moving to x: "+destination.x + " y: "+destination.y);
-		let newDirection = this.findAngle(destination);
-		console.log("direction in moveTo function "+this.direction);
-		this.turnTo(newDirection);
+    let start = [Math.floor(this.x), Math.floor(this.y)];
+    let end = [Math.floor(destination.x), Math.floor(destination.y)];
 
-		let maximumMovement = this.moveSpeed * (this.turning ? this.speedAdjustmentWhileTurningFactor:1);
-		let movement = Math.min(distanceFromDestination,maximumMovement);
+    let newDirection;
+    let villagerOutsideMapBounds = (start[0] < 0 || start[0] >=game.currentMap.mapGridWidth || start[1] < 0 || start[1] >= game.currentMap.mapGridHeight);
 
-		let angleRadians = -(this.direction / this.directions) * 2 * Math.PI;
+    if (!game.currentMapPassableGrid){
+      game.rebuildPassableGrid();
+    }
 
-		this.lastMovementX = -(movement * Math.sin(angleRadians));
-		this.lastMovementY = -(movement * Math.cos(angleRadians));
-		// console.log(newDirection);
-		this.x = this.x + this.lastMovementX;
-		this.y = this.y + this.lastMovementY;
-	}
+    let villagerReachedDestinationTile = (start[0] == destination[0]) && (start[0] == destination[0]);
+
+    if (villagerOutsideMapBounds || villagerReachedDestinationTile){
+      newDirection = this.findAngle(destination);
+      this.orders.path = [[this.x,this.y],[destination.x, destination.y]];
+    }
+    else {
+      let grid;
+      if (destination.type == "buildings" || destination.type == "terrain"){
+        grid = game.makeArrayCopy(game.currentMapPassableGrid);
+
+        grid[Math.floor(destination.x), Math.floor(destination.y)] = 0;
+      }
+      else {
+        grid = game.currentMapPassableGrid;
+      }
+      this.orders.path = AStar(grid,start,end, "Euclidean");
+      //console.log(this.orders.path);
+      if (this.orders.path.length > 1){
+        let nextStep = {x: this.orders.path[1][0]+0.5, y: this.orders.path[1][1]+0.5};
+
+        newDirection = this.findAngle(nextStep);
+      } else {
+        return false;
+      }
+
+      let collisionObjects = this.checkForCollisions(game.currentMapPassableGrid);
+
+      if (this.colliding){
+        newDirection = this.steerAwayFromCollision(collisionObjects);
+        // console.log("new direction: " + newDirection);
+      }
+      this.turnTo(newDirection);
+      let maximumMovement = this.moveSpeed * (this.turning ? this.speedAdjustmentWhileTurningFactor:1);
+      let movement = Math.min(distanceFromDestination,maximumMovement);
+
+      if (this.hardCollision){
+        movement = 0;
+      }
+      let angleRadians = -(this.direction / this.directions) * 2 * Math.PI;
+
+      this.lastMovementX = -(movement * Math.sin(angleRadians));
+      this.lastMovementY = -(movement * Math.cos(angleRadians));
+      // console.log(newDirection);
+      this.x = this.x + this.lastMovementX;
+      this.y = this.y + this.lastMovementY;
+
+      return true;
+    }
+
+  }
 
 	findAngle(destination){
 		let dy = destination.y - this.y;
@@ -159,7 +223,7 @@ export default class Unit extends Entity {
 
 	angleDiff(newDirection){
 		let currDirection = this.direction;
-		console.log("direction in angleDiff function "+this.direction);
+		// console.log("direction in angleDiff function "+this.direction);
 		let directions = this.directions;
 
 		if (currDirection >= directions / 2){
@@ -179,8 +243,105 @@ export default class Unit extends Entity {
 		if (diff > directions / 2){
 			diff -= directions;
 		}
-		console.log(diff);
+		// console.log(diff);
 		return diff;
 	}
+
+  checkForCollisions(grid){
+    let movement = this.moveSpeed * (this.turning ? this.speedAdjustmentWhileTurningFactor:1);
+
+    let angleRadians = -(this.direction / this.directions) * 2 * Math.PI;
+
+    this.lastMovementX = -(movement * Math.sin(angleRadians));
+    this.lastMovementY = -(movement * Math.cos(angleRadians));
+    // console.log(newDirection);
+    let newX = this.x + this.lastMovementX;
+    let newY = this.y + this.lastMovementY;
+
+    this.colliding = false;
+    this.hardCollision = false;
+
+    let collisionObjects = [];
+
+    let x1 = Math.max(0, Math.floor(newX) - 3);
+    let x2 = Math.min(Math.floor(newX) + 3, game.currentMap.mapGridWidth-1);
+    let y1 = Math.max(0, Math.floor(newY) - 3);
+    let y2 = Math.min(Math.floor(newY) + 3, game.currentMap.mapGridHeight-1);
+
+    let gridHardCollisionThreshold = Math.pow(this.radius * 0.9 / game.gridSize , 2);
+    let gridSoftCollisionThreshold = Math.pow(this.radius * 1.1 / game.gridSize , 2);
+
+    for (let j = x1; j<=x2; j++){
+      for (let i = y1; i<=y2; i++){
+        if (grid[i][j] == 1){
+          let distanceSquared = Math.pow(j+0.5-newX,2) + Math.pow(i+0.5-newY,2);
+          if (distanceSquared  < gridHardCollisionThreshold){
+            collisionObjects.push({collisionType: "hard", with: {type: "wall", x: j+0.5, y: i+0.5}});
+            this.colliding = true;
+            this.hardCollision = true;
+          }
+          else if (distanceSquared < gridSoftCollisionThreshold){
+            collisionObjects.push({collisionType: "soft", with: {type: "wall", x: j+0.5, y: i+0.5}});
+            this.colliding = true;
+          }
+        }
+      }
+    }
+
+    for (let i = game["units"].length -1 ; i>=0; i--){
+      let unit = game["units"][i];
+      // console.log("game unit is: " + game["units"][i].x + " " + game["units"][i].y);
+      if (unit != this && Math.abs(unit.x - this.x) < 3 && Math.abs(unit.y-this.y) < 3){
+        if (Math.pow(unit.x - newX, 2) + Math.pow(unit.y - newY,2) < Math.pow((this.radius + unit.radius) / game.gridSize, 2)){
+          collisionObjects.push({collisionType: "hard", with: unit});
+          this.colliding = true;
+          this.hardCollision = true;
+        } else if (Math.pow(unit.x - newX, 2) + Math.pow(unit.y - newY,2) < Math.pow((this.radius*1.5 + unit.radius) / game.gridSize, 2)) {
+          collisionObjects.push({collisionType: "soft", with: unit});
+          this.colliding = true;
+        }
+      }
+
+    }
+
+
+  return collisionObjects;
+
+  }
+
+  steerAwayFromCollision(collisionObjects){
+    let forceVector = {x: 0, y: 0};
+    collisionObjects.push({collisionType: "attraction", with: {x:this.orders.path[1][0]+0.5, y:this.orders.path[1][1]+0.5}});
+
+    for (let i = collisionObjects.length - 1; i >=0 ; i--){
+      let collObject = collisionObjects[i];
+
+      let objectAngle = this.findAngle(collObject.with);
+      let objectAngleRadians = -(objectAngle/this.directions) * 2 * Math.PI;
+
+      let forceMagnitude;
+
+      switch (collObject.collisionType){
+        case "hard":
+              forceMagnitude = 2;
+              break;
+        case "soft":
+              forceMagnitude = 1;
+              break;
+        case "attraction":
+              forceMagnitude = -0.25;
+              break;
+      }
+      forceVector.x += (forceMagnitude * Math.sin(objectAngleRadians));
+      forceVector.y += (forceMagnitude * Math.cos(objectAngleRadians));
+    }
+
+    let newDirection = this.directions / 2 - (Math.atan2(forceVector.x, forceVector.y) * this.directions / (2*Math.PI));
+    // console.log("new direction: " + newDirection);
+    newDirection = (newDirection + this.directions) % this.directions;
+
+    return newDirection;
+
+  }
 
 }

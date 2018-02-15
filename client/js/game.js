@@ -123,7 +123,7 @@ var game = {
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     });
-    console.log(game.items);
+    //console.log(game["units"]);
     game.createTerrainGrid();
     game.rebuildPassableGrid();
   },
@@ -181,6 +181,8 @@ var game = {
       if (item.name == "castle" || item.name == "villager"){
 				//console.log('drawing ' + item.name);
         item.draw();
+        // if (item.name == "villager")
+        //   console.log(item.uid + " " +item.x + " " + item.y);
       }
     });
     // Draw the mouse

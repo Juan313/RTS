@@ -3,7 +3,6 @@ import {
   game
 } from '../../game.js';
 
-import {AStar} from '../../astar.js'
 
 import Unit from './unit.js';
 let name = 'villager',
@@ -82,59 +81,7 @@ let name = 'villager',
 
     },
 
-    moveTo: function(destination, distanceFromDestination){
-      let start = [Math.floor(this.x), Math.floor(this.y)];
-      let end = [Math.floor(destination.x), Math.floor(destination.y)];
 
-      let newDirection;
-      let villagerOutsideMapBounds = (start[0] < 0 || start[0] >=game.currentMap.mapGridWidth || start[1] < 0 || start[1] >= game.currentMap.mapGridHeight);
-
-      if (!game.currentMapPassableGrid){
-        game.rebuildPassableGrid();
-      }
-
-      let villagerReachedDestinationTile = (start[0] == destination[0]) && (start[0] == destination[0]);
-
-      if (villagerOutsideMapBounds || villagerReachedDestinationTile){
-        newDirection = this.findAngle(destination);
-        this.orders.path = [[this.x,this.y],[destination.x, destination.y]];
-      }
-      else {
-        let grid;
-        if (destination.type == "buildings" || destination.type == "terrain"){
-          grid = game.makeArrayCopy(game.currentMapPassableGrid);
-
-          grid[Math.floor(destination.x), Math.floor(destination.y)] = 0;
-        }
-        else {
-          grid = game.currentMapPassableGrid;
-        }
-        this.orders.path = AStar(grid,start,end, "Euclidean");
-        //console.log(this.orders.path);
-        if (this.orders.path.length > 1){
-          let nextStep = {x: this.orders.path[1][0]+0.5, y: this.orders.path[1][1]+0.5};
-
-          newDirection = this.findAngle(nextStep);
-        } else {
-          return false;
-        }
-
-        this.turnTo(newDirection);
-        let maximumMovement = this.moveSpeed * (this.turning ? this.speedAdjustmentWhileTurningFactor:1);
-    		let movement = Math.min(distanceFromDestination,maximumMovement);
-
-    		let angleRadians = -(this.direction / this.directions) * 2 * Math.PI;
-
-    		this.lastMovementX = -(movement * Math.sin(angleRadians));
-    		this.lastMovementY = -(movement * Math.cos(angleRadians));
-    		// console.log(newDirection);
-    		this.x = this.x + this.lastMovementX;
-    		this.y = this.y + this.lastMovementY;
-
-        return true;
-      }
-
-    }
   };
 
 let villager = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX,
