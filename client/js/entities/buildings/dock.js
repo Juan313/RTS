@@ -24,6 +24,7 @@ let name = 'dock',
 	};
 
 
-let dock = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let dock = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
+	sight, hitPoints, cost, spriteImages, defaults, buildableGrid, passableGrid, baseWidth, baseHeight);
 
 export {dock};

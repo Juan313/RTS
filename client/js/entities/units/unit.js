@@ -8,20 +8,24 @@ import {AStar} from '../../astar.js'
 //TODO: implement player class with inventory for collection
 export default class Unit extends Entity {
   /* Additional Defaults -
+	 * radius : map radius of unit
    * range : How far a unit can interact with buildings / units in square area
-   * moveSpeed : How many map tiles can be moved by the unit per second
-   * interactSpeed: How many interactions (attack, construct, collect, repair) can be performed per second by unit
+   * speed : How many map tiles can be moved by the unit per second
+	 * interactSpeed: how many interactions can be performed per second by unit
    * firePower: attack damage
    * builtFrom: building this item must be constructed from,
-   * special: Special actions unit can perform
    */
-  constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-    sight, hitPoints, cost, spriteImages, defaults) {
-    super(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
+  constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, hitPoints, cost,
+		spriteImages, defaults, radius, range, speed, interactSpeed, firePower, builtFrom){
+    super(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
       sight, hitPoints, cost, spriteImages, defaults);
     this.defaults.type = 'units';
-		// we probably need to change this!!!
-		this.directions = 8;
+		this.radius = radius;
+		this.range = range;
+		this.speed = speed;
+		this.interactSpeed = interactSpeed;
+		this.firePower = firePower;
+		this.builtFrom = builtFrom;
   }
   //unit collects a given resource for the player interactSpeed times per second while a condition holds
   collect(type, condition, player) {

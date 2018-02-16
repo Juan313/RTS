@@ -5,27 +5,22 @@ import {game} from '../../game.js';
 let name = 'melisandre',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine base proportions
-	baseWidth = 0,
-	baseHeight = 0,
-	//TODO: determine base offset
+	//TODO: determine pixel offsets
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine grid dimensions
-	buildableGrid = 0,
-	passableGrid = 0,
+	//TODO: determine radius
+	radius = 0,
 	sight = 5,
 	hitPoints = 500,
 	cost = 500,
-	//TODO: get sprite images
-	spriteImages = null,
+	spriteImages = [{name: 'alive', count: 1, directions: 4}],
+	range = 2,
+	moveSpeed = 1,
+	interactSpeed = 1,
+	firePower = 100,
+	builtFrom = 'castle',
 	defaults = {
 		buildTime : 5,
-		range : 1,
-		moveSpeed : 1,
-		interactSpeed : 1,
-		firePower : 0,
-		builtFrom : 'castle',
 		//TODO: implement house check in game so that only Baratheon can add melisandre
 		house: 'Baratheon'
 	};
@@ -35,7 +30,6 @@ let name = 'melisandre',
 		description: 'Melisandre can heal any militia unit within a 2 block distance from her at a rate of 10 life every 5 seconds',
 		action: function(self){
 			return function(){
-				console.log('melisandre action works');
 				while(self.lifeCode === 'alive'){
 					setInterval(()=>{
 						let x = self.drawingX, y = self.drawingY;
@@ -59,8 +53,8 @@ let name = 'melisandre',
 		}
 	}
 
-let melisandre = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, 
-pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let melisandre = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {melisandre};
 

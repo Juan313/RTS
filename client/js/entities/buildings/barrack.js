@@ -25,6 +25,7 @@ let name = 'barrack',
 		}
 	};
 
-let barrack = new Building(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let barrack = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
+	sight, hitPoints, cost, spriteImages, defaults, buildableGrid, passableGrid, baseWidth, baseHeight);
 
 export {barrack};

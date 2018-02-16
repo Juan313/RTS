@@ -3,28 +3,24 @@ import Unit from './unit.js';
 let name = 'direwolf',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine base proportions
-	baseWidth = 0,
-	baseHeight = 0,
 	//TODO: determine base offset
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine grid dimensions
-	buildableGrid = 0,
-	passableGrid = 0,
+	//TODO: determine map radius of wolf
+	radius = 0,
 	sight = 4,
 	hitPoints = 500,
+	moveSpeed = 4,
+	interactSpeed = 3,
 	cost = 500,
 	//TODO: get sprite images
 	spriteImages = null,
+	builtFrom  = 'stable',
+	firePower = 100,
+	range = 3,
 	defaults = {
 		house: 'Stark',
 		buildTime : 15,
-		range : 3,
-		moveSpeed : 4,
-		interactSpeed : 3,
-		firePower : 100,
-		builtFrom : 'stable',
 	};
 	defaults.special = {
 		description: 'Once per minute the direwolf can double its attack damage for 10 seconds of play',
@@ -45,8 +41,8 @@ let name = 'direwolf',
 		}
 	}
 
-let direwolf = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, 
-pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let direwolf = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, 
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {direwolf};
 

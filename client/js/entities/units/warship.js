@@ -4,29 +4,24 @@ import {game} from '../../game.js';
 import {mouse} from '../../mouse.js';
 
 let name = 'warship',
-	pixelWidth = 16,
-	pixelHeight = 16,
-	//TODO: determine base proportions
-	baseWidth = 0,
-	baseHeight = 0,
-	//TODO: determine base offset
+	pixelWidth = 64,
+	pixelHeight = 64,
+	//TODO: determine pixel offsets
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine grid dimensions
-	buildableGrid = 0,
-	passableGrid = 0,
 	sight = 3,
 	hitPoints = 400,
 	cost = 200,
-	//TODO: get sprite images
-	spriteImages = null,
+	spriteImages = [{name: 'alive', count: 1, directions: 4}],
+	//TODO: determine radius
+	radius = 0,
+	range = 10,
+	moveSpeed = 3,
+	interactSpeed = 1,
+	firePower = 50,
+	builtFrom = 'dock',
 	defaults = {
 		buildTime : 30,
-		range : 10,
-		moveSpeed : 3,
-		interactSpeed : 1,
-		firePower : 50,
-		builtFrom : 'dock',
 		house: 'Greyjoy',
 		//Warship is only capable of attack and unit transport
 		repair: null,
@@ -58,8 +53,8 @@ defaults.special.release = function(self){
 	}
 }
 
-let warship = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, 
-pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let warship = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {warship};
 

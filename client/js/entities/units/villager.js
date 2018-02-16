@@ -3,43 +3,31 @@ import {
   game
 } from '../../game.js';
 
-
 import Unit from './unit.js';
 let name = 'villager',
-  pixelWidth = 21,
-  pixelHeight = 20,
-  //TODO: determine base proportions
-  baseWidth = 0,
-  baseHeight = 0,
-  //TODO: determine base offset
-  pixelOffsetX = 10,
-  pixelOffsetY = 10,
-  //TODO: determine grid dimensions
-  buildableGrid = 0,
-  passableGrid = 0,
+  pixelWidth = 16,
+  pixelHeight = 16,
+  //TODO: determine Pixel Offsets
+  pixelOffsetX = 0,
+  pixelOffsetY = 0,
+	//TODO: determine radius
+	radius =  0,
   sight = 3,
   hitPoints = 150,
   cost = 50,
-  //TODO: get sprite images
-  spriteImages = [{
-    name: "stand",
-    count: 1,
-    directions: 8
-  }],
+  spriteImages = [{name: 'alive', count: 1, directions: 4}],
+	range = 1,
+	moveSpeed = 1,
+	interactSpeed = 1,
+	firePower =  0,
+	builtFrom = 'castle',
   defaults = {
-    buildTime: 5,
-    range: 1,
-    radius: 10,
-    moveSpeed: 1,
     turnSpeed: 2,
+    buildTime: 5,
 		speedAdjustmentWhileTurningFactor: 0.5,
     // temporarily set villager's canAttack to true!!!!
     canAttack: true,
     canMove: true,
-    interactSpeed: 1,
-    firePower: 0,
-    builtFrom: 'castle',
-    special: null,
     drawSprite: function(self) {
       return function() {
         let x = this.drawingX;
@@ -84,8 +72,8 @@ let name = 'villager',
 
   };
 
-let villager = new Unit(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX,
-  pixelOffsetY, buildableGrid, passableGrid, sight, hitPoints, cost, spriteImages, defaults);
+let villager = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, 
+	sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 villager.defaults.drawSprite = villager.defaults.drawSprite(villager);
 

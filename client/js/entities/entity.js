@@ -10,27 +10,19 @@ export default class Entity {
   /* Parameters -
    * name: name of entity
    * pixelWidth, pixelHeight - sprite dimensions
-   * baseWidth, baseHeight - base area dimensions
    * pixelOffsetX, pixelOffsetY - base area offset from top-left sprite corner
-   * buildableGrid - grid squares for building entity,
-   * passableGrid - grid squres obstructed or passable for pathfinding
    * sight - how far around entity is revealed on map
    * hitPoints - total health pool of entity
    * cost - how much in wheat or timber required to build entity
    * spriteImages - Definitions for sprite images used for animations
    * defaults - default information for the given entity
    */
-  constructor(name, pixelWidth, pixelHeight, baseWidth, baseHeight, pixelOffsetX, pixelOffsetY, buildableGrid, passableGrid,
-    sight, hitPoints, cost, spriteImages, defaults) {
+  constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, hitPoints, cost, spriteImages, defaults) {
     this.name = name;
     this.pixelWidth = pixelWidth;
     this.pixelHeight = pixelHeight;
-    this.baseWidth = baseWidth;
-    this.baseHeight = baseHeight;
     this.pixelOffsetX = pixelOffsetX;
     this.pixelOffsetY = pixelOffsetY;
-    this.buildableGrid = buildableGrid;
-    this.passableGrid = passableGrid;
     this.sight = sight;
     this.hitPoints = hitPoints;
     this.cost = cost;
@@ -91,17 +83,11 @@ export default class Entity {
   }
   //animate the entity setting its life code based on life, removing it from the game if it is dead
   animate() {
-    if (this.life > this.hitPoints * 0.4) {
-        // Consider item healthy if it has more than 40% life
-        this.lifeCode = "healthy";
-    } else if (this.life > 0) {
-        // Consider item damaged it it has less than 40% life
-        this.lifeCode = "damaged";
-    } else {
-        // Remove item from the game if it has died (life is 0 or negative)
+    if(this.life > 0){
+        this.lifeCode = "alive";
+    }else{
         this.lifeCode = "dead";
         game.remove(this);
-
         return;
     }
     //process current action
