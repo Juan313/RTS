@@ -97,8 +97,8 @@ var game = {
 			}else {
         newEntity = units[entity.name].add(entity);
       }
-			//load villager and castle sprites
-			if(newEntity.name === 'villager' || newEntity.name === 'castle'){
+			//load villager sprites
+			if(newEntity.name === 'villager'){
 				newEntity.load();
 			}
       Object.assign(newEntity, {"uid": ++game.counter});
@@ -115,8 +115,8 @@ var game = {
         newEntity = units[entity.name].add(entity);
         //newEntity = units[entity.name];
       }
-			//load villager and castle sprites
-			if(newEntity.name == 'villager' || newEntity.name == 'castle'){
+			//load villager sprites
+			if(newEntity.name == 'villager'){
 				newEntity.load();
 			}
       Object.assign(newEntity, {"uid": ++game.counter});
@@ -178,11 +178,8 @@ var game = {
 
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item){
-      if (item.name == "castle" || item.name == "villager"){
-				//console.log('drawing ' + item.name);
+      if (item.name == "villager"){
         item.draw();
-        // if (item.name == "villager")
-        //   console.log(item.uid + " " +item.x + " " + item.y);
       }
     });
     // Draw the mouse

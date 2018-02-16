@@ -3,15 +3,12 @@ import Unit from './unit.js';
 let name = 'knight',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine base offset
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine radius
-	radius = 0,
+	radius = 8,
 	sight = 3,
 	hitPoints = 400,
 	cost = 200,
-	//TODO: get sprite images
 	spriteImages = [{name: 'alive', count: 1, directions: 4}],
 	range = 3,
 	moveSpeed = 2,

@@ -16,13 +16,13 @@ export default class Unit extends Entity {
    * builtFrom: building this item must be constructed from,
    */
   constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, hitPoints, cost,
-		spriteImages, defaults, radius, range, speed, interactSpeed, firePower, builtFrom){
+		spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom){
     super(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
       sight, hitPoints, cost, spriteImages, defaults);
     this.defaults.type = 'units';
 		this.radius = radius;
 		this.range = range;
-		this.speed = speed;
+		this.moveSpeed = moveSpeed;
 		this.interactSpeed = interactSpeed;
 		this.firePower = firePower;
 		this.builtFrom = builtFrom;
@@ -348,4 +348,13 @@ export default class Unit extends Entity {
 
   }
 
+	//default drawsprite for units
+	drawSprite(){
+		let x = this.drawingX;
+		let y = this.drawingY;
+		let colorIndex = (this.team === "blue")? 0:1;
+		let colorOffset = colorIndex * this.pixelHeight;
+		game.foreground.drawImage(this.spriteSheet, this.ImageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight,
+			x, y, this.pixelWidth, this.pixelHeight);
+	}
 }

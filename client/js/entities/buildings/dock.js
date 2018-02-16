@@ -1,18 +1,14 @@
 //Object defintion for dock building, only constructable by Greyjoy
 import Building from './building.js';
 let name = 'dock',
-	//TODO: determine building sizes
-	pixelWidth = 0,
-	pixelHeight = 0,
-	//TODO: determine base proportions
-	baseWidth = 0,
-	baseHeight = 0,
-	//TODO: determine base offset
+	pixelWidth = 32,
+	pixelHeight = 32,
+	baseWidth = 32,
+	baseHeight = 32,
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine grid dimensions
-	buildableGrid = 0,
-	passableGrid = 0,
+	buildableGrid = [1, 1],
+	passableGrid = [1, 1],
 	sight = 3,
 	hitPoints = 2500,
 	cost = 750,

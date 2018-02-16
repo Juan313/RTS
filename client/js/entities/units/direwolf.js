@@ -3,18 +3,15 @@ import Unit from './unit.js';
 let name = 'direwolf',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine base offset
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine map radius of wolf
-	radius = 0,
+	radius = 8,
 	sight = 4,
 	hitPoints = 500,
 	moveSpeed = 4,
 	interactSpeed = 3,
 	cost = 500,
-	//TODO: get sprite images
-	spriteImages = null,
+	spriteImages = [{name: 'alive', count: 1, directions: 4}],
 	builtFrom  = 'stable',
 	firePower = 100,
 	range = 3,

@@ -5,11 +5,9 @@ import {game} from '../../game.js';
 let name = 'melisandre',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine pixel offsets
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine radius
-	radius = 0,
+	radius = 8,
 	sight = 5,
 	hitPoints = 500,
 	cost = 500,

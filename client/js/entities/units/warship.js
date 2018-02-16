@@ -6,15 +6,13 @@ import {mouse} from '../../mouse.js';
 let name = 'warship',
 	pixelWidth = 64,
 	pixelHeight = 64,
-	//TODO: determine pixel offsets
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
 	sight = 3,
 	hitPoints = 400,
 	cost = 200,
 	spriteImages = [{name: 'alive', count: 1, directions: 4}],
-	//TODO: determine radius
-	radius = 0,
+	radius = 8,
 	range = 10,
 	moveSpeed = 3,
 	interactSpeed = 1,

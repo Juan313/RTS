@@ -3,11 +3,9 @@ import Unit from './unit.js';
 let name = 'militia',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine pixel offsets
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine map radius
-	radius = 0,
+	radius = 8,
 	range = 1,
 	sight = 2,
 	hitPoints = 250,

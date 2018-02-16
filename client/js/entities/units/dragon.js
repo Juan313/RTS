@@ -4,16 +4,13 @@ import Unit from './unit.js';
 let name = 'dragon',
 	pixelWidth = 16,
 	pixelHeight = 16,
-	//TODO: determine base offset
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine dragon radius
-	radius = 0,
+	radius = 8,
 	sight = 5,
 	hitPoints = 750,
 	cost = 0,
-	//TODO: get sprite images
-	spriteImages = null,
+	spriteImages = [{name: 'alive', count: 1, directions: 4}],
 	range = 5,
 	moveSpeed = 5,
 	interactSpeed = 1,

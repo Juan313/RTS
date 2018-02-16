@@ -1,28 +1,21 @@
 //Object defintion for barrack building
 import Building from './building.js';
 let name = 'barrack',
-	//TODO: determine building sizes
-	pixelWidth = 0,
-	pixelHeight = 0,
-	//TODO: determine base proportions
-	baseWidth = 0,
-	baseHeight = 0,
-	//TODO: determine base offset
+	pixelWidth = 32,
+	pixelHeight = 32,
+	baseWidth = 32,
+	baseHeight = 32,
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	//TODO: determine grid dimensions
-	buildableGrid = 0,
-	passableGrid = 0,
+	buildableGrid = [1, 1],
+	passableGrid = [1, 1],
 	sight = 3,
 	hitPoints = 2000,
 	cost = 500,
 	//TODO: get images for barrack
 	spriteImages = null,
 	defaults = {
-		buildTime: 20,
-		drawSprite: function(){
-			console.log("drawing from barrack")
-		}
+		buildTime: 20
 	};
 
 let barrack = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,

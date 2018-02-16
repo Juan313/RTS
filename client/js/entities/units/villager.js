@@ -7,11 +7,9 @@ import Unit from './unit.js';
 let name = 'villager',
   pixelWidth = 16,
   pixelHeight = 16,
-  //TODO: determine Pixel Offsets
   pixelOffsetX = 0,
   pixelOffsetY = 0,
-	//TODO: determine radius
-	radius =  0,
+	radius =  8,
   sight = 3,
   hitPoints = 150,
   cost = 50,
