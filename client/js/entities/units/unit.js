@@ -1,11 +1,8 @@
 //Shared unit class definition file
 import Entity from '../entity.js';
-import {
-  game
-} from '../../game.js';
+import {game} from '../../game.js';
 import {AStar} from '../../astar.js'
 
-//TODO: implement player class with inventory for collection
 export default class Unit extends Entity {
   /* Additional Defaults -
 	 * radius : map radius of unit
@@ -26,6 +23,7 @@ export default class Unit extends Entity {
 		this.interactSpeed = interactSpeed;
 		this.firePower = firePower;
 		this.builtFrom = builtFrom;
+		this.directions = 4;
   }
   //unit collects a given resource for the player interactSpeed times per second while a condition holds
   collect(type, condition, player) {
@@ -105,7 +103,7 @@ export default class Unit extends Entity {
     let x = this.drawingX;
     let y = this.drawingY - 2 * lifeBarHeight;
 
-    game.foregroundContext.fillStyle = (this.lifeCode === "healthy") ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
+    game.foregroundContext.fillStyle = (this.lifeCode === "alive") ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
 
     game.foregroundContext.fillRect(x, y, this.pixelWidth * this.life / this.hitPoints, lifeBarHeight);
 
@@ -138,7 +136,7 @@ export default class Unit extends Entity {
     let end = [Math.floor(destination.x), Math.floor(destination.y)];
 
     let newDirection;
-    let villagerOutsideMapBounds = (start[0] < 0 || start[0] >=game.currentMap.mapGridWidth || start[1] < 0 || start[1] >= game.currentMap.mapGridHeight);
+    let villagerOutsideMapBounds = (start[0] < 0 || start[0] >= game.currentMap.mapGridWidth || start[1] < 0 || start[1] >= game.currentMap.mapGridHeight);
 
     if (!game.currentMapPassableGrid){
       game.rebuildPassableGrid();
@@ -348,13 +346,14 @@ export default class Unit extends Entity {
 
   }
 
-	//default drawsprite for units
+	//default draw sprite for units
 	drawSprite(){
 		let x = this.drawingX;
 		let y = this.drawingY;
-		let colorIndex = (this.team === "blue")? 0:1;
+		let colorIndex = 0;
 		let colorOffset = colorIndex * this.pixelHeight;
-		game.foreground.drawImage(this.spriteSheet, this.ImageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight,
+		this.imageOffset = 0;
+		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight,
 			x, y, this.pixelWidth, this.pixelHeight);
 	}
 }
