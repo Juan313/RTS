@@ -97,8 +97,8 @@ var game = {
 			}else {
         newEntity = units[entity.name].add(entity);
       }
-			//load villager sprites
-			if(newEntity.name === 'villager'){
+			//load villager sprites and castle sprites
+			if(newEntity.name === 'villager' || newEntity.name == 'castle'){
 				newEntity.load();
 			}
       Object.assign(newEntity, {"uid": ++game.counter});
@@ -115,8 +115,8 @@ var game = {
         newEntity = units[entity.name].add(entity);
         //newEntity = units[entity.name];
       }
-			//load villager sprites
-			if(newEntity.name == 'villager'){
+			//load villager sprites and castle sprites
+			if(newEntity.name == 'villager' || newEntity.name == 'castle'){
 				newEntity.load();
 			}
       Object.assign(newEntity, {"uid": ++game.counter});
@@ -178,7 +178,7 @@ var game = {
 
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item){
-      if (item.name == "villager"){
+      if (item.name == "villager" || item.name == 'castle'){
         item.draw();
       }
     });

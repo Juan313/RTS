@@ -1,6 +1,7 @@
 //shared entity class defintion file
 import Entity from '../entity.js';
 import { units } from '../units/list.js';
+import { game } from '../../game.js';
 
 export default class Building extends Entity {
 	/*	Additional parameters: 
@@ -31,6 +32,16 @@ export default class Building extends Entity {
 	construct(unit){
 			constructedUnit = unit.create();
 			return constructedUnit;
+	}
+
+	//default drawSprite for buildings
+	drawSprite(){
+		let x = this.drawingX;
+		let y = this.drawingY;
+		let colorIndex = 0;
+		let colorOffset = colorIndex * this.pixelHeight;
+		this.imageOffset = 0;
+		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
 	}
 }
 

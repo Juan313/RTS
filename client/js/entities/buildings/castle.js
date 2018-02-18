@@ -14,7 +14,7 @@ let name = 'castle',
 	sight = 3,
 	hitPoints = 3000,
 	cost = 500,
-	spriteImages = null,
+	spriteImages = [{name: 'stand', count: 1, directions: 1}],
 	defaults = {
 		buildTime: 0,
 	};
