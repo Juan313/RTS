@@ -1,5 +1,7 @@
 import {loader} from './common.js';
 import {game} from './game.js';
+import {initialGameState} from './levels.js';
+
 
 function wait(ms){
    var start = new Date().getTime();
@@ -63,6 +65,14 @@ var houses = {
       game.hideScreens();
       game.showScreen("showSelectedHouses");
       game.loadLevelData();
+      game.offsetX = initialGameState[game.userHouse][0].x * game.gridSize - game.canvasWidth/2;
+      game.offsetY = initialGameState[game.userHouse][0].y * game.gridSize - game.canvasHeight/2;
+
+      game.offsetX = Math.max(0, game.offsetX);
+      game.offsetY = Math.max(0, game.offsetY);
+
+      game.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
+      game.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
       // loader.onload = game.play();
       setTimeout(function(){
         game.play();
@@ -80,8 +90,8 @@ var houses = {
       var img_url = "url("+houses.data[i].img_url + ".png)";
       button.style.top = "200px";
       button.style.margin = "20px";
-      button.style.width="150px";
-      button.style.height="150px";
+      button.style.width="130px";
+      button.style.height="130px";
       button.style.backgroundImage = img_url;
 			button.style.backgroundPosition = "center";
 			button.style.backgroundRepeat = "no-repeat";

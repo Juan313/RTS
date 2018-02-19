@@ -12,8 +12,8 @@ var mouse = {
     canvas.addEventListener("contextmenu", mouse.mouserightclickhandler, false);
     mouse.canvas = canvas;
   },
-  x: 0,
-  y: 0,
+  x: 80,
+  y: 80,
 
   gameX: 0,
   gameY: 0,

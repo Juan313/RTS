@@ -94,6 +94,8 @@ var game = {
     buildings['stable'].load();
 
     units['villager'].load();
+    units['militia'].load();
+    units['knight'].load();
 
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;
@@ -109,6 +111,7 @@ var game = {
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     });
+
     var AIGameSetup = initialGameState[game.AIHouse];
     AIGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.AIHouse)});
@@ -119,10 +122,6 @@ var game = {
         newEntity = units[entity.name].add(entity);
         //newEntity = units[entity.name];
       }
-			//load villager sprites and castle sprites
-			if(newEntity.name == 'villager' || newEntity.name == 'castle'){
-				newEntity.load();
-			}
       Object.assign(newEntity, {"uid": ++game.counter});
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
@@ -199,6 +198,8 @@ var game = {
     if (game.refreshBackground) {
       game.backgroundContext.drawImage(game.currentMapImage, game.offsetX, game.offsetY, game.canvasWidth, game.canvasHeight, 0, 0, game.canvasWidth, game.canvasHeight);
       game.refreshBackground = false;
+      // console.log(game.offsetX);
+      // console.log(game.offsetY);
     }
   },
   canvasWidth: 640,
@@ -217,8 +218,8 @@ var game = {
     game.foregroundCanvas.height = game.canvasHeight;
   },
   gridSize: 16,
-  offsetX: 100,
-  offsetY: 100,
+  // offsetX: 500,
+  // offsetY: 500,
   panningThreshold: 60,
   maximumPanDistance: 5,
 
