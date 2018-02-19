@@ -175,17 +175,12 @@ var mouse = {
             let x = item.x * game.gridSize;
             let y = item.y * game.gridSize;
 
-            if (item.type === "buildings" || item.type === "terrain") {
+            if ((item.team == game.userHouse) && (item.type === "buildings" || item.type === "terrain")) {
                 // If mouse coordinates are within rectangular area of building or terrain
                 if (x <= mouse.gameX && x >= (mouse.gameX - item.baseWidth) && y <= mouse.gameY && y >= (mouse.gameY - item.baseHeight)) {
                     return item;
                 }
-            } else if (item.type === "aircraft") {
-                    // If mouse coordinates are within radius of aircraft (adjusted for pixelShadowHeight)
-                if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY - item.pixelShadowHeight, 2) < Math.pow(item.radius, 2)) {
-                    return item;
-                }
-            } else if (item.type === "units") {
+            } else if ((item.team == game.userHouse) && item.type === "units") {
 
                     // If mouse coordinates are within radius of item
                 if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY, 2) < Math.pow(item.radius, 2)) {

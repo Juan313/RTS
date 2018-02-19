@@ -7,8 +7,8 @@ import Unit from './unit.js';
 let name = 'villager',
   //pixelWidth = 16,
 	pixelWidth = 21,
-  //pixelHeight = 16,
-	pixelHeight = 20,
+  pixelHeight = 16,
+	//pixelHeight = 20,
   //pixelOffsetX = 0,
 	pixelOffsetX = 10,
   //pixelOffsetY = 0,
@@ -53,7 +53,7 @@ let name = 'villager',
     },
   };
 
-let villager = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, 
+let villager = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
 	sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {villager};

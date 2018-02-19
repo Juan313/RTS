@@ -88,6 +88,13 @@ var game = {
 
     game.resetArrays();
 
+    //load villager sprites and castle sprites
+    buildings['castle'].load();
+    buildings['barrack'].load();
+    buildings['stable'].load();
+
+    units['villager'].load();
+
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;
     userGameSetup.forEach(function(entity){
@@ -97,10 +104,7 @@ var game = {
 			}else {
         newEntity = units[entity.name].add(entity);
       }
-			//load villager sprites and castle sprites
-			if(newEntity.name === 'villager' || newEntity.name == 'castle'){
-				newEntity.load();
-			}
+
       Object.assign(newEntity, {"uid": ++game.counter});
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
@@ -178,9 +182,10 @@ var game = {
 
     //Start drawing the foreground elements
     game.sortedItems.forEach(function(item){
-      if (item.name == "villager" || item.name == 'castle'){
-        item.draw();
-      }
+      // if (item.name == "villager" || item.name == 'castle'){
+      //   item.draw();
+      // }
+      item.draw();
     });
     // Draw the mouse
     mouse.draw();
@@ -348,10 +353,10 @@ var game = {
 
     rebuildPassableGrid: function(){
       game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
-      console.log(game.currentMapPassableGrid);
+      //console.log(game.currentMapPassableGrid);
       for (let i = game.items.length-1; i>=0; i--){
         var item = game.items[i];
-        if (item.name == "castle" || item.type == "terrain"){
+        if (item.type == "buildings" || item.type == "terrain"){
           for (let y = item.passableGrid.length - 1; y>=0; y--){
             for (let x = item.passableGrid[y].length-1; x>=0; x--){
               if (item.passableGrid[y][x]){
@@ -361,7 +366,7 @@ var game = {
           }
         }
       };
-      console.log(game.currentMapPassableGrid);
+      //console.log(game.currentMapPassableGrid);
     },
 
     makeArrayCopy: function(oldArray){

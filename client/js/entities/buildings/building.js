@@ -4,7 +4,7 @@ import { units } from '../units/list.js';
 import { game } from '../../game.js';
 
 export default class Building extends Entity {
-	/*	Additional parameters: 
+	/*	Additional parameters:
 	 *	baseWidth, baseHeight - rectangluar area of building relative to map size
 	 *	buildableGrid, passableGrid - grid spaces on map for pathfinding */
 	constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
@@ -44,4 +44,3 @@ export default class Building extends Entity {
 		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
 	}
 }
-

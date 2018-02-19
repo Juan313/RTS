@@ -350,7 +350,7 @@ export default class Unit extends Entity {
 	drawSprite(){
 		let x = this.drawingX;
 		let y = this.drawingY;
-		let colorIndex = 0;
+		let colorIndex = this.team;
 		let colorOffset = colorIndex * this.pixelHeight;
 		this.imageOffset = 0;
 		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight,

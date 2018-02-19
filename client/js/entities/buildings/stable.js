@@ -8,12 +8,13 @@ let name = 'stable',
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
 	buildableGrid = [1, 1],
-	passableGrid = [1, 1],
+	passableGrid = 	[[1, 1],
+									[1, 1]],
 	sight = 2,
 	hitPoints = 2500,
 	cost = 800,
+	spriteImages = [{name: 'stand', count: 1, directions: 1}],
 	//TODO: get images for stable
-	spriteImages = null,
 	defaults = {
 		buildTime: 30,
 	};
