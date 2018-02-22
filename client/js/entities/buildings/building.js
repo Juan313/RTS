@@ -27,6 +27,8 @@ export default class Building extends Entity {
 		this.baseHeight = baseHeight;
 		this.buildableGrid = buildableGrid;
 		this.passableGrid = passableGrid;
+		this.imageOffset = 0;
+		this.animationIndex = 0;
 	}
 	//construct a given unit and return it
 	construct(unit){

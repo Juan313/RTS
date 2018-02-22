@@ -24,6 +24,8 @@ export default class Unit extends Entity {
 		this.firePower = firePower;
 		this.builtFrom = builtFrom;
 		this.directions = 4;
+		this.animationIndex = 0;
+		this.imageOffset = 0;
   }
   //unit collects a given resource for the player interactSpeed times per second while a condition holds
   collect(type, condition, player) {

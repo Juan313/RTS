@@ -26,8 +26,9 @@ var initialGameState = {
     {"type": "buildings", "name": "stable", "x": 10, "y": 50},
     {"type": "buildings", "name": "barrack", "x": 2, "y": 50},
     {"type": "units", "name": "villager", "x": 6, "y": 55},
-    {"type": "units", "name": "militia", "x": 8, "y": 55},
+    {"type": "units", "name": "militia", "x": 8, "y": 55, "life": 10},
     {"type": "units", "name": "knight", "x": 10, "y": 55},
+    {"type": "units", "name": "melisandre", "x": 12, "y": 55}
   ],
 
   "3": [

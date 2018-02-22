@@ -98,7 +98,10 @@ var game = {
     units['militia'].load();
     units['knight'].load();
 
-		//if(game.userHouse == 0){
+		//load melisandre for testing
+		if(game.userHouse == 2){
+			units['melisandre'].load();	
+		}
 
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;

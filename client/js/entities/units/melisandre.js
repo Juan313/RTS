@@ -36,11 +36,15 @@ let name = 'melisandre',
 								for(let item of game.items){
 									if(!item.healing && item.house == 'Baratheon' && 
 										item.name === 'militia' && item.lifeCode === 'alive' && (item.life < item.hitPoints)){
+										console.log('before heal');
+										console.log(item);
 										//If an alive, unhealthy militia is within a radius of 2 from Melisandre, heal them
 										if(Math.pow(x - item.drawingX, 2) + Math.pow(y - item.drawingY, 2) <  4){
 											item.healing === true;
 											item.life = Math.min(item.life + 10, item.hitPoints);
 										}
+										console.log('after heal');
+										console.log(item);
 									}
 								}
 							}
