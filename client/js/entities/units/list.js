@@ -7,9 +7,6 @@ import { direwolf } from './direwolf.js';
 import { warship } from './warship.js';
 import { dragon } from './dragon.js';
 
-//set up special unit actions
-let melisandreUnit = melisandre.add();
-melisandreUnit.special.action = melisandreUnit.special.action(melisandreUnit);
 let direwolfUnit = direwolf.add();
 direwolfUnit.special.action = direwolfUnit.special.action(direwolfUnit);
 let warshipUnit = warship.add();
@@ -22,7 +19,7 @@ export let units = {
   "villager": villager.add(),
   "knight": knight.add(),
   "militia": militia.add(),
-	"melisandre": melisandreUnit,
+	"melisandre": melisandre.add(),
 	"direwolf": direwolfUnit,
 	"warship": warshipUnit,
 	"dragon": dragonUnit

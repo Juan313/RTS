@@ -191,6 +191,10 @@ var game = {
       //   item.draw();
       // }
       item.draw();
+			//perform melisandre's aoe heal every frame
+			if(item.name == 'melisandre'){
+				item.special.action(item);
+			}
     });
     // Draw the mouse
     mouse.draw();
