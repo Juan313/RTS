@@ -3,6 +3,7 @@ import {houses} from './house.js';
 import {mouse} from './mouse.js';
 import {buildings} from './entities/buildings/list.js';
 import {units} from './entities/units/list.js';
+import {terrains} from './entities/terrains/list.js';
 import {initialGameState} from './levels.js';
 import {map} from './map.js'
 
@@ -96,6 +97,8 @@ var game = {
     units['villager'].load();
     units['militia'].load();
     units['knight'].load();
+
+		//if(game.userHouse == 0){
 
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;
