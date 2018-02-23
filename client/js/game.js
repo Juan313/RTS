@@ -6,6 +6,7 @@ import {units} from './entities/units/list.js';
 import {terrains} from './entities/terrains/list.js';
 import {initialGameState} from './levels.js';
 import {map} from './map.js'
+import {resourcebar} from './resourcebar.js'
 
 //load house images when clicking span on start screen
 window.onload = ()=> {
@@ -25,6 +26,7 @@ var game = {
     mouse.init();
     game.initCanvases();
     this.hideScreens();
+    resourcebar.init();
     // this.showScreen("gamestartscreen");
     this.showScreen("gamestartscreen");
   },
@@ -42,23 +44,35 @@ var game = {
 
 	//set up AI and player inventory
 	inventory: {
-		player: {
-			wheat: 0,
-			timber: 0,
+		"0": {
+			wheat: 1000,
+			timber: 1000,
 		},
-		AI: {
-			wheat: 0,
-			timber: 0,
-		}
+		"1": {
+			wheat: 5000,
+			timber: 5000,
+		},
+    "2": {
+			wheat: 2000,
+			timber: 2000,
+		},
+    "3": {
+			wheat: 3000,
+			timber: 3000,
+		},
+    "4": {
+			wheat: 4000,
+			timber: 4000,
+		},
 	},
 
-	//function to reset player and AI inventories
-	resetInventories: function(){
-		inventory.player.wheat = 0;
-		inventory.player.timber = 0;
-		inventory.AI.wheat = 0;
-		inventory.AI.timber = 0;
-	},
+	// //function to reset player and AI inventories
+	// resetInventories: function(){
+	// 	inventory.player.wheat = 0;
+	// 	inventory.player.timber = 0;
+	// 	inventory.AI.wheat = 0;
+	// 	inventory.AI.timber = 0;
+	// },
 
   showScreen: function(id) {
     var screen = document.getElementById(id);
@@ -98,9 +112,11 @@ var game = {
     units['militia'].load();
     units['knight'].load();
 
+    game.economy = Object.assign({}, this.inventory);
+
 		//load melisandre for testing
 		if(game.userHouse == 2){
-			units['melisandre'].load();	
+			units['melisandre'].load();
 		}
 
     var userGameSetup = initialGameState[game.userHouse];
@@ -140,6 +156,7 @@ var game = {
   animationTimeout: 100, // 100 milliseconds or 10 times a second
 
   animationLoop: function() {
+    resourcebar.animate();
     game.items.forEach(function(item){
       if (item.processOrders){
         item.processOrders();

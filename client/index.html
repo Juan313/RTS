@@ -7,6 +7,8 @@
   <script src="/js/house.js" name="houses" type="module"></script>
   <script src="/js/mouse.js" type="module"></script>
   <script src="/js/game.js" type="module"></script>
+  <script src="/js/resourcebar.js" type="module"></script>
+
   <script src="/js/common.js" type="module"></script>
 	<script src="/js/entities/units/list.js" type="module"></script>
 	<script src="/js/entities/buildings/list.js" type="module"></script>
@@ -43,8 +45,14 @@
         <canvas id="gamebackgroundcanvas"></canvas>
         <canvas id="gameforegroundcanvas"></canvas>
         <div id="bottomBar">
-          <div id="currentSelection"></div>
-          <div id="resources"></div>
+          <div id="currentSelection">
+            <div id="resource">
+              <div id="wheat"></div>
+              <div id="timber"></div>
+            </div>
+            <div id="selection"></div>
+          </div>
+          <div id="buildOption"></div>
           <div id="worldMap"></div>
         </div>
 
