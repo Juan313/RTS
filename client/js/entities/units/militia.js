@@ -18,7 +18,7 @@ let name = 'militia',
 	interactSpeed = 1,
 	firePower = 30,
 	builtFrom = 'barrack',
-	spriteImages = [{name: 'alive', count: 1, directions: 4}],
+	spriteImages = [{name: 'stand', count: 1, directions: 4}],
 	defaults = {
     turnSpeed: 2,
     buildTime: 10,
