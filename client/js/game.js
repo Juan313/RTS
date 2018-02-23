@@ -115,8 +115,13 @@ var game = {
     game.economy = Object.assign({}, this.inventory);
 
 		//load melisandre for testing
-		if(game.userHouse == 2){
+		if(game.userHouse === 2){
 			units['melisandre'].load();
+		}
+
+		//load direwolf for testing
+		if(game.userHouse === 0){
+			units['direwolf'].load();
 		}
 
     var userGameSetup = initialGameState[game.userHouse];
@@ -209,7 +214,8 @@ var game = {
       // }
       item.draw();
 			//perform melisandre's aoe heal every frame
-			if(item.name == 'melisandre'){
+			if(item.name === 'melisandre' || item.name === 'direwolf'){
+				console.log(item.name);
 				item.special.action(item);
 			}
     });

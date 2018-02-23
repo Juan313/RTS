@@ -10,6 +10,7 @@ var initialGameState = {
     {"type": "units", "name": "villager", "x": 2, "y": 4, "direction": 2},
     {"type": "units", "name": "militia", "x": 9, "y": 5, "direction": 2},
     {"type": "units", "name": "knight", "x": 11, "y": 5, "direction": 2},
+    {"type": "units", "name": "direwolf", "x": 20, "y": 20, "direction": 2},
   ],
 
   "1": [
@@ -28,7 +29,7 @@ var initialGameState = {
     {"type": "units", "name": "villager", "x": 6, "y": 55},
     {"type": "units", "name": "militia", "x": 32, "y": 32, "life": 10},
     {"type": "units", "name": "knight", "x": 10, "y": 55},
-    // {"type": "units", "name": "melisandre", "x": 30, "y": 30}
+    {"type": "units", "name": "melisandre", "x": 30, "y": 30}
   ],
 
   "3": [
