@@ -25,11 +25,15 @@ export default class Unit extends Entity {
     this.range = range;
     this.moveSpeed = moveSpeed;
     this.interactSpeed = interactSpeed;
-    this.firePower = firePower;
+   	this.firePower = firePower;
     this.builtFrom = builtFrom;
     this.directions = 4;
     this.animationIndex = 0;
     this.imageOffset = 0;
+		this.canAttack = true;
+		this.canMove = true;
+		this.turnSpeed = 2;
+		this.speedAdjustmentWhileTurningFactor = 0.5;
   }
   //unit collects a given resource for the player interactSpeed times per second while a condition holds
   collect(type, condition, player) {
@@ -408,5 +412,25 @@ export default class Unit extends Entity {
         break;
     }
   }
-
+	processOrders() {
+		this.lastMovementX = 0;
+		this.lastMovementY = 0;
+		if(this.orders.to){
+			var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2)+Math.pow(this.orders.to.y - this.y, 2),0.5);
+			var radius = this.radius/game.gridSize;
+		}
+		switch (this.orders.type){
+			case "move":
+				if(distanceFromDestination < radius){
+					this.orders = {type: "stand"};
+				}
+				else{
+					let moving = this.moveTo(this.orders.to, distanceFromDestination);
+					if(!moving){
+						this.orders = {type: "stand"};
+					}
+				}
+				break;
+		}
+	}
 }

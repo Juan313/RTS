@@ -6,11 +6,10 @@ var initialGameState = {
     {"type": "buildings", "name": "castle", "x": 5, "y": 5, "life": 2000},
     {"type": "buildings", "name": "stable", "x": 9, "y": 9},
     {"type": "buildings", "name": "barrack", "x": 13, "y": 5},
-    {"type": "units", "name": "villager", "x": 5, "y": 5, "life": 70},
-    {"type": "units", "name": "villager", "x": 2, "y": 4, "direction": 2},
+    {"type": "units", "name": "villager", "x": 7, "y": 5, "direction": 2},
     {"type": "units", "name": "militia", "x": 9, "y": 5, "direction": 2},
     {"type": "units", "name": "knight", "x": 11, "y": 5, "direction": 2},
-    {"type": "units", "name": "direwolf", "x": 20, "y": 20, "direction": 2},
+    {"type": "units", "name": "direwolf", "x": 13, "y": 5, "direction": 2}
   ],
 
   "1": [
@@ -27,9 +26,9 @@ var initialGameState = {
     {"type": "buildings", "name": "stable", "x": 10, "y": 50},
     {"type": "buildings", "name": "barrack", "x": 2, "y": 50},
     {"type": "units", "name": "villager", "x": 6, "y": 55},
-    {"type": "units", "name": "militia", "x": 32, "y": 32, "life": 10},
+    {"type": "units", "name": "militia", "x": 8, "y": 55, "life": 10},
     {"type": "units", "name": "knight", "x": 10, "y": 55},
-    {"type": "units", "name": "melisandre", "x": 30, "y": 30}
+    {"type": "units", "name": "melisandre", "x": 20, "y": 55}
   ],
 
   "3": [
@@ -45,6 +44,7 @@ var initialGameState = {
     {"type": "buildings", "name": "castle", "x": 70, "y": 50},
     {"type": "buildings", "name": "stable", "x": 70, "y": 47},
     {"type": "buildings", "name": "barrack", "x": 65, "y": 50},
+    {"type": "units", "name": "dragon", "x": 64, "y": 55},
     {"type": "units", "name": "villager", "x": 66, "y": 55},
     {"type": "units", "name": "militia", "x": 68, "y": 55},
     {"type": "units", "name": "knight", "x": 70, "y": 55},

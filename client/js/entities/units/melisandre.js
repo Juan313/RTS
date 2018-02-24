@@ -3,7 +3,7 @@ import Unit from './unit.js';
 import {game} from '../../game.js';
 
 let name = 'melisandre',
-	pixelWidth = 21,
+	pixelWidth = 16,
 	pixelHeight = 16,
 	pixelOffsetX = 10,
 	pixelOffsetY = 10,
@@ -20,6 +20,7 @@ let name = 'melisandre',
 	defaults = {
 		buildTime : 5,
 		special : {
+			type: 'passive',
 			description: 'Melisandre can heal any militia unit within a 4 block distance from her at a rate of ~5 life per second',
 			action : function(self){
 				if(self.life > 0){

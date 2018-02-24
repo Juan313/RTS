@@ -114,15 +114,21 @@ var game = {
 
     game.economy = Object.assign({}, this.inventory);
 
-		//load melisandre for testing
-		if(game.userHouse === 2){
-			units['melisandre'].load();
-		}
 
-		//load direwolf for testing
-		if(game.userHouse === 0){
+		//load special units
+		units['direwolf'].load();
+		units['melisandre'].load();
+		units['dragon'].load();
+		/*
+		if(game.userHouse === '0' || game.AIHouse === '0'){
 			units['direwolf'].load();
 		}
+		if(game.userHouse === '2' || game.AIHouse === '2'){
+			units['melisandre'].load();
+		}
+		if(game.userHouse === '4' || game.AIHouse === '4'){
+			units['dragon'].load();
+		}*/
 
     var userGameSetup = initialGameState[game.userHouse];
 		let newEntity = null;
@@ -213,9 +219,8 @@ var game = {
       //   item.draw();
       // }
       item.draw();
-			//perform melisandre's aoe heal every frame
-			if(item.name === 'melisandre' || item.name === 'direwolf'){
-				console.log(item.name);
+			//perform special unit actions if applicable
+			if(item.special && item.special.action){
 				item.special.action(item);
 			}
     });

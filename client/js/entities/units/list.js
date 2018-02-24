@@ -7,18 +7,12 @@ import { direwolf } from './direwolf.js';
 import { warship } from './warship.js';
 import { dragon } from './dragon.js';
 
-let warshipUnit = warship.add();
-warshipUnit.special.transport = warshipUnit.special.transport(warshipUnit);
-warshipUnit.special.release = warshipUnit.special.release(warshipUnit);
-let dragonUnit = dragon.add();
-dragonUnit.special.action = dragonUnit.special.action(dragonUnit);
-
 export let units = {
   "villager": villager.add(),
   "knight": knight.add(),
   "militia": militia.add(),
 	"melisandre": melisandre.add(),
 	"direwolf": direwolf.add(),
-	"warship": warshipUnit,
-	"dragon": dragonUnit
+	"warship": warship.add(),
+	"dragon": dragon.add()
 }
