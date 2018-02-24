@@ -41,5 +41,3 @@ let melisandre = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffs
     sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {melisandre};
-
-

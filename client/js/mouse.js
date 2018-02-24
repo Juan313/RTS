@@ -175,7 +175,7 @@ var mouse = {
             let x = item.x * game.gridSize;
             let y = item.y * game.gridSize;
 
-            if ((item.team == game.userHouse) && (item.type === "buildings" || item.type === "terrain")) {
+            if ((item.team == game.userHouse) && (item.type === "buildings")) {
                 // If mouse coordinates are within rectangular area of building or terrain
                 if (x <= mouse.gameX && x >= (mouse.gameX - item.baseWidth) && y <= mouse.gameY && y >= (mouse.gameY - item.baseHeight)) {
                     return item;
@@ -187,6 +187,10 @@ var mouse = {
                     return item;
                 }
             }
+            // else if (item.type === "terrains"){
+            //   if ((Math.floor(mouse.gameX / game.gridSize) == item.x) && (Math.floor(mouse.gameY/ game.gridSize) == item.y))
+            //     return item;
+            // }
         }
     },
 
@@ -199,6 +203,7 @@ var mouse = {
   rightClick: function(){
     let clickedItem = mouse.itemUnderMouse();
     if (clickedItem) {
+
       // if right-click on an entity
       if(clickedItem.team != game.userHouse){
         // if right-click on AI's Object
@@ -235,7 +240,7 @@ var mouse = {
       })
       if (uids.length > 0){
         game.sendCommand(uids, {type: "move", to: {x: mouse.gameX / game.gridSize, y: mouse.gameY / game.gridSize }});
-        console.log("move to x: " + mouse.gameX / game.gridSize + "y: "+mouse.gameY / game.gridSize);
+        // console.log("move to x: " + mouse.gameX / game.gridSize + "y: "+mouse.gameY / game.gridSize);
       }
     }
   }

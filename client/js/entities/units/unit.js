@@ -410,6 +410,14 @@ export default class Unit extends Entity {
           this.animationIndex = 0;
         }
         break;
+      case "harvest_timber":
+        game.economy[game.userHouse]["timber"] += .1;
+        this.action = "stand";
+        break;
+      case "harvest_wheat":
+        game.economy[game.userHouse]["wheat"] += .1;
+        this.action = "stand";
+        break;
     }
   }
 	processOrders() {
