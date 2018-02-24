@@ -2,6 +2,7 @@ import {
   game
 } from './game.js';
 var resourcebar = {
+
   init: function(){
     this.wheat = document.getElementById("wheat");
     this.timber = document.getElementById("timber");
@@ -10,17 +11,17 @@ var resourcebar = {
   animate: function() {
         // Display the current cash balance value
         this.updateResource(game.economy[game.userHouse]);
-
   },
 
-  _resource: undefined,
+  _resource: 1,
   updateResource: function(r){
-    if (this._resource !== r){
+
+    if (this.resource != r){
       this._resource = r;
-      this.wheat.innerHTML = "W: "+r.wheat.toLocaleString();
-      this.timber.innerHTML = "T: "+r.timber.toLocaleString();
+      this.wheat.innerHTML = "W: "+Math.floor(r.wheat).toLocaleString();
+      this.timber.innerHTML = "T: "+Math.floor(r.timber).toLocaleString();
     }
 
-  }
+  },
 }
 export {resourcebar};

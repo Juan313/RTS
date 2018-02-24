@@ -3,7 +3,7 @@ import Unit from './unit.js';
 import {game} from '../../game.js';
 
 let name = 'melisandre',
-	pixelWidth = 21,
+	pixelWidth = 16,
 	pixelHeight = 16,
 	pixelOffsetX = 10,
 	pixelOffsetY = 10,
@@ -40,5 +40,3 @@ let melisandre = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffs
     sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {melisandre};
-
-

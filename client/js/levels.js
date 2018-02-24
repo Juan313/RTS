@@ -10,6 +10,7 @@ var initialGameState = {
     {"type": "units", "name": "villager", "x": 2, "y": 4, "direction": 2},
     {"type": "units", "name": "militia", "x": 9, "y": 5, "direction": 2},
     {"type": "units", "name": "knight", "x": 11, "y": 5, "direction": 2},
+
   ],
 
   "1": [
@@ -48,6 +49,10 @@ var initialGameState = {
     {"type": "units", "name": "militia", "x": 68, "y": 55},
     {"type": "units", "name": "knight", "x": 70, "y": 55},
   ],
+  "terrains":[
+    {"type": "terrains", "name": "forest", "x": 12, "y": 6},
+    {"type": "terrains", "name": "field", "x": 12, "y": 7},
+  ]
 
 }
 export {initialGameState};

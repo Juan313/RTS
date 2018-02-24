@@ -112,20 +112,30 @@ var game = {
     units['militia'].load();
     units['knight'].load();
 
+    terrains['field'].load();
+    terrains['forest'].load();
     game.economy = Object.assign({}, this.inventory);
 
 		//load melisandre for testing
-		if(game.userHouse == 2){
+		if(game.userHouse == "2"){
 			units['melisandre'].load();
 		}
 
+    var terrainSetup = initialGameState["terrains"];
+    let newEntity = null
+    terrainSetup.forEach(function(entity){
+      newEntity = terrains[entity.name].add(entity);
+      Object.assign(newEntity, {"uid": ++game.counter});
+      game.items.push(newEntity);
+      game[newEntity.type].push(newEntity);
+    })
+
     var userGameSetup = initialGameState[game.userHouse];
-		let newEntity = null;
     userGameSetup.forEach(function(entity){
       Object.assign(entity, {"team": parseInt(game.userHouse)});
       if(entity['type'] === 'buildings'){
         newEntity = buildings[entity.name].add(entity);
-			}else {
+			}else if(entity['type'] === 'units'){
         newEntity = units[entity.name].add(entity);
       }
 
@@ -157,6 +167,7 @@ var game = {
 
   animationLoop: function() {
     resourcebar.animate();
+    // console.log(game.economy[game.userHouse]);
     game.items.forEach(function(item){
       if (item.processOrders){
         item.processOrders();
@@ -294,6 +305,7 @@ var game = {
         game.items = [];
         game.buildings = [];
         game.units = [];
+        game.terrains = [];
 
         // Track items that have been selected by the player
         game.selectedItems = [];

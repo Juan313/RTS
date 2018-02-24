@@ -6,4 +6,3 @@ export let terrains = {
   "field": field.add(),
   "forest": forest.add()
 }
-
