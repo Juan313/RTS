@@ -10,10 +10,11 @@
   <script src="/js/resourcebar.js" type="module"></script>
 
   <script src="/js/common.js" type="module"></script>
-	<script src="/js/entities/units/list.js" type="module"></script>
-	<script src="/js/entities/buildings/list.js" type="module"></script>
+  <script src="/js/entities/units/list.js" type="module"></script>
+  <script src="/js/entities/buildings/list.js" type="module"></script>
   <link rel="stylesheet" href="styles.css" type="text/css" media="screen">
 </head>
+
 <body>
   <div id="wrapper">
     <div id="gamecontainer">
@@ -52,7 +53,14 @@
             </div>
             <div id="selection"></div>
           </div>
-          <div id="buildOption"></div>
+          <div id="buildOption">
+            <input type="button" id="barrack" title="Barrack">
+            <input type="button" id="stable" title="Stable">
+            <input type="button" id="villager" title="Villager">
+            <input type="button" id="militia" title="Militia">
+            <input type="button" id="knight" title="Knight">
+            <input type="button" id="melisandre" title="Melisandre">
+          </div>
           <div id="worldMap"></div>
         </div>
 
