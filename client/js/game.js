@@ -170,6 +170,7 @@ var game = {
       game[newEntity.type].push(newEntity);
     });
     //console.log(game["units"]);
+    resourcebar.initRequirementsForLevel();
     game.createTerrainGrid();
     game.rebuildPassableGrid();
   },

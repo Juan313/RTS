@@ -196,19 +196,22 @@ input[type="button"] {
   background-color: transparent;
 }
 #barrack {
-  background-position: -48px 0px
+  background-position: -48px 0px;
 }
 #stable {
-  background-position: 0px 0px
+  background-position: 0px 0px;
 }
 #villager{
-  background-position: -96px 0px
+  background-position: -96px 0px;
 }
 #militia{
-  background-position: -48px -48px
+  background-position: -48px -48px;
 }
 #knight{
-  background-position: -48px -96px
+  background-position: -48px -96px;
+}
+#knight:disabled{
+  background-position: 0px 0px;
 }
 #melisandre{
   background-position: 0px -192px;
