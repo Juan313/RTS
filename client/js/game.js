@@ -231,9 +231,8 @@ var game = {
       //   item.draw();
       // }
       item.draw();
-
-			//perform special unit actions if applicable
-			if(item.special && item.special.action){
+			//perform passive special unit actions
+			if(item.special && item.special.type === 'passive'){
 				item.special.action(item);
 			}
     });

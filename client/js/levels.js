@@ -28,7 +28,7 @@ var initialGameState = {
     {"type": "units", "name": "villager", "x": 6, "y": 55},
     {"type": "units", "name": "militia", "x": 8, "y": 55, "life": 10},
     {"type": "units", "name": "knight", "x": 10, "y": 55},
-    {"type": "units", "name": "melisandre", "x": 20, "y": 55}
+    {"type": "units", "name": "melisandre", "x": 12, "y": 55, "direction": 2}
   ],
 
   "3": [

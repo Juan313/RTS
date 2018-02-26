@@ -19,21 +19,20 @@ let name = 'direwolf',
 		buildTime : 15,
 		special : {
 			type: 'active', 
-			description: 'Once per minute the direwolf can double its attack damage for 10 seconds of play',
+			description: 'Double attack for 10 seconds (Available: once per minute)',
 			ready: true,
 			action: function(self){	
 				if(self.special.ready === true && self.life > 0){
 					self.special.ready = false;
-					console.log('doubling direwolf firepower');
+					console.log('doubling direwolf ' + self.uid + ' firepower');
 					self.firePower *= 2;
 					setTimeout(()=>{
-						console.log('halving direwolf firepower');
+						console.log('halving direwolf ' + self.uid + ' firepower');
 						self.firePower /= 2;
 					}, 10000);
 					setTimeout(()=>{
-						console.log('direwolf special ready');
 						self.special.ready = true;
-					}, 50000);
+					}, 60000);
 				}
 			}
 		}
@@ -43,6 +42,5 @@ let direwolf = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffset
     sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
 
 export {direwolf};
-
 
 

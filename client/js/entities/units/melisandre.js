@@ -21,13 +21,15 @@ let name = 'melisandre',
 		buildTime : 5,
 		special : {
 			type: 'passive',
-			description: 'Melisandre can heal any militia unit within a 4 block distance from her at a rate of ~5 life per second',
+			description: 'Heal any militia unit within a 4 block distance from her at a rate of ~5 life per second',
 			action : function(self){
-				if(self.life > 0){
-					for(let item of game.items){
-						if(item.team == 2 && item.name === 'militia' && item.life > 0  && (item.life < item.hitPoints)){
-							if(Math.sqrt(Math.pow(self.x - item.x, 2) + Math.pow(self.y - item.y, 2)) < 4){
-								item.life = Math.min(item.life + .17, item.hitPoints);
+				if(game && game.sortedItems){
+					if(self.life > 0){
+						for(let item of game.sortedItems){
+							if(item.team == 2 && item.name === 'militia' && item.life > 0  && (item.life < item.hitPoints)){
+								if(Math.sqrt(Math.pow(self.x - item.x, 2) + Math.pow(self.y - item.y, 2)) < 4){
+									item.life = Math.min(item.life + .17, item.hitPoints);
+								}
 							}
 						}
 					}

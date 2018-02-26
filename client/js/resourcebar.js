@@ -11,8 +11,12 @@ import {
   requirements
 } from './requirements.js';
 
-var resourcebar = {
 
+var selectedSpecialIds = [];
+var activatedSpecialIds = [];
+var changedSpecial = false;
+
+var resourcebar = {
   init: function() {
     this.wheat = document.getElementById("wheat");
     this.timber = document.getElementById("timber");
@@ -34,9 +38,70 @@ var resourcebar = {
   animate: function() {
     // Display the current cash balance value
     this.updateResource(game.economy[game.userHouse]);
+		this.displaySpecialInfo();
     this.enableButtons();
   },
-
+	//add special unit buttons and text to the resource bar when they are selected
+	displaySpecialInfo: function() {
+		//When a user selects a special item add it to the selectedSpecialIds array or remove it when it is no longer selected
+		if(game.sortedItems){
+			game.sortedItems.forEach(function(item){
+				if(item.special && item.team == game.userHouse){
+					if(item.selected){
+						if(!selectedSpecialIds.includes(item.uid)){
+							changedSpecial = true;
+							selectedSpecialIds.push(item.uid);
+						}
+					}else{
+						selectedSpecialIds.forEach(function(id,index){
+							if(id === item.uid){
+								changedSpecial = true;
+								selectedSpecialIds.splice(index, 1);	
+							}
+						});
+					}
+				}
+			});
+		}
+		activatedSpecialIds.forEach(function(id, index){
+			let item = game.getItemByUid(id);
+			if(item.special.ready){	
+				changedSpecial = true;
+				activatedSpecialIds.splice(index, 1);
+			}
+		});
+		if(changedSpecial){
+			let specialContainer = document.getElementById('specialContainer');
+			specialContainer.innerHTML = '';
+			//for each selected special include its description and a button to activate it if the special is active
+			selectedSpecialIds.forEach(function(id){
+				let item = game.getItemByUid(id);
+				let specialItem = document.createElement('div');
+				let specialInfo = item.name + ' ' + item.uid + ': ' + item.special.description;
+				let specialText = document.createTextNode(specialInfo);
+				specialItem.appendChild(specialText);
+				if(item.special.type === 'active'){
+					let specialButton = document.createElement('button');
+					let buttonText = document.createTextNode('Activate');
+					specialButton.appendChild(buttonText);
+					if(item.special.ready){
+						specialButton.addEventListener('click', function(event){
+							changedSpecial = true;
+							event.preventDefault();
+							item.special.action(item);
+						});
+					}else{
+						specialButton.disabled = true;
+						activatedSpecialIds.push(item.uid);
+					}
+					specialButton.style.position = 'relative';
+					specialItem.appendChild(specialButton);
+				}
+				specialContainer.appendChild(specialItem);
+			});
+			changedSpecial = false;
+		}
+	},
   _resource: undefined,
   updateResource: function(r) {
 
@@ -153,6 +218,4 @@ var resourcebar = {
         }
     },
 }
-export {
-  resourcebar
-};
+export { resourcebar };
