@@ -111,6 +111,24 @@ var resourcebar = {
 
   constructUnits: function(details) {
         console.log("construction units " + details.name);
+        let buildingEntity;
+
+        for (let i = game.selectedItems.length - 1; i >= 0; i--) {
+            let item = game.selectedItems[i];
+
+            if (item.type === "buildings" && item.team == game.userHouse
+                && item.lifeCode === "alive" && item.action === "stand") {
+
+                buildingEntity = item;
+                break;
+            }
+        }
+
+
+        // If an eligible starport is found, tell it to make the unit
+        if (buildingEntity) {
+            game.sendCommand([buildingEntity.uid], { type: "construct-unit", details: details });
+        }
     },
   enableButtons: function() {
         let economy = game.economy[game.userHouse];

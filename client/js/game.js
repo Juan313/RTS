@@ -46,23 +46,23 @@ var game = {
 	inventory: {
 		"0": {
 			wheat: 1000,
-			timber: 1000,
+			timber: 1100,
 		},
 		"1": {
 			wheat: 5000,
-			timber: 5000,
+			timber: 5100,
 		},
     "2": {
 			wheat: 2000,
-			timber: 2000,
+			timber: 2100,
 		},
     "3": {
 			wheat: 3000,
-			timber: 3000,
+			timber: 3100,
 		},
     "4": {
 			wheat: 4000,
-			timber: 4000,
+			timber: 4100,
 		},
 	},
 
@@ -323,8 +323,24 @@ var game = {
         game.selectedItems = [];
     },
     add: function(itemDetails){
-      // if (type == "building" or "terrain")
-      // game.currentMapPassableGrid = undefined;
+      // Set a unique id for the item
+        if (!itemDetails.uid) {
+            itemDetails.uid = ++game.counter;
+        }
+
+        // Add the item to the items array
+        game.items.push(itemDetails);
+
+        // Add the item to the type specific array
+        game[itemDetails.type].push(itemDetails);
+
+        // Reset currentMapPassableGrid whenever the map changes
+        if (itemDetails.type === "buildings") {
+            game.currentMapPassableGrid = undefined;
+        }
+
+        return itemDetails;
+
     },
     remove: function(item){
       // if (type == "building" or "terrain")
@@ -358,6 +374,7 @@ var game = {
         }
     },
     sendCommand: function(uids, details){
+
       var toObject;
       if (details.toUid){
         toObject = game.getItemByUid(details.toUid);
@@ -367,7 +384,6 @@ var game = {
       }
       uids.forEach(function(id){
         let item = game.getItemByUid(id);
-        // console.log(item);
         if (item && item.lifeCode != "dead"){
           item.orders = Object.assign({}, details);
           //console.log(details);
