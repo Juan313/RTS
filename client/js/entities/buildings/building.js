@@ -81,7 +81,7 @@ export default class Building extends Entity {
           }
         } else {
 
-					let itemDetails = units[this.orders.details.name];
+					let itemDetails = units[this.orders.details.name].add();
           // let itemDetails = Object.assign({}, this.orders.details);
 
           // Position new unit above center of starport
@@ -96,6 +96,7 @@ export default class Building extends Entity {
           itemDetails.team = this.team;
 					// console.log(itemDetails);
 					game.add(itemDetails);
+					// itemDetails = undefined;
 
         }
 

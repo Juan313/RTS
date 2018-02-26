@@ -231,6 +231,7 @@ var game = {
       //   item.draw();
       // }
       item.draw();
+
 			//perform special unit actions if applicable
 			if(item.special && item.special.action){
 				item.special.action(item);
@@ -324,9 +325,12 @@ var game = {
     },
     add: function(itemDetails){
       // Set a unique id for the item
-        if (!itemDetails.uid) {
-            itemDetails.uid = ++game.counter;
-        }
+        // if (!itemDetails.uid) {
+        //     itemDetails.uid = ++game.counter;
+        //     console.log(game.counter);
+        // }
+        itemDetails.uid = ++game.counter;
+
 
         // Add the item to the items array
         game.items.push(itemDetails);
