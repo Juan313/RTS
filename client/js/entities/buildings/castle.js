@@ -9,7 +9,11 @@ let name = 'castle',
 	baseHeight = 64,
 	pixelOffsetX = 0,
 	pixelOffsetY = 0,
-	buildableGrid = [1, 1],
+	buildableGrid = [
+										[1, 1, 1, 1],
+										[1, 1, 1, 1],
+										[1, 1, 1, 1]
+									],
 	passableGrid = [[0, 1, 1, 0],
 									[1, 1, 1, 1],
 									[1, 1, 1, 1]

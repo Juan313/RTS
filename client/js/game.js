@@ -447,8 +447,39 @@ var game = {
         newArray[y] = oldArray[y].slice(0);
       }
       return newArray;
-    }
+    },
+    
+    rebuildBuildableGrid: function() {
+            game.currentMapBuildableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
 
+            game.items.forEach(function(item) {
+
+                if (item.type === "buildings" || item.type === "terrain") {
+                    // Mark all squares that the building uses as unbuildable
+                    for (let y = item.buildableGrid.length - 1; y >= 0; y--) {
+                        for (let x = item.buildableGrid[y].length - 1; x >= 0; x--) {
+                            if (item.buildableGrid[y][x]) {
+                                game.currentMapBuildableGrid[item.y + y][item.x + x] = 1;
+                            }
+                        }
+                    }
+                } else if (item.type === "units") {
+                    // Mark all squares under or near the vehicle as unbuildable
+                    let radius = item.radius / game.gridSize;
+                    let x1 = Math.max(Math.floor(item.x - radius), 0);
+                    let x2 = Math.min(Math.floor(item.x + radius), game.currentMap.mapGridWidth - 1);
+                    let y1 = Math.max(Math.floor(item.y - radius), 0);
+                    let y2 = Math.min(Math.floor(item.y + radius), game.currentMap.mapGridHeight - 1);
+
+                    for (let x = x1; x <= x2; x++) {
+                        for (let y = y1; y <= y2; y++) {
+                            game.currentMapBuildableGrid[y][x] = 1;
+                        }
+                    }
+                }
+
+            });
+        },
 
 }
 

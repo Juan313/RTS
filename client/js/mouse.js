@@ -1,6 +1,10 @@
 import {
   game
 } from './game.js';
+import {
+  resourcebar
+} from './resourcebar.js';
+
 var mouse = {
   init: function() {
     let canvas = document.getElementById("gameforegroundcanvas");
@@ -51,7 +55,7 @@ var mouse = {
   dragSelectThreshold: 5,
 
   checkIfDragging: function() {
-    if (mouse.buttonPressed) {
+    if (mouse.buttonPressed && !resourcebar.deployBuilding) {
       // If the mouse has been dragged more than threshold treat it as a drag
       if ((Math.abs(mouse.dragX - mouse.gameX) > mouse.dragSelectThreshold && Math.abs(mouse.dragY - mouse.gameY) > mouse.dragSelectThreshold)) {
         mouse.dragSelect = true;
@@ -83,7 +87,7 @@ var mouse = {
       // ev.preventDefault();
     }
     // Middle mouse button was pressed
-    if (ev.button === 1){
+    if (ev.button === 1) {
       mouse.pannable = true;
     }
   },
@@ -108,7 +112,7 @@ var mouse = {
 
       // ev.preventDefault();
     }
-    if (ev.button === 1){
+    if (ev.button === 1) {
       mouse.pannable = false;
     }
   },
@@ -145,6 +149,8 @@ var mouse = {
     mouse.dragSelect = false;
   },
 
+  buildableColor: "rgba(0,0,255,0.3)",
+  unbuildableColor: "rgba(255,0,0,0.3)",
   draw: function() {
     // If the player is dragging and selecting, draw a white box to mark the selection area
     if (this.dragSelect) {
@@ -158,8 +164,34 @@ var mouse = {
       game.foregroundContext.strokeRect(x - game.offsetX, y - game.offsetY, width, height);
       //console.log(this.dragSelect);
     }
+    if (mouse.insideCanvas && resourcebar.deployBuilding && resourcebar.placementGrid) {
+      let x = (this.gridX * game.gridSize) - game.offsetX;
+      let y = (this.gridY * game.gridSize) - game.offsetY;
+
+      for (let i = resourcebar.placementGrid.length - 1; i >= 0; i--) {
+        for (let j = resourcebar.placementGrid[i].length - 1; j >= 0; j--) {
+          let tile = resourcebar.placementGrid[i][j];
+
+          if (tile) {
+            game.foregroundContext.fillStyle = (tile === 1) ? this.buildableColor : this.unbuildableColor;
+            game.foregroundContext.fillRect(x + j * game.gridSize, y + i * game.gridSize, game.gridSize, game.gridSize);
+          }
+        }
+      }
+    }
   },
   leftClick: function(shiftPressed) {
+    if (resourcebar.deployBuilding) {
+      if (resourcebar.canDeployBuilding) {
+        resourcebar.finishDeployingBuilding();
+      } else {
+        console.log("Warning! Cannot deploy building here.");
+        // game.showMessage("system", "Warning! Cannot deploy building here.");
+      }
+
+      return;
+    }
+
     let clickedItem = mouse.itemUnderMouse();
 
     if (clickedItem) {
@@ -172,82 +204,92 @@ var mouse = {
     }
   },
   itemUnderMouse: function() {
-        for (let i = game.items.length - 1; i >= 0; i--) {
-            let item = game.items[i];
+    for (let i = game.items.length - 1; i >= 0; i--) {
+      let item = game.items[i];
 
-            // Dead items will not be detected
-            if (item.lifeCode === "dead") {
-                continue;
-            }
+      // Dead items will not be detected
+      if (item.lifeCode === "dead") {
+        continue;
+      }
 
-            let x = item.x * game.gridSize;
-            let y = item.y * game.gridSize;
+      let x = item.x * game.gridSize;
+      let y = item.y * game.gridSize;
 
-            if ((item.team == game.userHouse) && (item.type === "buildings")) {
-                // If mouse coordinates are within rectangular area of building or terrain
-                if (x <= mouse.gameX && x >= (mouse.gameX - item.baseWidth) && y <= mouse.gameY && y >= (mouse.gameY - item.baseHeight)) {
-                    return item;
-                }
-            } else if ((item.team == game.userHouse) && item.type === "units") {
-
-                    // If mouse coordinates are within radius of item
-                if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY, 2) < Math.pow(item.radius, 2)) {
-                    return item;
-                }
-            }
-            // else if (item.type === "terrains"){
-            //   if ((Math.floor(mouse.gameX / game.gridSize) == item.x) && (Math.floor(mouse.gameY/ game.gridSize) == item.y))
-            //     return item;
-            // }
+      if ((item.team == game.userHouse) && (item.type === "buildings")) {
+        // If mouse coordinates are within rectangular area of building or terrain
+        if (x <= mouse.gameX && x >= (mouse.gameX - item.baseWidth) && y <= mouse.gameY && y >= (mouse.gameY - item.baseHeight)) {
+          return item;
         }
-    },
+      } else if ((item.team == game.userHouse) && item.type === "units") {
 
-  mouserightclickhandler: function(ev){
+        // If mouse coordinates are within radius of item
+        if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY, 2) < Math.pow(item.radius, 2)) {
+          return item;
+        }
+      }
+      // else if (item.type === "terrains"){
+      //   if ((Math.floor(mouse.gameX / game.gridSize) == item.x) && (Math.floor(mouse.gameY/ game.gridSize) == item.y))
+      //     return item;
+      // }
+    }
+  },
+
+  mouserightclickhandler: function(ev) {
     // console.log("right clicked!");
-    mouse.rightClick(ev,true);
+    mouse.rightClick(ev, true);
     ev.preventDefault(true);
   },
 
-  rightClick: function(){
+  rightClick: function() {
     let clickedItem = mouse.itemUnderMouse();
     if (clickedItem) {
 
       // if right-click on an entity
-      if(clickedItem.team != game.userHouse){
+      if (clickedItem.team != game.userHouse) {
         // if right-click on AI's Object
         let uids = [];
-        game.selectedItems.forEach(function(item){
-          if (item.team == game.userHouse && item.canAttack && item.canMove){
+        game.selectedItems.forEach(function(item) {
+          if (item.team == game.userHouse && item.canAttack && item.canMove) {
             uids.push(item.uid);
           }
         })
-        if (uids.length > 0){
-          game.sendCommand(uids, {type: "attack", toUid: clickedItem.uid});
+        if (uids.length > 0) {
+          game.sendCommand(uids, {
+            type: "attack",
+            toUid: clickedItem.uid
+          });
         }
-      }
-      else {
+      } else {
         // if right-click on player's own Object
         let uids = [];
-        game.selectedItems.forEach(function(item){
-          if (item.team == game.userHouse && item.canAttack && item.canMove){
+        game.selectedItems.forEach(function(item) {
+          if (item.team == game.userHouse && item.canAttack && item.canMove) {
             uids.push(item.uid);
           }
         })
-        if (uids.length > 0){
-          game.sendCommand(uids, {type: "guard", toUid: clickedItem.uid});
+        if (uids.length > 0) {
+          game.sendCommand(uids, {
+            type: "guard",
+            toUid: clickedItem.uid
+          });
         }
       }
-    }
-    else {
+    } else {
       // if right-click is not on an entity
       let uids = [];
-      game.selectedItems.forEach(function(item){
-        if (item.team == game.userHouse && item.canMove){
+      game.selectedItems.forEach(function(item) {
+        if (item.team == game.userHouse && item.canMove) {
           uids.push(item.uid);
         }
       })
-      if (uids.length > 0){
-        game.sendCommand(uids, {type: "move", to: {x: mouse.gameX / game.gridSize, y: mouse.gameY / game.gridSize }});
+      if (uids.length > 0) {
+        game.sendCommand(uids, {
+          type: "move",
+          to: {
+            x: mouse.gameX / game.gridSize,
+            y: mouse.gameY / game.gridSize
+          }
+        });
         // console.log("move to x: " + mouse.gameX / game.gridSize + "y: "+mouse.gameY / game.gridSize);
       }
     }

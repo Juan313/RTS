@@ -68,7 +68,7 @@ export default class Building extends Entity {
         if (unitOnTop) {
           // Check whether there is a unit standing on top of the building
           if (this.team == game.userHouse) {
-            console.log("Warning! Cannot build unit while "+ this.name + " is occupied.");
+            console.log("Warning! Cannot build unit while " + this.name + " is occupied.");
             //game.showMessage("system", "Warning! Cannot teleport unit while landing bay is occupied.");
 
           }
@@ -81,7 +81,7 @@ export default class Building extends Entity {
           }
         } else {
 
-					let itemDetails = units[this.orders.details.name].add();
+          let itemDetails = units[this.orders.details.name].add();
           // let itemDetails = Object.assign({}, this.orders.details);
 
           // Position new unit above center of starport
@@ -94,11 +94,35 @@ export default class Building extends Entity {
           // Set unit to be teleported in once it is constructed
           itemDetails.action = "stand";
           itemDetails.team = this.team;
-					// console.log(itemDetails);
-					game.add(itemDetails);
-					// itemDetails = undefined;
+          // console.log(itemDetails);
+          game.add(itemDetails);
+          // itemDetails = undefined;
 
         }
+
+        this.orders = {
+          type: "stand"
+        };
+
+        break;
+      case "construct-building":
+        if (this.lifeCode !== "alive") {
+          // If the building isn't healthy, ignore the order
+          this.orders = {
+            type: "stand"
+          };
+          break;
+        }
+
+        // Teleport in building and subtract the cost from player cash
+        var itemDetails = this.orders.details;
+
+        itemDetails.team = this.team;
+        itemDetails.action = "stand";
+
+        var item = game.add(itemDetails);
+
+        game.economy[game.userHouse].timber -= item.cost;
 
         this.orders = {
           type: "stand"
@@ -115,7 +139,7 @@ export default class Building extends Entity {
 
       if (item.name === this.orders.details.name) {
         if (item.x == this.x + 0.5 * this.pixelWidth / game.gridSize &&
-				item.y == this.y + 1 * this.pixelHeight / game.gridSize) {
+          item.y == this.y + 1 * this.pixelHeight / game.gridSize) {
           unitOnTop = true;
           break;
         }
