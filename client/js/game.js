@@ -1,18 +1,36 @@
-import {loader} from './common.js';
-import {houses} from './house.js';
-import {mouse} from './mouse.js';
-import {buildings} from './entities/buildings/list.js';
-import {units} from './entities/units/list.js';
-import {terrains} from './entities/terrains/list.js';
-import {initialGameState} from './levels.js';
-import {map} from './map.js'
-import {resourcebar} from './resourcebar.js'
+import {
+  loader
+} from './common.js';
+import {
+  houses
+} from './house.js';
+import {
+  mouse
+} from './mouse.js';
+import {
+  buildings
+} from './entities/buildings/list.js';
+import {
+  units
+} from './entities/units/list.js';
+import {
+  terrains
+} from './entities/terrains/list.js';
+import {
+  initialGameState
+} from './levels.js';
+import {
+  map
+} from './map.js'
+import {
+  resourcebar
+} from './resourcebar.js'
 
 //load house images when clicking span on start screen
-window.onload = ()=> {
-    document.getElementById("startSpan").onclick = ()=> {
-			houses.loadImages();
-		}
+window.onload = () => {
+  document.getElementById("startSpan").onclick = () => {
+    houses.loadImages();
+  }
 }
 
 var game = {
@@ -42,37 +60,37 @@ var game = {
     screen.style.display = "none";
   },
 
-	//set up AI and player inventory
-	inventory: {
-		"0": {
-			wheat: 1000,
-			timber: 1100,
-		},
-		"1": {
-			wheat: 5000,
-			timber: 5100,
-		},
+  //set up AI and player inventory
+  inventory: {
+    "0": {
+      wheat: 1000,
+      timber: 1100,
+    },
+    "1": {
+      wheat: 5000,
+      timber: 5100,
+    },
     "2": {
-			wheat: 2000,
-			timber: 2100,
-		},
+      wheat: 2000,
+      timber: 2100,
+    },
     "3": {
-			wheat: 3000,
-			timber: 3100,
-		},
+      wheat: 3000,
+      timber: 3100,
+    },
     "4": {
-			wheat: 4000,
-			timber: 4100,
-		},
-	},
+      wheat: 4000,
+      timber: 4100,
+    },
+  },
 
-	// //function to reset player and AI inventories
-	// resetInventories: function(){
-	// 	inventory.player.wheat = 0;
-	// 	inventory.player.timber = 0;
-	// 	inventory.AI.wheat = 0;
-	// 	inventory.AI.timber = 0;
-	// },
+  // //function to reset player and AI inventories
+  // resetInventories: function(){
+  // 	inventory.player.wheat = 0;
+  // 	inventory.player.timber = 0;
+  // 	inventory.AI.wheat = 0;
+  // 	inventory.AI.timber = 0;
+  // },
 
   showScreen: function(id) {
     var screen = document.getElementById(id);
@@ -98,7 +116,7 @@ var game = {
   },
 
   loadLevelData: function() {
-    game.currentMapImage = loader.loadImage("./images/"+map['plains']['mapImage']);
+    game.currentMapImage = loader.loadImage("./images/" + map['plains']['mapImage']);
     game.currentMap = map['plains'];
 
     game.resetArrays();
@@ -117,55 +135,65 @@ var game = {
     game.economy = Object.assign({}, this.inventory);
 
 
-		//load special units
-		units['direwolf'].load();
-		units['melisandre'].load();
-		units['dragon'].load();
-		/*
-		if(game.userHouse === '0' || game.AIHouse === '0'){
-			units['direwolf'].load();
-		}
-		if(game.userHouse === '2' || game.AIHouse === '2'){
-			units['melisandre'].load();
-		}
-		if(game.userHouse === '4' || game.AIHouse === '4'){
-			units['dragon'].load();
-		}*/
+    //load special units
+    units['direwolf'].load();
+    units['melisandre'].load();
+    units['dragon'].load();
+    /*
+    if(game.userHouse === '0' || game.AIHouse === '0'){
+    	units['direwolf'].load();
+    }
+    if(game.userHouse === '2' || game.AIHouse === '2'){
+    	units['melisandre'].load();
+    }
+    if(game.userHouse === '4' || game.AIHouse === '4'){
+    	units['dragon'].load();
+    }*/
 
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
-    terrainSetup.forEach(function(entity){
+    terrainSetup.forEach(function(entity) {
       newEntity = terrains[entity.name].add(entity);
-      Object.assign(newEntity, {"uid": ++game.counter});
+      Object.assign(newEntity, {
+        "uid": ++game.counter
+      });
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     })
 
     var userGameSetup = initialGameState[game.userHouse];
-    userGameSetup.forEach(function(entity){
-      Object.assign(entity, {"team": parseInt(game.userHouse)});
-      if(entity['type'] === 'buildings'){
+    userGameSetup.forEach(function(entity) {
+      Object.assign(entity, {
+        "team": parseInt(game.userHouse)
+      });
+      if (entity['type'] === 'buildings') {
         newEntity = buildings[entity.name].add(entity);
-			}else if(entity['type'] === 'units'){
+      } else if (entity['type'] === 'units') {
         newEntity = units[entity.name].add(entity);
       }
 
-      Object.assign(newEntity, {"uid": ++game.counter});
+      Object.assign(newEntity, {
+        "uid": ++game.counter
+      });
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     });
 
     var AIGameSetup = initialGameState[game.AIHouse];
-    AIGameSetup.forEach(function(entity){
-      Object.assign(entity, {"team": parseInt(game.AIHouse)});
-      if(entity['type'] == 'buildings'){
+    AIGameSetup.forEach(function(entity) {
+      Object.assign(entity, {
+        "team": parseInt(game.AIHouse)
+      });
+      if (entity['type'] == 'buildings') {
         newEntity = buildings[entity.name].add(entity);
         //newEntity = buildings[entity.name];
-			}else {
+      } else {
         newEntity = units[entity.name].add(entity);
         //newEntity = units[entity.name];
       }
-      Object.assign(newEntity, {"uid": ++game.counter});
+      Object.assign(newEntity, {
+        "uid": ++game.counter
+      });
       game.items.push(newEntity);
       game[newEntity.type].push(newEntity);
     });
@@ -180,20 +208,20 @@ var game = {
   animationLoop: function() {
     resourcebar.animate();
     // console.log(game.economy[game.userHouse]);
-    game.items.forEach(function(item){
-      if (item.processOrders){
+    game.items.forEach(function(item) {
+      if (item.processOrders) {
         item.processOrders();
       }
     })
     game.items.forEach(function(item) {
-            item.animate();
-        });
+      item.animate();
+    });
 
-        // Sort game items into a sortedItems array based on their x,y coordinates
-        game.sortedItems = Object.assign([], game.items);
-        game.sortedItems.sort(function(a, b) {
-            return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
-        });
+    // Sort game items into a sortedItems array based on their x,y coordinates
+    game.sortedItems = Object.assign([], game.items);
+    game.sortedItems.sort(function(a, b) {
+      return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
+    });
   },
 
   play: function() {
@@ -226,15 +254,15 @@ var game = {
     game.foregroundContext.clearRect(0, 0, game.canvasWidth, game.canvasHeight);
 
     //Start drawing the foreground elements
-    game.sortedItems.forEach(function(item){
+    game.sortedItems.forEach(function(item) {
       // if (item.name == "villager" || item.name == 'castle'){
       //   item.draw();
       // }
       item.draw();
-			//perform passive special unit actions
-			if(item.special && item.special.type === 'passive'){
-				item.special.action(item);
-			}
+      //perform passive special unit actions
+      if (item.special && item.special.type === 'passive') {
+        item.special.action(item);
+      }
     });
     // Draw the mouse
     mouse.draw();
@@ -297,7 +325,7 @@ var game = {
         game.offsetY -= Math.min(game.maximumPanDistance, panDistance);
         game.refreshBackground = true;
       }
-    } else if ((mouse.y >= game.canvasHeight - game.panningThreshold)&& mouse.pannable) {
+    } else if ((mouse.y >= game.canvasHeight - game.panningThreshold) && mouse.pannable) {
       let panDistance = game.currentMapImage.height - game.offsetY - game.canvasHeight;
       if (panDistance > 0) {
         // console.log(panDistance);
@@ -305,182 +333,192 @@ var game = {
         game.refreshBackground = true;
       }
     }
-    if (game.refreshBackground){
+    if (game.refreshBackground) {
       mouse.calculateGameCoordinates();
     }
 
   },
   resetArrays: function() {
-        // Count items added in game, to assign them a unique id
-        game.counter = 0;
+    // Count items added in game, to assign them a unique id
+    game.counter = 0;
 
-        // Track all the items currently in the game
-        game.items = [];
-        game.buildings = [];
-        game.units = [];
-        game.terrains = [];
+    // Track all the items currently in the game
+    game.items = [];
+    game.buildings = [];
+    game.units = [];
+    game.terrains = [];
 
-        // Track items that have been selected by the player
-        game.selectedItems = [];
-    },
-    add: function(itemDetails){
-      // Set a unique id for the item
-        // if (!itemDetails.uid) {
-        //     itemDetails.uid = ++game.counter;
-        //     console.log(game.counter);
-        // }
-        itemDetails.uid = ++game.counter;
+    // Track items that have been selected by the player
+    game.selectedItems = [];
+  },
+  add: function(itemDetails) {
+    // Set a unique id for the item
+    // if (!itemDetails.uid) {
+    //     itemDetails.uid = ++game.counter;
+    //     console.log(game.counter);
+    // }
+    itemDetails.uid = ++game.counter;
 
 
-        // Add the item to the items array
-        game.items.push(itemDetails);
+    // Add the item to the items array
+    game.items.push(itemDetails);
 
-        // Add the item to the type specific array
-        game[itemDetails.type].push(itemDetails);
+    // Add the item to the type specific array
+    game[itemDetails.type].push(itemDetails);
 
-        // Reset currentMapPassableGrid whenever the map changes
-        if (itemDetails.type === "buildings") {
-            game.currentMapPassableGrid = undefined;
-        }
-
-        return itemDetails;
-
-    },
-    remove: function(item){
-      // if (type == "building" or "terrain")
-      // game.currentMapPassableGrid = undefined;
-    },
-    clearSelection: function() {
-        while (game.selectedItems.length > 0) {
-            game.selectedItems.pop().selected = false;
-        }
-    },
-    selectItem: function(item, shiftPressed) {
-        // Pressing shift and clicking on a selected item will deselect it
-        if (shiftPressed && item.selected) {
-            // Deselect item
-            item.selected = false;
-
-            for (let i = game.selectedItems.length - 1; i >= 0; i--) {
-                if (game.selectedItems[i].uid === item.uid) {
-                    game.selectedItems.splice(i, 1);
-                    break;
-                }
-            }
-
-            return;
-        }
-
-        if (item.selectable && !item.selected) {
-            item.selected = true;
-            game.selectedItems.push(item);
-            // console.log(game.selectedItems);
-        }
-    },
-    sendCommand: function(uids, details){
-
-      var toObject;
-      if (details.toUid){
-        toObject = game.getItemByUid(details.toUid);
-        if (!toObject || toObject.lifeCode == "dead"){
-          return;
-        }
-      }
-      uids.forEach(function(id){
-        let item = game.getItemByUid(id);
-        if (item && item.lifeCode != "dead"){
-          item.orders = Object.assign({}, details);
-          //console.log(details);
-          if (toObject)
-            item.orders.to = toObject;
-        }
-      });
-    },
-
-    getItemByUid: function(uid){
-      for (let i = 0; i< game.items.length; i++){
-        if (game.items[i].uid == uid)
-          return game.items[i];
-      }
-    },
-
-    createTerrainGrid: function(){
-      let map = game.currentMap;
-      game.currentMapTerrainGrid = new Array(map.mapGridHeight);
-      var row = new Array(map.mapGridWidth);
-      for (let i = 0; i< map.mapGridWidth; i++){
-        row[i] = 0;
-      }
-
-      for (let i = 0; i<map.mapGridHeight; i++){
-        game.currentMapTerrainGrid[i] = row.slice(0);
-      }
-      map.mapObstructedTerrain.forEach(function(ob){
-        game.currentMapTerrainGrid[ob[1]][ob[0]] = 1;
-      });
-
+    // Reset currentMapPassableGrid whenever the map changes
+    if (itemDetails.type === "buildings") {
       game.currentMapPassableGrid = undefined;
-      // console.log(game.currentMapTerrainGrid);
-    },
+    }
 
-    rebuildPassableGrid: function(){
-      game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
-      //console.log(game.currentMapPassableGrid);
-      for (let i = game.items.length-1; i>=0; i--){
-        var item = game.items[i];
-        if (item.type == "buildings" || item.type == "terrain"){
-          for (let y = item.passableGrid.length - 1; y>=0; y--){
-            for (let x = item.passableGrid[y].length-1; x>=0; x--){
-              if (item.passableGrid[y][x]){
-                game.currentMapPassableGrid[item.y+y][item.x+x] = 1;
-              }
+    return itemDetails;
+
+  },
+  remove: function(item) {
+    // if (type == "building" or "terrain")
+    // game.currentMapPassableGrid = undefined;
+  },
+  clearSelection: function() {
+    while (game.selectedItems.length > 0) {
+      game.selectedItems.pop().selected = false;
+    }
+  },
+  selectItem: function(item, shiftPressed) {
+    // Pressing shift and clicking on a selected item will deselect it
+    if (shiftPressed && item.selected) {
+      // Deselect item
+      item.selected = false;
+
+      for (let i = game.selectedItems.length - 1; i >= 0; i--) {
+        if (game.selectedItems[i].uid === item.uid) {
+          game.selectedItems.splice(i, 1);
+          break;
+        }
+      }
+
+      return;
+    }
+
+    if (item.selectable && !item.selected) {
+      item.selected = true;
+      game.selectedItems.push(item);
+      // console.log(game.selectedItems);
+    }
+  },
+  sendCommand: function(uids, details) {
+
+    var toObject;
+    if (details.toUid) {
+      toObject = game.getItemByUid(details.toUid);
+      if (!toObject || toObject.lifeCode == "dead") {
+        return;
+      }
+    }
+    uids.forEach(function(id) {
+      let item = game.getItemByUid(id);
+      if (item && item.lifeCode != "dead") {
+        item.orders = Object.assign({}, details);
+        //console.log(details);
+        if (toObject)
+          item.orders.to = toObject;
+      }
+    });
+  },
+
+  getItemByUid: function(uid) {
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].uid == uid)
+        return game.items[i];
+    }
+  },
+
+  createTerrainGrid: function() {
+    let map = game.currentMap;
+    game.currentMapTerrainGrid = new Array(map.mapGridHeight);
+    var row = new Array(map.mapGridWidth);
+    for (let i = 0; i < map.mapGridWidth; i++) {
+      row[i] = 0;
+    }
+
+    for (let i = 0; i < map.mapGridHeight; i++) {
+      game.currentMapTerrainGrid[i] = row.slice(0);
+    }
+    map.mapObstructedTerrain.forEach(function(ob) {
+      game.currentMapTerrainGrid[ob[1]][ob[0]] = 1;
+    });
+
+    game.currentMapPassableGrid = undefined;
+    // console.log(game.currentMapTerrainGrid);
+  },
+
+  rebuildPassableGrid: function() {
+    game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+    //console.log(game.currentMapPassableGrid);
+    for (let i = game.items.length - 1; i >= 0; i--) {
+      var item = game.items[i];
+      if (item.type == "buildings" || item.type == "terrain") {
+        for (let y = item.passableGrid.length - 1; y >= 0; y--) {
+          for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
+            if (item.passableGrid[y][x]) {
+              game.currentMapPassableGrid[item.y + y][item.x + x] = 1;
             }
           }
         }
-      };
-      //console.log(game.currentMapPassableGrid);
-    },
-
-    makeArrayCopy: function(oldArray){
-      let newArray = new Array(oldArray.length);
-      for (let y = 0; y<oldArray.length; y++){
-        newArray[y] = oldArray[y].slice(0);
       }
-      return newArray;
-    },
-    
-    rebuildBuildableGrid: function() {
-            game.currentMapBuildableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+    };
+    //console.log(game.currentMapPassableGrid);
+  },
 
-            game.items.forEach(function(item) {
+  makeArrayCopy: function(oldArray) {
+    let newArray = new Array(oldArray.length);
+    for (let y = 0; y < oldArray.length; y++) {
+      newArray[y] = oldArray[y].slice(0);
+    }
+    return newArray;
+  },
 
-                if (item.type === "buildings" || item.type === "terrain") {
-                    // Mark all squares that the building uses as unbuildable
-                    for (let y = item.buildableGrid.length - 1; y >= 0; y--) {
-                        for (let x = item.buildableGrid[y].length - 1; x >= 0; x--) {
-                            if (item.buildableGrid[y][x]) {
-                                game.currentMapBuildableGrid[item.y + y][item.x + x] = 1;
-                            }
-                        }
-                    }
-                } else if (item.type === "units") {
-                    // Mark all squares under or near the vehicle as unbuildable
-                    let radius = item.radius / game.gridSize;
-                    let x1 = Math.max(Math.floor(item.x - radius), 0);
-                    let x2 = Math.min(Math.floor(item.x + radius), game.currentMap.mapGridWidth - 1);
-                    let y1 = Math.max(Math.floor(item.y - radius), 0);
-                    let y2 = Math.min(Math.floor(item.y + radius), game.currentMap.mapGridHeight - 1);
+  rebuildBuildableGrid: function() {
+    game.currentMapBuildableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
 
-                    for (let x = x1; x <= x2; x++) {
-                        for (let y = y1; y <= y2; y++) {
-                            game.currentMapBuildableGrid[y][x] = 1;
-                        }
-                    }
-                }
+    game.items.forEach(function(item) {
 
-            });
-        },
+      if (item.type === "buildings" || item.type === "terrain") {
+        // Mark all squares that the building uses as unbuildable
+        for (let y = item.buildableGrid.length - 1; y >= 0; y--) {
+          for (let x = item.buildableGrid[y].length - 1; x >= 0; x--) {
+            if (item.buildableGrid[y][x]) {
+              game.currentMapBuildableGrid[item.y + y][item.x + x] = 1;
+            }
+          }
+        }
+      } else if (item.type === "units") {
+        // Mark all squares under or near the vehicle as unbuildable
+        let radius = item.radius / game.gridSize;
+        let x1 = Math.max(Math.floor(item.x - radius), 0);
+        let x2 = Math.min(Math.floor(item.x + radius), game.currentMap.mapGridWidth - 1);
+        let y1 = Math.max(Math.floor(item.y - radius), 0);
+        let y2 = Math.min(Math.floor(item.y + radius), game.currentMap.mapGridHeight - 1);
 
+        for (let x = x1; x <= x2; x++) {
+          for (let y = y1; y <= y2; y++) {
+            game.currentMapBuildableGrid[y][x] = 1;
+          }
+        }
+      }
+
+    });
+  },
+  showMessage: function(from, message) {
+    let gamemessages = document.getElementById("gamemessages");
+
+    let messageHTML = "<span>" + from + ": </span>" + message + "<br>";
+    gamemessages.innerHTML = messageHTML;
+    setTimeout(function() {
+      gamemessages.innerHTML = "";
+    }, 5000);
+
+
+  },
 }
 
 // Intialize game once page has fully loaded
@@ -489,4 +527,6 @@ window.addEventListener("load", function() {
   game.init();
 });
 
-export {game};
+export {
+  game
+};

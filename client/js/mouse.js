@@ -185,8 +185,8 @@ var mouse = {
       if (resourcebar.canDeployBuilding) {
         resourcebar.finishDeployingBuilding();
       } else {
-        console.log("Warning! Cannot deploy building here.");
-        // game.showMessage("system", "Warning! Cannot deploy building here.");
+        // console.log("Warning! Cannot deploy building here.");
+        game.showMessage("system", "Warning! Cannot deploy building here.");
       }
 
       return;

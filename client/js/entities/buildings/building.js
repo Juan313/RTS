@@ -68,16 +68,16 @@ export default class Building extends Entity {
         if (unitOnTop) {
           // Check whether there is a unit standing on top of the building
           if (this.team == game.userHouse) {
-            console.log("Warning! Cannot build unit while " + this.name + " is occupied.");
-            //game.showMessage("system", "Warning! Cannot teleport unit while landing bay is occupied.");
+            // console.log("Warning! Cannot build unit while " + this.name + " is occupied.");
+            game.showMessage("system", "Warning! Cannot build " +this.orders.details.name +" while " + this.name +" is occupied.");
 
           }
 
         } else if (cash < cost) {
           // Check whether player has insufficient cash
           if (this.team == game.userHouse) {
-            console.log("Warning! Insufficient Funds. Need " + cost + " wheat.");
-            // game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " credits.");
+            // console.log("Warning! Insufficient Funds. Need " + cost + " wheat.");
+            game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " credits.");
           }
         } else {
 
