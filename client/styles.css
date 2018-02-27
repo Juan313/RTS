@@ -210,25 +210,81 @@ input[type="button"] {
 #barrack {
   background-position: -48px 0px;
 }
+#barrack:disabled, #barrack:active {
+    background-position: -192px 0px;
+}
+
 #stable {
   background-position: 0px 0px;
 }
-#villager{
+
+#stable:disabled, #stable:active {
+    background-position: -144px 0px;
+}
+
+#dock {
   background-position: -96px 0px;
 }
+
+#dock:disabled, #dock:active {
+  background-position: -240px 0px;
+}
+
+#villager{
+  background-position: 0px -48px;
+}
+
+#villager:disabled, #villager:active{
+  background-position: -144px -48px;
+}
+
 #militia{
   background-position: -48px -48px;
 }
+
+#militia:disabled, #militia:active{
+  background-position: -192px -48px;
+}
+
 #knight{
+  background-position: -96px -48px;
+}
+
+#knight:disabled, #knight:active{
+  background-position: -240px -48px;
+}
+
+#melisandre{
+  background-position: 0px -96px;
+}
+#melisandre:disabled, #melisandre:active{
+  background-position: -144px -96px;
+}
+
+#direwolf{
   background-position: -48px -96px;
 }
-#knight:disabled{
-  background-position: 0px 0px;
+
+#direwolf:disabled, #direwolf:active{
+  background-position: -192px -96px;
 }
-#melisandre{
-  background-position: 0px -192px;
-  display: none
+
+#warship{
+  background-position: -96px -96px;
 }
+
+#warship:disabled, #warship:active{
+  background-position: -240px -96px;
+}
+
+#dragon{
+  background-position: 0px -144px;
+}
+
+#dragon:disabled, #dragon:active{
+  background-position: -144px -144px;
+}
+
 #worldMap {
   position: absolute;
   width: 30%;

@@ -11,6 +11,7 @@ var mouse = {
     canvas.addEventListener("mouseup", mouse.mouseuphandler, false);
     canvas.addEventListener("contextmenu", mouse.mouserightclickhandler, false);
     mouse.canvas = canvas;
+    mouse.pannable = false;
   },
   x: 80,
   y: 80,
@@ -81,6 +82,10 @@ var mouse = {
 
       // ev.preventDefault();
     }
+    // Middle mouse button was pressed
+    if (ev.button === 1){
+      mouse.pannable = true;
+    }
   },
   mouseuphandler: function(ev) {
     //console.log("button is up");
@@ -102,6 +107,9 @@ var mouse = {
       mouse.buttonPressed = false;
 
       // ev.preventDefault();
+    }
+    if (ev.button === 1){
+      mouse.pannable = false;
     }
   },
   finishDragSelection: function(shiftPressed) {
