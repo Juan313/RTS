@@ -26,11 +26,21 @@ import {
   resourcebar
 } from './resourcebar.js'
 
-//load house images when clicking span on start screen
+//Set click handlers for spans and buttons
 window.onload = () => {
   document.getElementById("startSpan").onclick = () => {
     houses.loadImages();
   }
+	document.getElementById("saveGame").addEventListener("click", (e) => {
+		e.preventDefault();
+		game.save();
+		setTimeout(()=>{ game.load(); }, 5000);
+	});
+
+	document.getElementById("quitGame").addEventListener("click", (e) => {
+		e.preventDefault();
+		window.location.reload(true);
+	});
 }
 
 var game = {
@@ -45,7 +55,6 @@ var game = {
     game.initCanvases();
     this.hideScreens();
     resourcebar.init();
-    // this.showScreen("gamestartscreen");
     this.showScreen("gamestartscreen");
   },
   hideScreens: function() {
@@ -516,9 +525,52 @@ var game = {
     setTimeout(function() {
       gamemessages.innerHTML = "";
     }, 5000);
-
-
   },
+
+	//save the current user's game
+	save: function(){
+		fetch('/save', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({userHouse: this.userHouse, AIHouse: this.AIHouse, userWheat: this.inventory[this.userHouse].wheat,
+				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
+				AITimber: this.inventory[this.AIHouse].timber, items: this.items, sortedItems: this.sortedItems,
+				buildings: this.buildings, units: this.units,
+				terrains: this.terrains, selectedItems: this.selectedItems}),
+		});
+	},
+
+	//load the current user's game
+	load: function(){
+		fetch('/load', {
+			method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({user: 0})
+		}).then(response => {
+			if(response.ok){
+				response.json().then(data => {
+					console.log(data);
+					/*this.userHouse = data.userHouse;
+					this.inventory[this.userHouse].wheat = data.userWheat;
+					this.inventory[this.userHouse].timber = data.userTimber;
+					this.AIHouse = data.AIHouse;
+					this.inventory[this.AIHouse].wheat = data.AIWheat;
+					this.inventory[this.AIHouse].timber = data.AITimber;
+					this.buildings = data.buildings;
+					this.units = data.units;
+					this.terrains = data.terrains;
+					this.items = data.items;
+					this.sortedItems = data.sortedItems;*/
+				});
+			}
+		});
+	},
 }
 
 // Intialize game once page has fully loaded
