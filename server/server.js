@@ -17,6 +17,18 @@ app.get('/', (req, res) => {
 	res.sendFile('index.html', {root: path.join(__dirname, '../client')});
 });
 
+let gameState = null;
+
+app.post('/save', (req, res) => {
+	console.log(req.body);
+	gameState = req.body;
+});
+
+app.post('/load', (req, res) => {
+	console.log(req.body);	
+	res.send(gameState);
+});
+
 //Don't display console dialog when deploying
 if(process.env.DEPLOY == 1){
 	app.listen(app.get('port'));

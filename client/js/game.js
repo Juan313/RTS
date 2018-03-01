@@ -17,6 +17,9 @@ import {
   terrains
 } from './entities/terrains/list.js';
 import {
+  weapons
+} from './entities/weapons/list.js';
+import {
   initialGameState
 } from './levels.js';
 import {
