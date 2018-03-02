@@ -538,7 +538,8 @@ var game = {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({userHouse: this.userHouse, AIHouse: this.AIHouse, userWheat: this.inventory[this.userHouse].wheat,
+			body: JSON.stringify({userName: 'user', password: 'password', userHouse: this.userHouse, AIHouse: this.AIHouse, 
+				userWheat: this.inventory[this.userHouse].wheat,
 				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
 				AITimber: this.inventory[this.AIHouse].timber, sortedItems: this.sortedItems, selectedItems: this.selectedItems}),
 		});
@@ -552,63 +553,65 @@ var game = {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({user: 0})
+			body: JSON.stringify({userName: 'user', password: 'password'})
 		}).then(response => {
 			if(response.ok){
 				response.json().then(data => {
-					let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [], 
-					newTerrains = [], newWeapons = [], newSelectedItems = [];
-					//this.resetArrays();
-					for(let i = 0; i < data.sortedItems.length; i++){
-						this.counter++;
-						let newItem = null;
-						if(data.sortedItems[i].type === 'units'){
-							newItem = units[data.sortedItems[i].name].add();
-							let special =  newItem.special;
-							Object.assign(newItem, data.sortedItems[i]);
-							newItem.special = special ? special : newItem.special;
-							newItem.spriteArray = null;
-							newItem.load();
-							newUnits.push(newItem);
-						}else if(data.sortedItems[i].type === 'buildings'){
-							newItem = buildings[data.sortedItems[i].name].add();
-							Object.assign(newItem, data.sortedItems[i]);
-							newItem.spriteArray = null;
-							newItem.load();
-							newBuildings.push(newItem);
-						}else if(data.sortedItems[i].type === 'terrains'){
-							newItem = terrains[data.sortedItems[i].name].add();
-							Object.assign(newItem, data.sortedItems[i]);
-							newItem.spriteArray = null;
-							newItem.load();
-							newTerrains.push(newItem);
-						}else{
-							newItem = weapons[data.sortedItems[i].name].add();
-							Object.assign(newItem, data.sortedItems[i]);
-							newItem.spriteArray = null;
-							newItem.load();
-							newWeapons.push(newItem);
-						}
-						if(data.sortedItems[i].selected){
-							newSelectedItems.push(newItem);
+					if(!data.failed){
+						let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [], 
+						newTerrains = [], newWeapons = [], newSelectedItems = [];
+						//this.resetArrays();
+						for(let i = 0; i < data.sortedItems.length; i++){
+							this.counter++;
+							let newItem = null;
+							if(data.sortedItems[i].type === 'units'){
+								newItem = units[data.sortedItems[i].name].add();
+								let special =  newItem.special;
+								Object.assign(newItem, data.sortedItems[i]);
+								newItem.special = special ? special : newItem.special;
+								newItem.spriteArray = null;
+								newItem.load();
+								newUnits.push(newItem);
+							}else if(data.sortedItems[i].type === 'buildings'){
+								newItem = buildings[data.sortedItems[i].name].add();
+								Object.assign(newItem, data.sortedItems[i]);
+								newItem.spriteArray = null;
+								newItem.load();
+								newBuildings.push(newItem);
+							}else if(data.sortedItems[i].type === 'terrains'){
+								newItem = terrains[data.sortedItems[i].name].add();
+								Object.assign(newItem, data.sortedItems[i]);
+								newItem.spriteArray = null;
+								newItem.load();
+								newTerrains.push(newItem);
+							}else{
+								newItem = weapons[data.sortedItems[i].name].add();
+								Object.assign(newItem, data.sortedItems[i]);
+								newItem.spriteArray = null;
+								newItem.load();
+								newWeapons.push(newItem);
+							}
+							if(data.sortedItems[i].selected){
+								newSelectedItems.push(newItem);
 						}
 						newItems.push(newItem);
 						newSortedItems.push(newItem);
+						}
+						this.running = false;
+						this.userHouse = data.userHouse;
+						this.inventory[this.userHouse].wheat = data.userWheat;
+						this.inventory[this.userHouse].timber = data.userTimber;
+						this.AIHouse = data.AIHouse;
+						this.inventory[this.AIHouse].wheat = data.AIWheat;
+						this.inventory[this.AIHouse].timber = data.AITimber;
+						this.buildings = newBuildings;
+						this.units = newUnits;
+						this.terrains = newTerrains;
+						this.items = newItems;
+						this.sortedItems = newSortedItems;
+						this.selectedItems = newSelectedItems;
+						this.running = true;
 					}
-					this.running = false;
-					this.userHouse = data.userHouse;
-					this.inventory[this.userHouse].wheat = data.userWheat;
-					this.inventory[this.userHouse].timber = data.userTimber;
-					this.AIHouse = data.AIHouse;
-					this.inventory[this.AIHouse].wheat = data.AIWheat;
-					this.inventory[this.AIHouse].timber = data.AITimber;
-					this.buildings = newBuildings;
-					this.units = newUnits;
-					this.terrains = newTerrains;
-					this.items = newItems;
-					this.sortedItems = newSortedItems;
-					this.selectedItems = newSelectedItems;
-					this.running = true;
 				});
 			}
 		});
