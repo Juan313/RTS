@@ -9,7 +9,7 @@ export default class Terrain extends Entity {
 	constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
 	sight, spriteImages, defaults, buildableGrid, passableGrid, baseWidth, baseHeight) {
 		super(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, null, null, spriteImages, defaults);
-		this.type = 'terrain';
+		this.type = 'terrains';
 		this.baseWidth = baseWidth;
 		this.baseHeight = baseHeight;
 		this.buildableGrid = buildableGrid;

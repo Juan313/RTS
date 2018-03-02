@@ -468,7 +468,7 @@ var game = {
     //console.log(game.currentMapPassableGrid);
     for (let i = game.items.length - 1; i >= 0; i--) {
       var item = game.items[i];
-      if (item.type == "buildings" || item.type == "terrain") {
+      if (item.type == "buildings" || item.type == "terrains") {
         for (let y = item.passableGrid.length - 1; y >= 0; y--) {
           for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
             if (item.passableGrid[y][x]) {
@@ -494,7 +494,7 @@ var game = {
 
     game.items.forEach(function(item) {
 
-      if (item.type === "buildings" || item.type === "terrain") {
+      if (item.type === "buildings" || item.type === "terrains") {
         // Mark all squares that the building uses as unbuildable
         for (let y = item.buildableGrid.length - 1; y >= 0; y--) {
           for (let x = item.buildableGrid[y].length - 1; x >= 0; x--) {
@@ -540,9 +540,7 @@ var game = {
 			},
 			body: JSON.stringify({userHouse: this.userHouse, AIHouse: this.AIHouse, userWheat: this.inventory[this.userHouse].wheat,
 				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
-				AITimber: this.inventory[this.AIHouse].timber, items: this.items, sortedItems: this.sortedItems,
-				buildings: this.buildings, units: this.units,
-				terrains: this.terrains, selectedItems: this.selectedItems}),
+				AITimber: this.inventory[this.AIHouse].timber, sortedItems: this.sortedItems, selectedItems: this.selectedItems}),
 		});
 	},
 
@@ -558,18 +556,57 @@ var game = {
 		}).then(response => {
 			if(response.ok){
 				response.json().then(data => {
-					console.log(data);
-					/*this.userHouse = data.userHouse;
+					let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [], 
+					newTerrains = [], newWeapons = [], newSelectedItems = [];
+					//this.resetArrays();
+					for(let i = 0; i < data.sortedItems.length; i++){
+						this.counter++;
+						let newItem = null;
+						if(data.sortedItems[i].type === 'units'){
+							newItem = units[data.sortedItems[i].name].add();
+							Object.assign(newItem, data.sortedItems[i]);
+							newItem.spriteArray = null;
+							newItem.load();
+							newUnits.push(newItem);
+						}else if(data.sortedItems[i].type === 'buildings'){
+							newItem = buildings[data.sortedItems[i].name].add();
+							Object.assign(newItem, data.sortedItems[i]);
+							newItem.spriteArray = null;
+							newItem.load();
+							newBuildings.push(newItem);
+						}else if(data.sortedItems[i].type === 'terrains'){
+							newItem = terrains[data.sortedItems[i].name].add();
+							Object.assign(newItem, data.sortedItems[i]);
+							newItem.spriteArray = null;
+							newItem.load();
+							newTerrains.push(newItem);
+						}else{
+							newItem = weapons[data.sortedItems[i].name].add();
+							Object.assign(newItem, data.sortedItems[i]);
+							newItem.spriteArray = null;
+							newItem.load();
+							newWeapons.push(newItem);
+						}
+						if(data.sortedItems[i].selected){
+							newSelectedItems.push(newItem);
+						}
+						newItems.push(newItem);
+						newSortedItems.push(newItem);
+					}
+					this.running = false;
+					this.userHouse = data.userHouse;
 					this.inventory[this.userHouse].wheat = data.userWheat;
 					this.inventory[this.userHouse].timber = data.userTimber;
 					this.AIHouse = data.AIHouse;
 					this.inventory[this.AIHouse].wheat = data.AIWheat;
 					this.inventory[this.AIHouse].timber = data.AITimber;
-					this.buildings = data.buildings;
-					this.units = data.units;
-					this.terrains = data.terrains;
-					this.items = data.items;
-					this.sortedItems = data.sortedItems;*/
+					this.buildings = newBuildings;
+					this.units = newUnits;
+					this.terrains = newTerrains;
+					this.items = newItems;
+					this.sortedItems = newSortedItems;
+					this.selectedItems = newSelectedItems;
+					this.running = true;
 				});
 			}
 		});
