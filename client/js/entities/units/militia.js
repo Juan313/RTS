@@ -18,12 +18,13 @@ let name = 'militia',
 	interactSpeed = 1,
 	firePower = 30,
 	builtFrom = 'barrack',
+	weaponType = 'sword',
 	spriteImages = [{name: 'stand', count: 1, directions: 4}],
 	defaults = {
     buildTime: 10,
   };
 
 let militia = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, hitPoints, cost, spriteImages,
-	defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+	defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {militia};

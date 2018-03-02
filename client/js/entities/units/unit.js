@@ -15,9 +15,10 @@ export default class Unit extends Entity {
    * interactSpeed: how many interactions can be performed per second by unit
    * firePower: attack damage
    * builtFrom: building this item must be constructed from,
+	 * weaponType: the weapon the unit uses
    */
   constructor(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, sight, hitPoints, cost,
-    spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom) {
+    spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType) {
     super(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
       sight, hitPoints, cost, spriteImages, defaults);
     this.defaults.type = 'units';
@@ -27,6 +28,7 @@ export default class Unit extends Entity {
     this.interactSpeed = interactSpeed;
    	this.firePower = firePower;
     this.builtFrom = builtFrom;
+		this.weaponType = weaponType;
     this.directions = 4;
     this.animationIndex = 0;
     this.imageOffset = 0;

@@ -23,6 +23,7 @@ let name = 'villager',
 	interactSpeed = 1,
 	firePower =  0,
 	builtFrom = 'castle',
+	weaponType = null,
   defaults = {
     buildTime: 5,
     canAttack: false,
@@ -84,6 +85,6 @@ let name = 'villager',
 
 
 let villager = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
-sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {villager};

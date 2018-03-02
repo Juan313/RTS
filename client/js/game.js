@@ -272,7 +272,7 @@ var game = {
       // }
       item.draw();
       //perform passive special unit actions
-      if (item.special && item.special.type === 'passive') {
+      if(item.special && item.special.type === 'passive') {
         item.special.action(item);
       }
     });
@@ -564,7 +564,9 @@ var game = {
 						let newItem = null;
 						if(data.sortedItems[i].type === 'units'){
 							newItem = units[data.sortedItems[i].name].add();
+							let special =  newItem.special;
 							Object.assign(newItem, data.sortedItems[i]);
+							newItem.special = special ? special : newItem.special;
 							newItem.spriteArray = null;
 							newItem.load();
 							newUnits.push(newItem);

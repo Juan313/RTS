@@ -15,6 +15,7 @@ let name = 'direwolf',
 	builtFrom  = 'stable',
 	firePower = 100,
 	range = 3,
+	weaponType = 'teeth',
 	defaults = {
 		buildTime : 15,
 		special : {
@@ -39,7 +40,7 @@ let name = 'direwolf',
 	};
 
 let direwolf = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, 
-    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {direwolf};
 

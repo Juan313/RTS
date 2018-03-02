@@ -17,6 +17,7 @@ let name = 'melisandre',
 	interactSpeed = 1,
 	firePower = 100,
 	builtFrom = 'castle',
+	weaponType = 'sword',
 	defaults = {
 		buildTime : 5,
 		special : {
@@ -40,6 +41,6 @@ let name = 'melisandre',
 
 
 let melisandre = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
-    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {melisandre};

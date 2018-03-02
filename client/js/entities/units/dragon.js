@@ -16,6 +16,7 @@ let name = 'dragon',
 	moveSpeed = 3,
 	interactSpeed = 1,
 	firePower = 100,
+	weaponType = 'fireball',
 	defaults = {
 		state: 'egg',
 		//Dragons can only attack
@@ -45,6 +46,6 @@ let name = 'dragon',
 	};
 
 let dragon = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
-    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, null);
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, null, weaponType);
 
 export {dragon};

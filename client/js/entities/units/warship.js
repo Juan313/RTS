@@ -18,6 +18,7 @@ let name = 'warship',
 	interactSpeed = 1,
 	firePower = 50,
 	builtFrom = 'dock',
+	weaponType = 'cannonball',
 	defaults = {
 		buildTime : 30,
 		house: 'Greyjoy',
@@ -52,7 +53,7 @@ defaults.special.release = function(self){
 }
 
 let warship = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
-    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {warship};
 

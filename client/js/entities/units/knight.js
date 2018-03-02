@@ -19,11 +19,12 @@ let name = 'knight',
 	interactSpeed = 1,
 	firePower = 50,
 	builtFrom = 'stable',
+	weaponType = 'sword',
 	defaults = {
     buildTime: 15,
   };
 
 let knight = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
-    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom);
+    sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {knight};
