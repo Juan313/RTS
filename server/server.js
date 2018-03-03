@@ -60,6 +60,7 @@ app.post('/save', (req, res) => {
 	});
 });
 
+
 //find and return the user's current save state
 app.post('/load', (req, res) => {
 	GameState.findOne({'userName': req.body.userName, 'password': req.body.password}, (err, state) =>{
@@ -70,6 +71,24 @@ app.post('/load', (req, res) => {
 			 state = JSON.stringify({failed: true});	
 			}
 			res.send(state);
+		}
+	});
+});
+
+//create a new account or login to existing one, returning a badPasword state if logging in incorrectly
+app.post('/login', (req, res) => {
+	GameState.findOne({'userName': req.body.userName}, (err, state) =>{
+		if(err){
+			console.log(err);
+		}else{
+			if(state == null){
+				status = JSON.stringify({newAccount: true});	
+			}else if(state.password === req.body.password){
+				status = JSON.stringify({login: true});	
+			}else{
+				status = JSON.stringify({badPassword: true});	
+			}
+			res.send(status);
 		}
 	});
 });

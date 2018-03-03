@@ -54,31 +54,19 @@ var houses = {
       //game.AIHouse = houses.data[AIHouse].name;
       game.AIHouse = AIHouse;
       houses.populateBothHouseScreen(this.name,AIHouse);
-			// //Lannister resource bonus
-			// if(game.AIHouse === 1){
-			// 	game.inventory.AI.wheat = 200;
-			// 	game.inventory.AI.timber = 200;
-			// }else if(game.userHouse === 1){
-			// 	game.inventory.player.wheat = 200;
-			// 	game.inventory.player.timber = 200;
-			// }
       game.hideScreens();
       game.showScreen("showSelectedHouses");
       game.loadLevelData();
       game.offsetX = initialGameState[game.userHouse][0].x * game.gridSize - game.canvasWidth/2;
       game.offsetY = initialGameState[game.userHouse][0].y * game.gridSize - game.canvasHeight/2;
-
       game.offsetX = Math.max(0, game.offsetX);
       game.offsetY = Math.max(0, game.offsetY);
-
       game.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
       game.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
       // loader.onload = game.play();
       setTimeout(function(){
         game.play();
       }, 1000);
-
-
 
     };
 
@@ -142,9 +130,7 @@ var houses = {
       loader.loadImage(houses.data[i].img_url+".png");
       loader.onload = game.showSelectHouse();
     }
-
-  },
-
+	}
 };
 
 export {houses};

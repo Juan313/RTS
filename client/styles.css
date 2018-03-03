@@ -61,9 +61,10 @@ input[type="button"] {
   text-shadow: -2px 0 green, 0 2px green, 2px 0 green, 0 -2px green;
 }
 .game-option{
+	text-align:center;
   position:relative;
-  top:65%;
-  left:40%;
+  top:50%;
+  /*left:40%;*/
   display:block;
 
   font-family: "Courier New", Courier, monospace;
@@ -72,6 +73,24 @@ input[type="button"] {
   color:white;
   text-shadow: -2px 0 green, 0 2px green, 2px 0 green, 0 -2px green;
   cursor: pointer;
+}
+.login-form{
+	text-align:center;
+	position:relative;
+	top:50%;
+	display:block;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 30px;
+	color: white;
+}
+.game-start-info{
+	text-align:center;
+	position: relative;
+	top:50%;
+	display:block;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 30px;
+	color: red;
 }
 #scorescreen {
     height: 50px;

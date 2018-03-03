@@ -32,12 +32,48 @@ import {
 //Set click handlers for spans and buttons
 window.onload = () => {
   document.getElementById("startSpan").onclick = () => {
+		document.getElementById("saveGame").style.display = "none";
     houses.loadImages();
+  }
+  document.getElementById("loginSpan").onclick = () => {
+		let myUserName = document.getElementById("userName").value;
+		let myPassword = document.getElementById("password").value;
+		let infoSpan = document.getElementById("infoSpan");
+		if(myUserName && myPassword){
+			fetch('/login', {
+				method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				body: JSON.stringify({userName: myUserName, password: myPassword})
+			}).then(response => {
+				if(response.ok){
+					response.json().then(data => {
+						if(data.badPassword){
+							infoSpan.innerHTML = ('Error: the password you entered for this account is incorrect, please try again.');
+						}else{
+							infoSpan.innerHTML = '';
+							game.userName = myUserName;
+							game.password = myPassword;
+							if(data.newAccount){
+								infoSpan.innerHTML = 'No game save found for the account username,' +
+								' creating a new account and game with your username and password.';
+								setTimeout(()=>{ infoSpan.innerHTML = ''; houses.loadImages();}, 5000);
+							}else{
+								game.load(game.userName, game.password);
+							}
+						}
+					});
+				}
+			});
+		}else{
+			infoSpan.innerHTML = 'Error: to login or create a new account please fill out a username and password.';
+		}
   }
 	document.getElementById("saveGame").addEventListener("click", (e) => {
 		e.preventDefault();
-		game.save();
-		setTimeout(()=>{ game.load(); }, 5000);
+		game.save(game.userName, game.password);
 	});
 
 	document.getElementById("quitGame").addEventListener("click", (e) => {
@@ -68,7 +104,6 @@ var game = {
   },
   hideScreen: function(id) {
     var screen = document.getElementById(id);
-
     screen.style.display = "none";
   },
 
@@ -95,14 +130,6 @@ var game = {
       timber: 4100,
     },
   },
-
-  // //function to reset player and AI inventories
-  // resetInventories: function(){
-  // 	inventory.player.wheat = 0;
-  // 	inventory.player.timber = 0;
-  // 	inventory.AI.wheat = 0;
-  // 	inventory.AI.timber = 0;
-  // },
 
   showScreen: function(id) {
     var screen = document.getElementById(id);
@@ -145,23 +172,10 @@ var game = {
     terrains['field'].load();
     terrains['forest'].load();
     game.economy = Object.assign({}, this.inventory);
-
-
     //load special units
     units['direwolf'].load();
     units['melisandre'].load();
     units['dragon'].load();
-    /*
-    if(game.userHouse === '0' || game.AIHouse === '0'){
-    	units['direwolf'].load();
-    }
-    if(game.userHouse === '2' || game.AIHouse === '2'){
-    	units['melisandre'].load();
-    }
-    if(game.userHouse === '4' || game.AIHouse === '4'){
-    	units['dragon'].load();
-    }*/
-
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
     terrainSetup.forEach(function(entity) {
@@ -531,14 +545,14 @@ var game = {
   },
 
 	//save the current user's game
-	save: function(){
+	save: function(myUserName, myPassword){
 		fetch('/save', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({userName: 'user', password: 'password', userHouse: this.userHouse, AIHouse: this.AIHouse, 
+			body: JSON.stringify({userName: myUserName, password: myPassword, userHouse: this.userHouse, AIHouse: this.AIHouse, 
 				userWheat: this.inventory[this.userHouse].wheat,
 				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
 				AITimber: this.inventory[this.AIHouse].timber, sortedItems: this.sortedItems, selectedItems: this.selectedItems}),
@@ -546,14 +560,14 @@ var game = {
 	},
 
 	//load the current user's game
-	load: function(){
+	load: function(myUserName, myPassword){
 		fetch('/load', {
 			method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-			body: JSON.stringify({userName: 'user', password: 'password'})
+			body: JSON.stringify({userName: myUserName, password: myPassword})
 		}).then(response => {
 			if(response.ok){
 				response.json().then(data => {
@@ -597,20 +611,34 @@ var game = {
 						newItems.push(newItem);
 						newSortedItems.push(newItem);
 						}
-						this.running = false;
 						this.userHouse = data.userHouse;
-						this.inventory[this.userHouse].wheat = data.userWheat;
-						this.inventory[this.userHouse].timber = data.userTimber;
 						this.AIHouse = data.AIHouse;
-						this.inventory[this.AIHouse].wheat = data.AIWheat;
-						this.inventory[this.AIHouse].timber = data.AITimber;
-						this.buildings = newBuildings;
-						this.units = newUnits;
-						this.terrains = newTerrains;
-						this.items = newItems;
-						this.sortedItems = newSortedItems;
-						this.selectedItems = newSelectedItems;
-						this.running = true;
+						houses.populateBothHouseScreen(this.userHouse, this.AIHouse);
+						this.hideScreens();
+						this.showScreen("showSelectedHouses");
+						this.loadLevelData();
+						this.offsetX = initialGameState[game.userHouse][0].x * game.gridSize - game.canvasWidth/2;
+						this.offsetY = initialGameState[game.userHouse][0].y * game.gridSize - game.canvasHeight/2;
+						this.offsetX = Math.max(0, game.offsetX);
+						this.offsetY = Math.max(0, game.offsetY);
+						this.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
+						this.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
+						setTimeout(()=>{ 
+							this.play();
+							this.resetArrays();
+							this.running = false;
+							this.inventory[this.userHouse].wheat = data.userWheat;
+							this.inventory[this.userHouse].timber = data.userTimber;
+							this.inventory[this.AIHouse].wheat = data.AIWheat;
+							this.inventory[this.AIHouse].timber = data.AITimber;
+							this.buildings = newBuildings;
+							this.units = newUnits;
+							this.terrains = newTerrains;
+							this.items = newItems;
+							this.sortedItems = newSortedItems;
+							this.selectedItems = newSelectedItems;
+							this.running = true;
+						}, 1000);
 					}
 				});
 			}
