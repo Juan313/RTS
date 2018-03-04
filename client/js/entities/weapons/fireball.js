@@ -8,12 +8,12 @@ let name = 'fireball',
 	pixelOffsetX = 5,
 	pixelOffsetY = 5,
 	radius = 8,
-	range = 5,
+	range = 15,
 	damage = 100,
-	speed = 2,
-	reloadTime = 3,
-	spriteImages = [{name: 'fly', count: 1, directions: 4}, {name: 'explode', count: 1}],
-	turnSpeed = null;
+	speed = 1,
+	reloadTime = 30,
+	spriteImages = [{name: 'fly', count: 1, directions: 8}, {name: 'explode', count: 7}],
+	turnSpeed = 2;
 
 let fireball = new Weapon(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, radius, range, damage, speed, reloadTime, spriteImages, turnSpeed);
 

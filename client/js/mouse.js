@@ -214,13 +214,16 @@ var mouse = {
 
       let x = item.x * game.gridSize;
       let y = item.y * game.gridSize;
+      // if ((item.team == game.userHouse) && (item.type === "buildings")) {
 
-      if ((item.team == game.userHouse) && (item.type === "buildings")) {
+      if (item.type === "buildings") {
         // If mouse coordinates are within rectangular area of building or terrain
         if (x <= mouse.gameX && x >= (mouse.gameX - item.baseWidth) && y <= mouse.gameY && y >= (mouse.gameY - item.baseHeight)) {
           return item;
         }
-      } else if ((item.team == game.userHouse) && item.type === "units") {
+      }
+      // else if ((item.team == game.userHouse) && item.type === "units") {
+      else if (item.type === "units") {
 
         // If mouse coordinates are within radius of item
         if (Math.pow(x - mouse.gameX, 2) + Math.pow(y - mouse.gameY, 2) < Math.pow(item.radius, 2)) {
@@ -242,6 +245,7 @@ var mouse = {
 
   rightClick: function() {
     let clickedItem = mouse.itemUnderMouse();
+
     if (clickedItem) {
 
       // if right-click on an entity

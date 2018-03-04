@@ -11,7 +11,7 @@ let name = 'sword',
 	range = 1,
 	damage = 40,
 	speed = 1,
-	reloadTime = 1,
+	reloadTime = 15,
 	spriteImages = [{name: 'fly', count: 1, directions: 4}, {name: 'explode', count: 1}],
 	turnSpeed = 2;
 

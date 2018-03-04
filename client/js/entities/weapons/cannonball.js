@@ -11,7 +11,7 @@ let name = 'cannonball',
 	range = 4,
 	damage = 80,
 	speed = 1,
-	reloadTime = 2,
+	reloadTime = 20,
 	spriteImages = [{name: 'fly', count: 1, directions: 4}, {name: 'explode', count: 1}],
 	turnSpeed = 2;
 

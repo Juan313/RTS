@@ -34,16 +34,18 @@ window.onload = () => {
   document.getElementById("startSpan").onclick = () => {
     houses.loadImages();
   }
-	document.getElementById("saveGame").addEventListener("click", (e) => {
-		e.preventDefault();
-		game.save();
-		setTimeout(()=>{ game.load(); }, 5000);
-	});
+  document.getElementById("saveGame").addEventListener("click", (e) => {
+    e.preventDefault();
+    game.save();
+    setTimeout(() => {
+      game.load();
+    }, 5000);
+  });
 
-	document.getElementById("quitGame").addEventListener("click", (e) => {
-		e.preventDefault();
-		window.location.reload(true);
-	});
+  document.getElementById("quitGame").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.reload(true);
+  });
 }
 
 var game = {
@@ -151,16 +153,9 @@ var game = {
     units['direwolf'].load();
     units['melisandre'].load();
     units['dragon'].load();
-    /*
-    if(game.userHouse === '0' || game.AIHouse === '0'){
-    	units['direwolf'].load();
-    }
-    if(game.userHouse === '2' || game.AIHouse === '2'){
-    	units['melisandre'].load();
-    }
-    if(game.userHouse === '4' || game.AIHouse === '4'){
-    	units['dragon'].load();
-    }*/
+
+    weapons['fireball'].load();
+    console.log(weapons['fireball'].imageOffset);
 
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
@@ -276,6 +271,11 @@ var game = {
         item.special.action(item);
       }
     });
+    game.weapons.forEach(function(weapon) {
+      if (weapon.action == "explode") {
+        weapon.draw();
+      }
+    })
     // Draw the mouse
     mouse.draw();
 
@@ -362,6 +362,7 @@ var game = {
 
     // Track items that have been selected by the player
     game.selectedItems = [];
+    game.weapons = [];
   },
   add: function(itemDetails) {
     // Set a unique id for the item
@@ -387,6 +388,34 @@ var game = {
 
   },
   remove: function(item) {
+    item.selected = false;
+    for (let i = game.selectedItems.length - 1; i >= 0; i--) {
+      if (game.selectedItems[i].uid === item.uid) {
+        game.selectedItems.splice(i, 1);
+        break;
+      }
+    }
+
+    // Remove item from the items array
+    for (let i = game.items.length - 1; i >= 0; i--) {
+      if (game.items[i].uid === item.uid) {
+        game.items.splice(i, 1);
+        break;
+      }
+    }
+
+    // Remove items from the type specific array
+    for (let i = game[item.type].length - 1; i >= 0; i--) {
+      if (game[item.type][i].uid === item.uid) {
+        game[item.type].splice(i, 1);
+        break;
+      }
+    }
+
+    // Reset currentMapPassableGrid whenever the map changes
+    if (item.type === "buildings" || item.type === "terrain") {
+      game.currentMapPassableGrid = undefined;
+    }
     // if (type == "building" or "terrain")
     // game.currentMapPassableGrid = undefined;
   },
@@ -435,6 +464,7 @@ var game = {
           item.orders.to = toObject;
       }
     });
+    // console.log(details);
   },
 
   getItemByUid: function(uid) {
@@ -530,50 +560,61 @@ var game = {
     }, 5000);
   },
 
-	//save the current user's game
-	save: function(){
-		fetch('/save', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({userHouse: this.userHouse, AIHouse: this.AIHouse, userWheat: this.inventory[this.userHouse].wheat,
-				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
-				AITimber: this.inventory[this.AIHouse].timber, items: this.items, sortedItems: this.sortedItems,
-				buildings: this.buildings, units: this.units,
-				terrains: this.terrains, selectedItems: this.selectedItems}),
-		});
-	},
+  //save the current user's game
+  save: function() {
+    fetch('/save', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userHouse: this.userHouse,
+        AIHouse: this.AIHouse,
+        userWheat: this.inventory[this.userHouse].wheat,
+        userTimber: this.inventory[this.userHouse].timber,
+        AIWheat: this.inventory[this.AIHouse].wheat,
+        AITimber: this.inventory[this.AIHouse].timber,
+        items: this.items,
+        sortedItems: this.sortedItems,
+        buildings: this.buildings,
+        units: this.units,
+        terrains: this.terrains,
+        selectedItems: this.selectedItems
+      }),
+    });
+  },
 
-	//load the current user's game
-	load: function(){
-		fetch('/load', {
-			method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({user: 0})
-		}).then(response => {
-			if(response.ok){
-				response.json().then(data => {
-					console.log(data);
-					/*this.userHouse = data.userHouse;
-					this.inventory[this.userHouse].wheat = data.userWheat;
-					this.inventory[this.userHouse].timber = data.userTimber;
-					this.AIHouse = data.AIHouse;
-					this.inventory[this.AIHouse].wheat = data.AIWheat;
-					this.inventory[this.AIHouse].timber = data.AITimber;
-					this.buildings = data.buildings;
-					this.units = data.units;
-					this.terrains = data.terrains;
-					this.items = data.items;
-					this.sortedItems = data.sortedItems;*/
-				});
-			}
-		});
-	},
+  //load the current user's game
+  load: function() {
+    fetch('/load', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: 0
+      })
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          console.log(data);
+          /*this.userHouse = data.userHouse;
+          this.inventory[this.userHouse].wheat = data.userWheat;
+          this.inventory[this.userHouse].timber = data.userTimber;
+          this.AIHouse = data.AIHouse;
+          this.inventory[this.AIHouse].wheat = data.AIWheat;
+          this.inventory[this.AIHouse].timber = data.AITimber;
+          this.buildings = data.buildings;
+          this.units = data.units;
+          this.terrains = data.terrains;
+          this.items = data.items;
+          this.sortedItems = data.sortedItems;*/
+        });
+      }
+    });
+  },
 }
 
 // Intialize game once page has fully loaded
