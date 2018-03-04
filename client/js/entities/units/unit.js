@@ -1,11 +1,12 @@
 //Shared unit class definition file
 import Entity from '../entity.js';
+import {weapons} from '../weapons/list.js';
 import {
   game
 } from '../../game.js';
 import {
   AStar
-} from '../../astar.js'
+} from '../../astar.js';
 
 export default class Unit extends Entity {
   /* Additional Defaults -
@@ -26,16 +27,16 @@ export default class Unit extends Entity {
     this.range = range;
     this.moveSpeed = moveSpeed;
     this.interactSpeed = interactSpeed;
-   	this.firePower = firePower;
+    this.firePower = firePower;
     this.builtFrom = builtFrom;
 		this.weaponType = weaponType;
     this.directions = 4;
     this.animationIndex = 0;
     this.imageOffset = 0;
-		this.canAttack = true;
-		this.canMove = true;
-		this.turnSpeed = 2;
-		this.speedAdjustmentWhileTurningFactor = 0.5;
+    this.canAttack = true;
+    this.canMove = true;
+    this.turnSpeed = 2;
+    this.speedAdjustmentWhileTurningFactor = 0.5;
   }
   //unit collects a given resource for the player interactSpeed times per second while a condition holds
   collect(type, condition, player) {
@@ -422,25 +423,237 @@ export default class Unit extends Entity {
         break;
     }
   }
-	processOrders() {
-		this.lastMovementX = 0;
-		this.lastMovementY = 0;
-		if(this.orders.to){
-			var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2)+Math.pow(this.orders.to.y - this.y, 2),0.5);
-			var radius = this.radius/game.gridSize;
-		}
-		switch (this.orders.type){
-			case "move":
-				if(distanceFromDestination < radius){
-					this.orders = {type: "stand"};
-				}
-				else{
-					let moving = this.moveTo(this.orders.to, distanceFromDestination);
-					if(!moving){
-						this.orders = {type: "stand"};
-					}
-				}
-				break;
-		}
-	}
+  processOrders() {
+    this.lastMovementX = 0;
+    this.lastMovementY = 0;
+    if (this.orders.to) {
+      var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2) + Math.pow(this.orders.to.y - this.y, 2), 0.5);
+      var radius = this.radius / game.gridSize;
+    }
+
+    if (this.reloadTimeLeft) {
+      this.reloadTimeLeft--;
+    }
+    var targets;
+    switch (this.orders.type) {
+      case "move":
+        if (distanceFromDestination < radius) {
+          this.orders = {
+            type: "stand"
+          };
+        } else {
+          let moving = this.moveTo(this.orders.to, distanceFromDestination);
+          if (!moving) {
+            this.orders = {
+              type: "stand"
+            };
+          }
+        }
+        break;
+
+      case "sentry":
+        // Look for targets upto 2 squares beyond sight range
+        targets = this.findTargetsInSight(2);
+
+        if (targets.length > 0) {
+          this.orders = {
+            type: "attack",
+            to: targets[0],
+            previousOrder: this.orders
+          };
+        }
+
+        break;
+
+      case "hunt":
+        // Look for targets anywhere on the map
+        targets = this.findTargetsInSight(100);
+
+        if (targets.length > 0) {
+          this.orders = {
+            type: "attack",
+            to: targets[0],
+            previousOrder: this.orders
+          };
+        }
+
+        break;
+
+      case "attack":
+
+        // If the target is no longer valid, cancel the current order
+        if (!this.isValidTarget(this.orders.to)) {
+          this.cancelCurrentOrder();
+          break;
+        }
+
+        // Check if vehicle is within sight range of target
+        if (this.isTargetInSight(this.orders.to)) {
+          // Turn toward target and then start attacking when within range of the target
+          var targetDirection = this.findAngleForFiring(this.orders.to);
+          // Turn towards target direction if necessary
+          this.turnTo(targetDirection);
+
+          // Check if vehicle has finished turning
+          if (!this.turning) {
+            // If reloading has completed, fire bullet
+            if (!this.reloadTimeLeft) {
+              // this.reloadTimeLeft = bullets.list[this.weaponType].reloadTime;
+              this.reloadTimeLeft = 30;
+
+              var angleRadians = -(targetDirection / this.directions) * 2 * Math.PI;
+              var bulletX = this.x - (this.radius * Math.sin(angleRadians) / game.gridSize);
+              var bulletY = this.y - (this.radius * Math.cos(angleRadians) / game.gridSize);
+
+              var newWeapon = weapons["fireball"].add();
+              newWeapon.x = bulletX;
+              newWeapon.y = bulletY;
+              newWeapon.direction = targetDirection,
+              newWeapon.target = this.orders.to
+              game.add(newWeapon);
+
+            }
+          }
+
+        } else {
+          // Move towards the target
+          this.moveTo(this.orders.to, distanceFromDestination);
+        }
+
+        break;
+
+      case "patrol":
+        targets = this.findTargetsInSight(1);
+
+        if (targets.length > 0) {
+          // Attack the target, but save the patrol order as previousOrder
+          this.orders = {
+            type: "attack",
+            to: targets[0],
+            previousOrder: this.orders
+          };
+          break;
+        }
+
+        // Move toward destination until it is inside of sight range
+        if (distanceFromDestination < this.sight) {
+          // Swap to and from locations
+          var to = this.orders.to;
+
+          this.orders.to = this.orders.from;
+          this.orders.from = to;
+
+        } else {
+          // Move towards the next destination
+          this.moveTo(this.orders.to, distanceFromDestination);
+        }
+
+        break;
+
+      case "guard":
+      console.log("guarding! ");
+
+        // If the item being guarded is dead, cancel the current order
+        if (this.orders.to.lifeCode === "dead") {
+          this.cancelCurrentOrder();
+          break;
+        }
+        // If the target is inside of sight range
+        if (distanceFromDestination < this.sight) {
+          // Find any enemies near
+          targets = this.findTargetsInSight(1);
+          if (targets.length > 0) {
+            // Attack the nearest target, but save the guard order as previousOrder
+            this.orders = {
+              type: "attack",
+              to: targets[0],
+              previousOrder: this.orders
+            };
+            break;
+          }
+        } else {
+          // Move towards the target
+          this.moveTo(this.orders.to, distanceFromDestination);
+        }
+
+        break;
+    }
+  }
+
+  findAngleForFiring(target) {
+    var dy = target.y - this.y;
+    var dx = target.x - this.x;
+
+    // Adjust dx and dy to point towards center of target
+    if (target.type === "buildings") {
+      dy += target.baseWidth / 2 / game.gridSize;
+      dx += target.baseHeight / 2 / game.gridSize;
+    }
+    // else if (target.type === "units") {
+    //     dy -= target.pixelShadowHeight / game.gridSize;
+    // }
+
+    // Adjust dx and dy to start from center of source
+    if (this.type === "buildings") {
+      dy -= this.baseWidth / 2 / game.gridSize;
+      dx -= this.baseHeight / 2 / game.gridSize;
+    }
+    // else if (this.type === "units") {
+    //     dy += this.pixelShadowHeight / game.gridSize;
+    // }
+
+    // Convert arctan to value between (0 - directions)
+    var angle = this.directions / 2 - (Math.atan2(dx, dy) * this.directions / (2 * Math.PI));
+
+    angle = (angle + this.directions) % this.directions;
+
+    return angle;
+  }
+
+  isValidTarget(item) {
+    // Cannot target units that are dead or from the same team
+    if (!item || item.lifeCode === "dead" || item.team == game.userHouse) {
+      return false;
+    }
+
+    if (item.type === "buildings" || item.type === "units") {
+      return this.canAttack;
+    }
+
+  }
+
+  isTargetInSight(item, sightBonus = 0) {
+    return Math.pow(item.x - this.x, 2) + Math.pow(item.y - this.y, 2) <
+      Math.pow(this.sight + sightBonus, 2);
+  }
+
+  findTargetsInSight(sightBonus = 0) {
+    var targets = [];
+    game.items.forEach(function(item) {
+      if (this.isValidTarget(item) && this.isTargetInSight(item, sightBonus)) {
+        targets.push(item);
+      }
+    }, this);
+
+    // Sort targets based on distance from attacker
+    var attacker = this;
+
+    targets.sort(function(a, b) {
+      return (Math.pow(a.x - attacker.x, 2) + Math.pow(a.y - attacker.y, 2)) - (Math.pow(b.x - attacker.x, 2) + Math.pow(b.y - attacker.y, 2));
+    });
+
+    return targets;
+  }
+
+  // Get back to the previous order if any, otherwise just stand
+  cancelCurrentOrder() {
+    if (this.orders.previousOrder) {
+      this.orders = this.orders.previousOrder;
+    } else {
+      this.orders = {
+        type: "stand"
+      };
+    }
+  }
+
 }

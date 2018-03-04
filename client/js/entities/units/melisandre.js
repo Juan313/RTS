@@ -20,6 +20,8 @@ let name = 'melisandre',
 	weaponType = 'sword',
 	defaults = {
 		buildTime : 5,
+		canAttack: true,
+    canMove: true,
 		special : {
 			type: 'passive',
 			description: 'Heal any militia unit within a 4 block distance from her at a rate of ~5 life per second',

@@ -18,11 +18,13 @@ let name = 'direwolf',
 	weaponType = 'teeth',
 	defaults = {
 		buildTime : 15,
+		canAttack: true,
+    canMove: true,
 		special : {
-			type: 'active', 
+			type: 'active',
 			description: 'Double attack for 10 seconds (Available: once per minute)',
 			ready: true,
-			action: function(self){	
+			action: function(self){
 				if(self.special.ready === true && self.life > 0){
 					self.special.ready = false;
 					console.log('doubling direwolf ' + self.uid + ' firepower');
@@ -39,9 +41,7 @@ let name = 'direwolf',
 		}
 	};
 
-let direwolf = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, 
+let direwolf = new Unit(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
     sight, hitPoints, cost, spriteImages, defaults, radius, range, moveSpeed, interactSpeed, firePower, builtFrom, weaponType);
 
 export {direwolf};
-
-

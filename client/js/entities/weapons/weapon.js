@@ -33,7 +33,7 @@ export default class Weapon {
 		this.type = 'weapons';
 		this.canMove = true;
 		this.distanceTravelled = 0;
-		this.directions = 4;
+		this.directions = 8;
 		this.action = 'fly';
 		this.selected = false;
 		this.selectable = false;
@@ -77,18 +77,22 @@ export default class Weapon {
   }
 	//move the weapon to a new destination
 	moveTo(destination){
-	 if(this.turnSpeed){
+    if(this.turnSpeed){
+
 		 let newDirection = this.findAngleForFiring(destination);
 		 this.turnTo(newDirection);
 		}
-		let maximumMovement = this.speed * this.speedAdjustmentFactor;
+		let maximumMovement = this.speed * this.speedAdjustmentWhileTurningFactor;
+
 		let movement = maximumMovement;
 		let angleRadians = - (this.direction / this.directions) * 2 * Math.PI;
 		this.lastMovementX = -(movement * Math.sin(angleRadians));
 		this.lastMovementY = -(movement * Math.cos(angleRadians));
+
 		this.x = this.x + this.lastMovementX;
-		this.y = this.y = this.lastMovementY;
-		this.distanceTraveleed += movement;
+		this.y = this.y + this.lastMovementY;
+		this.distanceTravelled += movement;
+
 	}
 
 	//boolean  whether or not the weapon has reached its target
@@ -97,7 +101,7 @@ export default class Weapon {
 		if(item.type === 'buildings'){
 			return(item.x <= this.x && item.x >= this.x - item.baseWidth / game.gridSize && item.y <= this.y &&
 			item.y >= this.y - item.baseHeight / game.gridSize);
-		}else{
+		}else if (item.type === 'units'){
 			return(Math.pow(item.x - this.x, 2) + Math.pow(item.y - this.y, 2) < Math.pow((item.radius) / game.gridSize, 2));
 		}
 	}
@@ -105,10 +109,11 @@ export default class Weapon {
 	processOrders(){
 		this.lastMovementX = 0;
 		this.lastMovementY = 0;
+
 		switch(this.orders.type){
 			case 'fire':
 				var reachedTarget = false;
-				if(this.distanceTraveled > this.range || (reachedTarget = this.reachedTarget())){
+				if(this.distanceTravelled > this.range || (reachedTarget = this.reachedTarget())){
 					if(reachedTarget){
 						this.target.life -= this.damage;
 						this.orders = {type: 'explode' };
@@ -123,22 +128,23 @@ export default class Weapon {
 				break;
 		}
 	}
-		
+
 	animate(){
 		this.processActions();
 	}
 
-	//set spirtes based on current actions	
+	//set spirtes based on current actions
 	processActions(){
 		let direction = Math.round(this.direction) % this.directions;
 		switch(this.action){
 			case 'fly':
 				this.imageList = this.spriteArray['fly-' + direction];
-				this.imageOffset = this.imageList.offest;
+				this.imageOffset = this.imageList.offset;
+
 				break;
 			case 'explode':
 				this.imageList = this.spriteArray['explode'];
-				this.imageOffset = this.imageList.offst + this.animationIndex;
+				this.imageOffset = this.imageList.offset + this.animationIndex;
 				this.animationIndex++;
 				if(this.animationIndex >= this.imageList.count){
 					game.remove(this);
@@ -150,7 +156,9 @@ export default class Weapon {
 		let x = this.drawingX;
 		let y = this.drawingY;
 		let colorOffset = 0;
-		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidht, this.pixelHeight);
+    // console.log(this.imageOffset);
+
+		game.foregroundContext.drawImage(this.spriteSheet, this.imageOffset * this.pixelWidth, colorOffset, this.pixelWidth, this.pixelHeight, x, y, this.pixelWidth, this.pixelHeight);
 	}
 
   //returns a weapon based on default properties, details, and base properties
@@ -162,4 +170,86 @@ export default class Weapon {
     Object.assign(that, details);
     return that;
   }
+
+  draw() {
+    this.drawingX = (this.x * game.gridSize) - game.offsetX - this.pixelOffsetX;
+    this.drawingY = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
+    // log("pixelOffset is " + this.pixelOffsetY);
+    // console.log(this.x );
+    this.drawSprite();
+
+  }
+  findAngleForFiring(target) {
+          var dy = target.y - this.y;
+          var dx = target.x - this.x;
+
+          // Adjust dx and dy to point towards center of target
+          if (target.type === "buildings") {
+              dy += target.baseWidth / 2 / game.gridSize;
+              dx += target.baseHeight / 2 / game.gridSize;
+          }
+          // else if (target.type === "aircraft") {
+          //     dy -= target.pixelShadowHeight / game.gridSize;
+          // }
+
+          // Adjust dx and dy to start from center of source
+          if (this.type === "buildings") {
+              dy -= this.baseWidth / 2 / game.gridSize;
+              dx -= this.baseHeight / 2 / game.gridSize;
+          }
+
+          // else if (this.type === "aircraft") {
+          //     dy += this.pixelShadowHeight / game.gridSize;
+          // }
+
+          // Convert arctan to value between (0 - directions)
+          var angle = this.directions / 2 - (Math.atan2(dx, dy) * this.directions / (2 * Math.PI));
+
+          angle = (angle + this.directions) % this.directions;
+
+          return angle;
+      }
+      turnTo(newDirection) {
+        // console.log("direction in turnTo function "+this.direction);
+        let difference = this.angleDiff(newDirection);
+        let turnAmount = this.turnSpeed * this.speedAdjustmentWhileTurningFactor;
+
+        if (Math.abs(difference) > turnAmount) {
+          this.direction += turnAmount * Math.abs(difference) / difference;
+          this.direction = (this.direction + this.directions) % this.directions;
+          this.turning = true;
+          // console.log("still turning!!!!");
+
+        } else {
+          this.direction = newDirection;
+          this.turning = false;
+          // console.log("turned!!!!");
+        }
+      }
+      angleDiff(newDirection) {
+        let currDirection = this.direction;
+        // console.log("direction in angleDiff function "+this.direction);
+        let directions = this.directions;
+
+        if (currDirection >= directions / 2) {
+          currDirection -= directions;
+        }
+
+        if (newDirection >= directions / 2) {
+          newDirection -= directions;
+        }
+
+        var diff = newDirection - currDirection;
+
+        if (diff < -directions / 2) {
+          diff += directions;
+        }
+
+        if (diff > directions / 2) {
+          diff -= directions;
+        }
+        // console.log(diff);
+        return diff;
+      }
+
 }

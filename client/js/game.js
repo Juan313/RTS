@@ -176,6 +176,10 @@ var game = {
     units['direwolf'].load();
     units['melisandre'].load();
     units['dragon'].load();
+
+    weapons['fireball'].load();
+    console.log(weapons['fireball'].imageOffset);
+
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
     terrainSetup.forEach(function(entity) {
@@ -290,6 +294,11 @@ var game = {
         item.special.action(item);
       }
     });
+    game.weapons.forEach(function(weapon) {
+      if (weapon.action == "explode") {
+        weapon.draw();
+      }
+    })
     // Draw the mouse
     mouse.draw();
 
@@ -376,6 +385,7 @@ var game = {
 
     // Track items that have been selected by the player
     game.selectedItems = [];
+    game.weapons = [];
   },
   add: function(itemDetails) {
     // Set a unique id for the item
@@ -401,6 +411,34 @@ var game = {
 
   },
   remove: function(item) {
+    item.selected = false;
+    for (let i = game.selectedItems.length - 1; i >= 0; i--) {
+      if (game.selectedItems[i].uid === item.uid) {
+        game.selectedItems.splice(i, 1);
+        break;
+      }
+    }
+
+    // Remove item from the items array
+    for (let i = game.items.length - 1; i >= 0; i--) {
+      if (game.items[i].uid === item.uid) {
+        game.items.splice(i, 1);
+        break;
+      }
+    }
+
+    // Remove items from the type specific array
+    for (let i = game[item.type].length - 1; i >= 0; i--) {
+      if (game[item.type][i].uid === item.uid) {
+        game[item.type].splice(i, 1);
+        break;
+      }
+    }
+
+    // Reset currentMapPassableGrid whenever the map changes
+    if (item.type === "buildings" || item.type === "terrain") {
+      game.currentMapPassableGrid = undefined;
+    }
     // if (type == "building" or "terrain")
     // game.currentMapPassableGrid = undefined;
   },
@@ -449,6 +487,7 @@ var game = {
           item.orders.to = toObject;
       }
     });
+    // console.log(details);
   },
 
   getItemByUid: function(uid) {
@@ -552,9 +591,9 @@ var game = {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({userName: myUserName, password: myPassword, userHouse: this.userHouse, AIHouse: this.AIHouse, 
+			body: JSON.stringify({userName: myUserName, password: myPassword, userHouse: this.userHouse, AIHouse: this.AIHouse,
 				userWheat: this.inventory[this.userHouse].wheat,
-				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat, 
+				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat,
 				AITimber: this.inventory[this.AIHouse].timber, sortedItems: this.sortedItems, selectedItems: this.selectedItems}),
 		});
 	},
@@ -572,7 +611,7 @@ var game = {
 			if(response.ok){
 				response.json().then(data => {
 					if(!data.failed){
-						let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [], 
+						let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [],
 						newTerrains = [], newWeapons = [], newSelectedItems = [];
 						//this.resetArrays();
 						for(let i = 0; i < data.sortedItems.length; i++){
@@ -623,7 +662,7 @@ var game = {
 						this.offsetY = Math.max(0, game.offsetY);
 						this.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
 						this.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
-						setTimeout(()=>{ 
+						setTimeout(()=>{
 							this.play();
 							this.resetArrays();
 							this.running = false;
