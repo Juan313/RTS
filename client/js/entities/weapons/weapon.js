@@ -92,35 +92,13 @@ export default class Weapon {
 		this.x = this.x + this.lastMovementX;
 		this.y = this.y + this.lastMovementY;
 		this.distanceTravelled += movement;
-    // console.log("this.x is " + this.x);
-    // console.log("this.y is " + this.y);
-    // console.log("distance travelled is " + this.distanceTravelled);
-    // console.log("speed" + this.speed);
-    // console.log("speedAdjustmentFactor" + this.speedAdjustmentWhileTurningFactor);
-    // console.log("movement" + movement);
-    // console.log("radians" + angleRadians);
-    // console.log("lastx" + this.lastMovementX);
-    // console.log("lasty" + this.lastMovementY);
-    //
-    // console.log("x"+this.x);
-    // console.log("y"+this.y);
+
 	}
 
 	//boolean  whether or not the weapon has reached its target
 	reachedTarget(){
 		let item = this.target;
 		if(item.type === 'buildings'){
-      // console.log("debugging reachedTarget function:");
-      // console.log("item.x" + item.x);
-      // console.log("this.x" + this.x);
-      // console.log(this.x-item.baseWidth / game.gridSize);
-      // console.log("item.y" + item.y);
-      // console.log("this.y" + this.y);
-      // console.log(this.y-item.baseHeight / game.gridSize);
-      // console.log(item.x <= this.x);
-      // console.log(item.x >= this.x - item.baseWidth / game.gridSize);
-      // console.log(item.y <= this.y);
-      // console.log(item.y >= this.y - item.baseHeight / game.gridSize);
 			return(item.x <= this.x && item.x >= this.x - item.baseWidth / game.gridSize && item.y <= this.y &&
 			item.y >= this.y - item.baseHeight / game.gridSize);
 		}else if (item.type === 'units'){
@@ -137,17 +115,14 @@ export default class Weapon {
 				var reachedTarget = false;
 				if(this.distanceTravelled > this.range || (reachedTarget = this.reachedTarget())){
 					if(reachedTarget){
-            console.log("ready to explode!")
 						this.target.life -= this.damage;
 						this.orders = {type: 'explode' };
 						this.action = 'explode'
 						this.animationIndex = 0;
 					}else{
-            console.log("game.remove");
 						game.remove(this);
 					}
 				}else{
-          console.log("move to target!");
 					this.moveTo(this.target);
 				}
 				break;
@@ -199,7 +174,7 @@ export default class Weapon {
   draw() {
     this.drawingX = (this.x * game.gridSize) - game.offsetX - this.pixelOffsetX;
     this.drawingY = (this.y * game.gridSize) - game.offsetY - this.pixelOffsetY;
-    // console.log("pixelOffset is " + this.pixelOffsetY);
+    // log("pixelOffset is " + this.pixelOffsetY);
     // console.log(this.x );
     this.drawSprite();
 

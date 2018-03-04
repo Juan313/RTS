@@ -509,9 +509,7 @@ export default class Unit extends Entity {
               newWeapon.direction = targetDirection,
               newWeapon.target = this.orders.to
               game.add(newWeapon);
-              console.log("adding a new weapon:");
-              console.log(newWeapon.x);
-              console.log(newWeapon.y);
+
             }
           }
 
