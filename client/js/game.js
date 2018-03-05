@@ -171,14 +171,17 @@ var game = {
 
     terrains['field'].load();
     terrains['forest'].load();
-    game.economy = Object.assign({}, this.inventory);
     //load special units
     units['direwolf'].load();
     units['melisandre'].load();
     units['dragon'].load();
 
     weapons['fireball'].load();
-    console.log(weapons['fireball'].imageOffset);
+    weapons['cannonball'].load();
+    weapons['sword'].load();
+    weapons['teeth'].load();
+
+    game.economy = Object.assign({}, this.inventory);
 
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
@@ -197,8 +200,16 @@ var game = {
         "team": parseInt(game.userHouse)
       });
       if (entity['type'] === 'buildings') {
+        if (entity['name'] === 'castle'){
+          entity.x = 65;
+          entity.y = 7;
+        }
         newEntity = buildings[entity.name].add(entity);
       } else if (entity['type'] === 'units') {
+        if (entity['name'] === 'villager'){
+          entity.x = 68;
+          entity.y = 12;
+        }
         newEntity = units[entity.name].add(entity);
       }
 
@@ -215,9 +226,17 @@ var game = {
         "team": parseInt(game.AIHouse)
       });
       if (entity['type'] == 'buildings') {
+        if (entity['name'] === 'castle'){
+          entity.x = 13;
+          entity.y = 45;
+        }
         newEntity = buildings[entity.name].add(entity);
         //newEntity = buildings[entity.name];
       } else {
+        if (entity['name'] === 'villager'){
+          entity.x = 15;
+          entity.y = 43;
+        }
         newEntity = units[entity.name].add(entity);
         //newEntity = units[entity.name];
       }
@@ -244,7 +263,9 @@ var game = {
       }
     })
     game.items.forEach(function(item) {
+
       item.animate();
+
     });
 
     // Sort game items into a sortedItems array based on their x,y coordinates

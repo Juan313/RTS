@@ -247,7 +247,6 @@ var mouse = {
     let clickedItem = mouse.itemUnderMouse();
 
     if (clickedItem) {
-
       // if right-click on an entity
       if (clickedItem.team != game.userHouse) {
         // if right-click on AI's Object

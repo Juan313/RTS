@@ -88,7 +88,6 @@ export default class Weapon {
 		let angleRadians = - (this.direction / this.directions) * 2 * Math.PI;
 		this.lastMovementX = -(movement * Math.sin(angleRadians));
 		this.lastMovementY = -(movement * Math.cos(angleRadians));
-
 		this.x = this.x + this.lastMovementX;
 		this.y = this.y + this.lastMovementY;
 		this.distanceTravelled += movement;
@@ -99,6 +98,10 @@ export default class Weapon {
 	reachedTarget(){
 		let item = this.target;
 		if(item.type === 'buildings'){
+      console.log(item.x);
+      console.log(item.y);
+      console.log(this.x);
+      console.log(this.y);
 			return(item.x <= this.x && item.x >= this.x - item.baseWidth / game.gridSize && item.y <= this.y &&
 			item.y >= this.y - item.baseHeight / game.gridSize);
 		}else if (item.type === 'units'){
@@ -135,6 +138,7 @@ export default class Weapon {
 
 	//set spirtes based on current actions
 	processActions(){
+
 		let direction = Math.round(this.direction) % this.directions;
 		switch(this.action){
 			case 'fly':
