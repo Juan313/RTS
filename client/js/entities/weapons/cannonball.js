@@ -8,11 +8,11 @@ let name = 'cannonball',
 	pixelOffsetX = 5,
 	pixelOffsetY = 5,
 	radius = 8,
-	range = 4,
+	range = 15,
 	damage = 80,
 	speed = 1,
 	reloadTime = 20,
-	spriteImages = [{name: 'fly', count: 1, directions: 4}, {name: 'explode', count: 1}],
+	spriteImages = [{name: 'fly', count: 1, directions: 4}, {name: 'explode', count: 7}],
 	turnSpeed = 2;
 
 let cannonball = new Weapon(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY, radius, range, damage, speed, reloadTime, spriteImages, turnSpeed);

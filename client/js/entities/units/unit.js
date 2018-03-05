@@ -145,16 +145,15 @@ export default class Unit extends Entity {
   // }
 
   moveTo(destination, distanceFromDestination) {
+
     let start = [Math.floor(this.x), Math.floor(this.y)];
     let end = [Math.floor(destination.x), Math.floor(destination.y)];
-
     let newDirection;
     let villagerOutsideMapBounds = (start[0] < 0 || start[0] >= game.currentMap.mapGridWidth || start[1] < 0 || start[1] >= game.currentMap.mapGridHeight);
 
     if (!game.currentMapPassableGrid) {
       game.rebuildPassableGrid();
     }
-
     let villagerReachedDestinationTile = (start[0] == destination[0]) && (start[0] == destination[0]);
 
     if (villagerOutsideMapBounds || villagerReachedDestinationTile) {
@@ -165,14 +164,17 @@ export default class Unit extends Entity {
       ];
     } else {
       let grid;
-      if (destination.type == "buildings" || destination.type == "terrain") {
+      // if (destination.type == "buildings" || destination.type == "terrain") {
+        if (destination.type == "buildings") {
         grid = game.makeArrayCopy(game.currentMapPassableGrid);
 
         grid[Math.floor(destination.x), Math.floor(destination.y)] = 0;
       } else {
         grid = game.currentMapPassableGrid;
       }
+
       this.orders.path = AStar(grid, start, end, "Euclidean");
+      // console.log("path length "+this.orders.path.length );
       //console.log(this.orders.path);
       if (this.orders.path.length > 1) {
         let nextStep = {
@@ -430,7 +432,7 @@ export default class Unit extends Entity {
       var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2) + Math.pow(this.orders.to.y - this.y, 2), 0.5);
       var radius = this.radius / game.gridSize;
     }
-
+    // console.log(this.orders.to);
     if (this.reloadTimeLeft) {
       this.reloadTimeLeft--;
     }
@@ -505,7 +507,7 @@ export default class Unit extends Entity {
               var bulletX = this.x - (this.radius * Math.sin(angleRadians) / game.gridSize);
               var bulletY = this.y - (this.radius * Math.cos(angleRadians) / game.gridSize);
 
-              var newWeapon = weapons["fireball"].add();
+              var newWeapon = weapons[this.weaponType].add();
               newWeapon.x = bulletX;
               newWeapon.y = bulletY;
               newWeapon.direction = targetDirection,
