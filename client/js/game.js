@@ -542,7 +542,9 @@ var game = {
     //console.log(game.currentMapPassableGrid);
     for (let i = game.items.length - 1; i >= 0; i--) {
       var item = game.items[i];
-      if (item.type == "buildings" || item.type == "terrains") {
+      // if (item.type == "buildings" || item.type == "terrains") {
+      if (item.type == "buildings") {
+
         for (let y = item.passableGrid.length - 1; y >= 0; y--) {
           for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
             if (item.passableGrid[y][x]) {
@@ -568,7 +570,9 @@ var game = {
 
     game.items.forEach(function(item) {
 
-      if (item.type === "buildings" || item.type === "terrains") {
+      // if (item.type === "buildings" || item.type === "terrains") {
+      if (item.type === "buildings") {
+
         // Mark all squares that the building uses as unbuildable
         for (let y = item.buildableGrid.length - 1; y >= 0; y--) {
           for (let x = item.buildableGrid[y].length - 1; x >= 0; x--) {

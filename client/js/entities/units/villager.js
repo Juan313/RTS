@@ -53,12 +53,10 @@ let name = 'villager',
 					}
 					else {
 						let moving = this.moveTo(this.orders.to, distanceFromDestination);
-            console.log(moving);
             if (!moving){
               for (let i = game.items.length - 1; i >= 0; i--) {
                 if ((game.items[i].type == "terrains") && (Math.floor(this.orders.to.x) == game.items[i].x) && (Math.floor(this.orders.to.y) == game.items[i].y)){
                   item = game.items[i];
-                  console.log(item);
                 }
               }
               if (item)
