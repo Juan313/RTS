@@ -136,6 +136,19 @@ var game = {
     screen.style.display = "block";
   },
 
+	showSelectDifficulty: function() {
+		this.hideScreens();
+		this.showScreen("selectDifficultyScreen");
+	},
+	
+	setDifficulty: function(d){
+		if(d === 'hard'){
+			game.difficulty = 'hard';
+		}else{
+			game.difficulty = 'easy';
+		}
+		this.showSelectHouse();
+	},
 
   showSelectHouse: function() {
     this.hideScreens();

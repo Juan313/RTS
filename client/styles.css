@@ -74,6 +74,7 @@ input[type="button"] {
   text-shadow: -2px 0 green, 0 2px green, 2px 0 green, 0 -2px green;
   cursor: pointer;
 }
+
 .login-form{
 	text-align:center;
 	position:relative;
@@ -92,6 +93,14 @@ input[type="button"] {
 	font-size: 30px;
 	color: red;
 }
+
+.difficulty-button{
+	height: 80px;
+	width: 120px;
+	font-size: 30px;
+	font-family: "Courier New", Courier, monospace;
+}
+
 #scorescreen {
     height: 50px;
 

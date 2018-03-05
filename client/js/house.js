@@ -69,8 +69,28 @@ var houses = {
       }, 1000);
 
     };
-
-
+		//setup difficulty buttons
+		let difficultyButtonContainer = document.getElementById("difficultyButtonContainer");
+		let easyButton = document.createElement("button");
+		let easyButtonText = document.createTextNode("Easy");
+		easyButton.appendChild(easyButtonText);
+		easyButton.className = "difficulty-button";
+		easyButton.style.color = 'blue';
+		easyButton.addEventListener("click", (e)=>{
+			e.preventDefault();
+			game.setDifficulty("easy");
+		});
+		let hardButton = document.createElement("button");
+		let hardButtonText = document.createTextNode("Hard");
+		hardButton.appendChild(hardButtonText);
+		hardButton.className = "difficulty-button";
+		hardButton.style.color = 'red';
+		hardButton.addEventListener("click", (e)=>{
+			e.preventDefault();
+			game.setDifficulty("hard");
+		});
+		difficultyButtonContainer.appendChild(easyButton);
+		difficultyButtonContainer.appendChild(hardButton);
     for (let i = 0; i < houses.data.length; i++) {
       var button = document.createElement("input");
       button.type = "button";
@@ -128,7 +148,7 @@ var houses = {
   loadImages: function(){
     for (let i = 0; i < houses.data.length; i++) {
       loader.loadImage(houses.data[i].img_url+".png");
-      loader.onload = game.showSelectHouse();
+      loader.onload = game.showSelectDifficulty();
     }
 	}
 };
