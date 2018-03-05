@@ -8,6 +8,7 @@
   <script src="/js/mouse.js" type="module"></script>
   <script src="/js/game.js" type="module"></script>
   <script src="/js/resourcebar.js" type="module"></script>
+  <script src="/js/triggers.js" type="module"></script>
   <script src="/js/requirements.js" type="module"></script>
   <script src="/js/common.js" type="module"></script>
   <script src="/js/entities/units/list.js" type="module"></script>
@@ -27,22 +28,33 @@
       <div id="gamestartscreen" class="gamelayer">
         <span class="game-title">RTS Game<br>GoT</span>
         <span class="game-option" id="startSpan">Start as Guest</span>
-				<form class="login-form">
-					User Name:
-					<input type='text' id='userName'>
-					Password:
-					<input type='text' id='password'>
-				</form>
-				<span class="game-option" id="loginSpan">Sign in or Create Account</span>
-				<span class="game-start-info" id="infoSpan"></span>
-			</div>
+        <form class="login-form">
+          User Name:
+          <input type='text' id='userName'> Password:
+          <input type='text' id='password'>
+        </form>
+        <span class="game-option" id="loginSpan">Sign in or Create Account</span>
+        <span class="game-start-info" id="infoSpan"></span>
+      </div>
+
+      <!-- massage box screen to end a game -->
+      <div id="messageboxscreen" class="gamelayer">
+        <div id="messagebox">
+          <span id="messageboxtext"></span>
+          <input type="button" id="messageboxok" onclick="game.messageBoxOK()">
+
+          <input type="button" id="messageboxcancel" onclick="game.messageBoxCancel()">
+          
+        </div>
+      </div>
+
       <div id="loadingscreen" class="gamelayer">
         <div id="loadingmessage"></div>
       </div>
-			<div id="selectDifficultyScreen" class="gamelayer">
-				<span class="game-option">Select Your Difficulty</span>
-				<div id="difficultyButtonContainer" class="game-option"></div>
-			</div>
+      <div id="selectDifficultyScreen" class="gamelayer">
+        <span class="game-option">Select Your Difficulty</span>
+        <div id="difficultyButtonContainer" class="game-option"></div>
+      </div>
       <div id="selectHouseScreen" class="gamelayer">
       </div>
       <div id="showSelectedHouses" class="gamelayer">
@@ -53,8 +65,8 @@
       <div id="gameinterfacescreen" class="gamelayer">
         <div id="topBar">
           <div id="gamemessages">
-						<button id="saveGame">Save</button>
-						<button id="quitGame">Quit</button>
+            <button id="saveGame">Save</button>
+            <button id="quitGame">Quit</button>
           </div>
         </div>
         <canvas id="gamebackgroundcanvas"></canvas>
@@ -66,8 +78,8 @@
               <div id="timber"></div>
             </div>
             <div id="selection">
-							<div id="specialContainer"></div>
-						</div>
+              <div id="specialContainer"></div>
+            </div>
           </div>
           <div id="buildOption">
             <input type="button" id="castle" title="Castle">
@@ -87,5 +99,7 @@
       </div>
     </div>
   </div>
+
   <body>
+
 </html>

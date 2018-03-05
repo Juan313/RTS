@@ -23,6 +23,9 @@ import {
   initialGameState
 } from './levels.js';
 import {
+  triggers
+} from './triggers.js';
+import {
   map
 } from './map.js'
 import {
@@ -32,54 +35,60 @@ import {
 //Set click handlers for spans and buttons
 window.onload = () => {
   document.getElementById("startSpan").onclick = () => {
-		document.getElementById("saveGame").style.display = "none";
+    document.getElementById("saveGame").style.display = "none";
     houses.loadImages();
   }
   document.getElementById("loginSpan").onclick = () => {
-		let myUserName = document.getElementById("userName").value;
-		let myPassword = document.getElementById("password").value;
-		let infoSpan = document.getElementById("infoSpan");
-		if(myUserName && myPassword){
-			fetch('/login', {
-				method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-					},
-				body: JSON.stringify({userName: myUserName, password: myPassword})
-			}).then(response => {
-				if(response.ok){
-					response.json().then(data => {
-						if(data.badPassword){
-							infoSpan.innerHTML = ('Error: the password you entered for this account is incorrect, please try again.');
-						}else{
-							infoSpan.innerHTML = '';
-							game.userName = myUserName;
-							game.password = myPassword;
-							if(data.newAccount){
-								infoSpan.innerHTML = 'No game save found for the account username,' +
-								' creating a new account and game with your username and password.';
-								setTimeout(()=>{ infoSpan.innerHTML = ''; houses.loadImages();}, 5000);
-							}else{
-								game.load(game.userName, game.password);
-							}
-						}
-					});
-				}
-			});
-		}else{
-			infoSpan.innerHTML = 'Error: to login or create a new account please fill out a username and password.';
-		}
+    let myUserName = document.getElementById("userName").value;
+    let myPassword = document.getElementById("password").value;
+    let infoSpan = document.getElementById("infoSpan");
+    if (myUserName && myPassword) {
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: myUserName,
+          password: myPassword
+        })
+      }).then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            if (data.badPassword) {
+              infoSpan.innerHTML = ('Error: the password you entered for this account is incorrect, please try again.');
+            } else {
+              infoSpan.innerHTML = '';
+              game.userName = myUserName;
+              game.password = myPassword;
+              if (data.newAccount) {
+                infoSpan.innerHTML = 'No game save found for the account username,' +
+                  ' creating a new account and game with your username and password.';
+                setTimeout(() => {
+                  infoSpan.innerHTML = '';
+                  houses.loadImages();
+                }, 5000);
+              } else {
+                game.load(game.userName, game.password);
+              }
+            }
+          });
+        }
+      });
+    } else {
+      infoSpan.innerHTML = 'Error: to login or create a new account please fill out a username and password.';
+    }
   }
-	document.getElementById("saveGame").addEventListener("click", (e) => {
-		e.preventDefault();
-		game.save(game.userName, game.password);
-	});
+  document.getElementById("saveGame").addEventListener("click", (e) => {
+    e.preventDefault();
+    game.save(game.userName, game.password);
+  });
 
-	document.getElementById("quitGame").addEventListener("click", (e) => {
-		e.preventDefault();
-		window.location.reload(true);
-	});
+  document.getElementById("quitGame").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.reload(true);
+  });
 }
 
 var game = {
@@ -95,6 +104,10 @@ var game = {
     this.hideScreens();
     resourcebar.init();
     this.showScreen("gamestartscreen");
+    // var okButton = document.getElementById("messageboxok");
+    // var cancelButton = document.getElementById("messageboxcancel");
+    // okButton.addEventListener("click", game.messageBoxOK());
+    // cancelButton.addEventListener("click", game.messageBoxCancel());
   },
   hideScreens: function() {
     var screens = document.getElementsByClassName("gamelayer");
@@ -136,19 +149,19 @@ var game = {
     screen.style.display = "block";
   },
 
-	showSelectDifficulty: function() {
-		this.hideScreens();
-		this.showScreen("selectDifficultyScreen");
-	},
-	
-	setDifficulty: function(d){
-		if(d === 'hard'){
-			game.difficulty = 'hard';
-		}else{
-			game.difficulty = 'easy';
-		}
-		this.showSelectHouse();
-	},
+  showSelectDifficulty: function() {
+    this.hideScreens();
+    this.showScreen("selectDifficultyScreen");
+  },
+
+  setDifficulty: function(d) {
+    if (d === 'hard') {
+      game.difficulty = 'hard';
+    } else {
+      game.difficulty = 'easy';
+    }
+    this.showSelectHouse();
+  },
 
   showSelectHouse: function() {
     this.hideScreens();
@@ -213,13 +226,13 @@ var game = {
         "team": parseInt(game.userHouse)
       });
       if (entity['type'] === 'buildings') {
-        if (entity['name'] === 'castle'){
+        if (entity['name'] === 'castle') {
           entity.x = 65;
           entity.y = 7;
         }
         newEntity = buildings[entity.name].add(entity);
       } else if (entity['type'] === 'units') {
-        if (entity['name'] === 'villager'){
+        if (entity['name'] === 'villager') {
           entity.x = 68;
           entity.y = 12;
         }
@@ -239,14 +252,14 @@ var game = {
         "team": parseInt(game.AIHouse)
       });
       if (entity['type'] == 'buildings') {
-        if (entity['name'] === 'castle'){
+        if (entity['name'] === 'castle') {
           entity.x = 13;
           entity.y = 45;
         }
         newEntity = buildings[entity.name].add(entity);
         //newEntity = buildings[entity.name];
       } else {
-        if (entity['name'] === 'villager'){
+        if (entity['name'] === 'villager') {
           entity.x = 15;
           entity.y = 43;
         }
@@ -305,6 +318,14 @@ var game = {
     game.canvasResized = true;
 
     game.drawingLoop();
+
+    let gamemessages = document.getElementById("gamemessages");
+
+    gamemessages.innerHTML = "";
+
+    triggers.forEach(function(trigger) {
+      game.initTrigger(trigger);
+    });
   },
 
   drawingLoop: function() {
@@ -324,7 +345,7 @@ var game = {
       // }
       item.draw();
       //perform passive special unit actions
-      if(item.special && item.special.type === 'passive') {
+      if (item.special && item.special.type === 'passive') {
         item.special.action(item);
       }
     });
@@ -420,6 +441,9 @@ var game = {
     // Track items that have been selected by the player
     game.selectedItems = [];
     game.weapons = [];
+
+    game.AICastleAlive = true;
+    game.userCastleAlive = true;
   },
   add: function(itemDetails) {
     // Set a unique id for the item
@@ -611,6 +635,7 @@ var game = {
 
     });
   },
+
   showMessage: function(from, message) {
     let gamemessages = document.getElementById("gamemessages");
 
@@ -621,106 +646,229 @@ var game = {
     }, 5000);
   },
 
-	//save the current user's game
-	save: function(myUserName, myPassword){
-		fetch('/save', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({userName: myUserName, password: myPassword, userHouse: this.userHouse, AIHouse: this.AIHouse,
-				userWheat: this.inventory[this.userHouse].wheat,
-				userTimber: this.inventory[this.userHouse].timber, AIWheat: this.inventory[this.AIHouse].wheat,
-				AITimber: this.inventory[this.AIHouse].timber, sortedItems: this.sortedItems, selectedItems: this.selectedItems}),
-		});
-	},
+  messageBoxOKCallback: undefined,
+  messageBoxCancelCallback: undefined,
+  showMessageBox: function(message, onOK, onCancel) {
+    let messageBoxText = document.getElementById("messageboxtext");
+    messageBoxText.innerHTML = message.replace(/\n/g, "<br><br>");
 
-	//load the current user's game
-	load: function(myUserName, myPassword){
-		fetch('/load', {
-			method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-			body: JSON.stringify({userName: myUserName, password: myPassword})
-		}).then(response => {
-			if(response.ok){
-				response.json().then(data => {
-					if(!data.failed){
-						let newItems = [], newSortedItems = [], newUnits = [], newBuildings = [],
-						newTerrains = [], newWeapons = [], newSelectedItems = [];
-						//this.resetArrays();
-						for(let i = 0; i < data.sortedItems.length; i++){
-							this.counter++;
-							let newItem = null;
-							if(data.sortedItems[i].type === 'units'){
-								newItem = units[data.sortedItems[i].name].add();
-								let special =  newItem.special;
-								Object.assign(newItem, data.sortedItems[i]);
-								newItem.special = special ? special : newItem.special;
-								newItem.spriteArray = null;
-								newItem.load();
-								newUnits.push(newItem);
-							}else if(data.sortedItems[i].type === 'buildings'){
-								newItem = buildings[data.sortedItems[i].name].add();
-								Object.assign(newItem, data.sortedItems[i]);
-								newItem.spriteArray = null;
-								newItem.load();
-								newBuildings.push(newItem);
-							}else if(data.sortedItems[i].type === 'terrains'){
-								newItem = terrains[data.sortedItems[i].name].add();
-								Object.assign(newItem, data.sortedItems[i]);
-								newItem.spriteArray = null;
-								newItem.load();
-								newTerrains.push(newItem);
-							}else{
-								newItem = weapons[data.sortedItems[i].name].add();
-								Object.assign(newItem, data.sortedItems[i]);
-								newItem.spriteArray = null;
-								newItem.load();
-								newWeapons.push(newItem);
-							}
-							if(data.sortedItems[i].selected){
-								newSelectedItems.push(newItem);
-						}
-						newItems.push(newItem);
-						newSortedItems.push(newItem);
-						}
-						this.userHouse = data.userHouse;
-						this.AIHouse = data.AIHouse;
-						houses.populateBothHouseScreen(this.userHouse, this.AIHouse);
-						this.hideScreens();
-						this.showScreen("showSelectedHouses");
-						this.loadLevelData();
-						this.offsetX = initialGameState[game.userHouse][0].x * game.gridSize - game.canvasWidth/2;
-						this.offsetY = initialGameState[game.userHouse][0].y * game.gridSize - game.canvasHeight/2;
-						this.offsetX = Math.max(0, game.offsetX);
-						this.offsetY = Math.max(0, game.offsetY);
-						this.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
-						this.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
-						setTimeout(()=>{
-							this.play();
-							this.resetArrays();
-							this.running = false;
-							this.inventory[this.userHouse].wheat = data.userWheat;
-							this.inventory[this.userHouse].timber = data.userTimber;
-							this.inventory[this.AIHouse].wheat = data.AIWheat;
-							this.inventory[this.AIHouse].timber = data.AITimber;
-							this.buildings = newBuildings;
-							this.units = newUnits;
-							this.terrains = newTerrains;
-							this.items = newItems;
-							this.sortedItems = newSortedItems;
-							this.selectedItems = newSelectedItems;
-							this.running = true;
-						}, 1000);
-					}
-				});
-			}
-		});
-	},
+    if (typeof onOK === "function") {
+      game.messageBoxOKCallback = onOK;
+    } else {
+      game.messageBoxOKCallback = undefined;
+    }
+
+    let cancelButton = document.getElementById("messageboxcancel");
+
+    if (typeof onCancel === "function") {
+      game.messageBoxCancelCallback = onCancel;
+      cancelButton.style.display = "";
+    } else {
+      game.messageBoxCancelCallback = undefined;
+      cancelButton.style.display = "none";
+    }
+    game.showScreen("messageboxscreen");
+  },
+
+  messageBoxOK: function() {
+    console.log("message box ok clicked!");
+    game.hideScreen("messageboxscreen");
+    if (typeof game.messageBoxOKCallback === "function") {
+      game.messageBoxOKCallback();
+    }
+  },
+
+  messageBoxCancel: function() {
+    console.log("message box cancel clicked!");
+
+    game.hideScreen("messageboxscreen");
+    if (typeof game.messageBoxCancelCallback === "function") {
+      game.messageBoxCancelCallback();
+    }
+  },
+
+  endGame: function(success) {
+    clearInterval(game.animationInterval);
+    // need to clear trigger!!!!!
+    game.running = false;
+
+    if (success) {
+      game.showMessageBox("Congratulations! You have won the game.\nThank you for playing!",
+        function() {
+          game.hideScreens();
+          game.showScreen("gamestartscreen");
+        });
+    } else {
+      game.showMessageBox("Sorry, you have lost the game.\nTry again?",
+        function() {
+          game.hideScreens();
+          game.showSelectDifficulty();
+        },
+        function() {
+          game.showScreen("gamestartscreen");
+        });
+    }
+  },
+
+  initTrigger: function(trigger) {
+    if (trigger.type === "timed") {
+      trigger.timeout = setTimeout(function() {
+        game.runTrigger(trigger);
+      }, trigger.time);
+    } else if (trigger.type === "conditional") {
+      trigger.interval = setInterval(function() {
+        game.runTrigger(trigger);
+      }, 1000);
+    }
+  },
+
+  runTrigger: function(trigger) {
+    if (trigger.type === "timed") {
+      // Re initialize the trigger based on repeat settings
+      if (trigger.repeat) {
+        game.initTrigger(trigger);
+      }
+      // Call the trigger action
+      trigger.action(trigger);
+    } else if (trigger.type === "conditional") {
+      //Check if the condition has been satisfied
+      if (trigger.condition()) {
+        // Clear the trigger
+        game.clearTrigger(trigger);
+        // Call the trigger action
+        trigger.action(trigger);
+      }
+    }
+  },
+
+  clearTrigger: function(trigger) {
+    if (trigger.timeout !== undefined) {
+      clearTimeout(trigger.timeout);
+      trigger.timeout = undefined;
+    }
+
+    if (trigger.interval !== undefined) {
+      clearInterval(trigger.interval);
+      trigger.interval = undefined;
+    }
+  },
+
+  //save the current user's game
+  save: function(myUserName, myPassword) {
+    fetch('/save', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: myUserName,
+        password: myPassword,
+        userHouse: this.userHouse,
+        AIHouse: this.AIHouse,
+        userWheat: this.inventory[this.userHouse].wheat,
+        userTimber: this.inventory[this.userHouse].timber,
+        AIWheat: this.inventory[this.AIHouse].wheat,
+        AITimber: this.inventory[this.AIHouse].timber,
+        sortedItems: this.sortedItems,
+        selectedItems: this.selectedItems
+      }),
+    });
+  },
+
+  //load the current user's game
+  load: function(myUserName, myPassword) {
+    fetch('/load', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: myUserName,
+        password: myPassword
+      })
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          if (!data.failed) {
+            let newItems = [],
+              newSortedItems = [],
+              newUnits = [],
+              newBuildings = [],
+              newTerrains = [],
+              newWeapons = [],
+              newSelectedItems = [];
+            //this.resetArrays();
+            for (let i = 0; i < data.sortedItems.length; i++) {
+              this.counter++;
+              let newItem = null;
+              if (data.sortedItems[i].type === 'units') {
+                newItem = units[data.sortedItems[i].name].add();
+                let special = newItem.special;
+                Object.assign(newItem, data.sortedItems[i]);
+                newItem.special = special ? special : newItem.special;
+                newItem.spriteArray = null;
+                newItem.load();
+                newUnits.push(newItem);
+              } else if (data.sortedItems[i].type === 'buildings') {
+                newItem = buildings[data.sortedItems[i].name].add();
+                Object.assign(newItem, data.sortedItems[i]);
+                newItem.spriteArray = null;
+                newItem.load();
+                newBuildings.push(newItem);
+              } else if (data.sortedItems[i].type === 'terrains') {
+                newItem = terrains[data.sortedItems[i].name].add();
+                Object.assign(newItem, data.sortedItems[i]);
+                newItem.spriteArray = null;
+                newItem.load();
+                newTerrains.push(newItem);
+              } else {
+                newItem = weapons[data.sortedItems[i].name].add();
+                Object.assign(newItem, data.sortedItems[i]);
+                newItem.spriteArray = null;
+                newItem.load();
+                newWeapons.push(newItem);
+              }
+              if (data.sortedItems[i].selected) {
+                newSelectedItems.push(newItem);
+              }
+              newItems.push(newItem);
+              newSortedItems.push(newItem);
+            }
+            this.userHouse = data.userHouse;
+            this.AIHouse = data.AIHouse;
+            houses.populateBothHouseScreen(this.userHouse, this.AIHouse);
+            this.hideScreens();
+            this.showScreen("showSelectedHouses");
+            this.loadLevelData();
+            this.offsetX = initialGameState[game.userHouse][0].x * game.gridSize - game.canvasWidth / 2;
+            this.offsetY = initialGameState[game.userHouse][0].y * game.gridSize - game.canvasHeight / 2;
+            this.offsetX = Math.max(0, game.offsetX);
+            this.offsetY = Math.max(0, game.offsetY);
+            this.offsetX = Math.min(game.currentMap.mapGridWidth * game.gridSize - game.canvasWidth, game.offsetX);
+            this.offsetY = Math.min(game.currentMap.mapGridHeight * game.gridSize - game.canvasHeight, game.offsetY);
+            setTimeout(() => {
+              this.play();
+              this.resetArrays();
+              this.running = false;
+              this.inventory[this.userHouse].wheat = data.userWheat;
+              this.inventory[this.userHouse].timber = data.userTimber;
+              this.inventory[this.AIHouse].wheat = data.AIWheat;
+              this.inventory[this.AIHouse].timber = data.AITimber;
+              this.buildings = newBuildings;
+              this.units = newUnits;
+              this.terrains = newTerrains;
+              this.items = newItems;
+              this.sortedItems = newSortedItems;
+              this.selectedItems = newSelectedItems;
+              this.running = true;
+            }, 1000);
+          }
+        });
+      }
+    });
+  },
 }
 
 // Intialize game once page has fully loaded
@@ -732,3 +880,5 @@ window.addEventListener("load", function() {
 export {
   game
 };
+
+window.game = game;

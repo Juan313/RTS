@@ -88,8 +88,13 @@ export default class Entity {
     }else{
         this.lifeCode = "dead";
         game.remove(this);
+        if (this.name === "castle" && this.team == game.AIHouse){
+          game.AICastleAlive = false;
+        }
+
         return;
     }
+    console.log(game.AICastleAlive);
     //process current action
     this.processActions();
   }
