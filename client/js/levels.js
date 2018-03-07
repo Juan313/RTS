@@ -6,7 +6,7 @@ var initialGameState = {
     {"type": "buildings", "name": "castle"},
     // {"type": "buildings", "name": "stable", "x": 9, "y": 9},
     // {"type": "buildings", "name": "barrack", "x": 13, "y": 5},
-    {"type": "units", "name": "villager", "direction":2, "life":10},
+    {"type": "units", "name": "villager", "direction":2},
     // {"type": "units", "name": "militia", "x": 9, "y": 5, "direction": 2},
     // {"type": "units", "name": "knight", "x": 11, "y": 5, "direction": 2},
     // {"type": "units", "name": "direwolf", "x": 13, "y": 5, "direction": 2}
