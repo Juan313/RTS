@@ -94,7 +94,6 @@ export default class Entity {
 
         return;
     }
-    console.log(game.AICastleAlive);
     //process current action
     this.processActions();
   }

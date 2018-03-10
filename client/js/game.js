@@ -671,7 +671,6 @@ var game = {
   },
 
   messageBoxOK: function() {
-    console.log("message box ok clicked!");
     game.hideScreen("messageboxscreen");
     if (typeof game.messageBoxOKCallback === "function") {
       game.messageBoxOKCallback();
@@ -679,7 +678,6 @@ var game = {
   },
 
   messageBoxCancel: function() {
-    console.log("message box cancel clicked!");
 
     game.hideScreen("messageboxscreen");
     if (typeof game.messageBoxCancelCallback === "function") {

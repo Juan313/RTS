@@ -98,10 +98,6 @@ export default class Weapon {
 	reachedTarget(){
 		let item = this.target;
 		if(item.type === 'buildings'){
-      console.log(item.x);
-      console.log(item.y);
-      console.log(this.x);
-      console.log(this.y);
 			return(item.x <= this.x && item.x >= this.x - item.baseWidth / game.gridSize && item.y <= this.y &&
 			item.y >= this.y - item.baseHeight / game.gridSize);
 		}else if (item.type === 'units'){
