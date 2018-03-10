@@ -116,7 +116,7 @@ export default class Unit extends Entity {
     let x = this.drawingX;
     let y = this.drawingY - 2 * lifeBarHeight;
 
-    game.foregroundContext.fillStyle = (this.lifeCode === "alive") ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
+    game.foregroundContext.fillStyle = (this.life >= (this.hitPoints * .4)) ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
 
     game.foregroundContext.fillRect(x, y, this.pixelWidth * this.life / this.hitPoints, lifeBarHeight);
 

@@ -126,7 +126,7 @@ export default class Entity {
 		let lifeBarBorderColor= "rgba(0,0,0,0.8)";
 	  let lifeBarHealthyFillColor= "rgba(0,255,0,0.5)";
 	  let lifeBarDamagedFillColor= "rgba(255,0,0,0.5)";
-		game.foregroundContext.fillStyle = (this.lifeCode === "healthy") ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
+		game.foregroundContext.fillStyle = (this.life >= (this.hitPoints * 0.4)) ? lifeBarHealthyFillColor : lifeBarDamagedFillColor;
 		//game.foregroundContext.fillStyle = lifeBarHealthyFillColor;
     game.foregroundContext.fillRect(x, y, this.baseWidth * this.life / this.hitPoints, lifeBarHeight);
 
