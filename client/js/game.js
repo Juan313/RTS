@@ -28,6 +28,7 @@ import {
 import {
   map
 } from './map.js'
+
 import {
   resourcebar
 } from './resourcebar.js'
@@ -120,51 +121,6 @@ var game = {
     screen.style.display = "none";
   },
 
-  //set up AI and player inventory
-  // inventory: {
-  //   "0": {
-  //     wheat: 1000,
-  //     timber: 1100,
-  //   },
-  //   "1": {
-  //     wheat: 5000,
-  //     timber: 5100,
-  //   },
-  //   "2": {
-  //     wheat: 2000,
-  //     timber: 2100,
-  //   },
-  //   "3": {
-  //     wheat: 3000,
-  //     timber: 3100,
-  //   },
-  //   "4": {
-  //     wheat: 4000,
-  //     timber: 4100,
-  //   },
-  // },
-  inventory: {
-    "0": {
-      wheat: 400,
-      timber: 1000,
-    },
-    "1": {
-      wheat: 400,
-      timber: 1000,
-    },
-    "2": {
-      wheat: 400,
-      timber: 1000,
-    },
-    "3": {
-      wheat: 400,
-      timber: 1000,
-    },
-    "4": {
-      wheat: 400,
-      timber: 1000,
-    },
-  },
 
   showScreen: function(id) {
     var screen = document.getElementById(id);
@@ -228,8 +184,29 @@ var game = {
     weapons['cannonball'].load();
     weapons['sword'].load();
     weapons['teeth'].load();
-
-    game.economy = Object.assign({}, this.inventory);
+    var inventory = {
+      "0": {
+        wheat: 400,
+        timber: 400,
+      },
+      "1": {
+        wheat: 400,
+        timber: 400,
+      },
+      "2": {
+        wheat: 400,
+        timber: 400,
+      },
+      "3": {
+        wheat: 400,
+        timber: 400,
+      },
+      "4": {
+        wheat: 400,
+        timber: 400,
+      },
+    };
+    game.economy = Object.assign({}, inventory);
 
     var terrainSetup = initialGameState["terrains"];
     let newEntity = null
@@ -566,6 +543,7 @@ var game = {
         if (toObject)
           item.orders.to = toObject;
       }
+      
     });
     // console.log(details);
   },
@@ -726,8 +704,12 @@ var game = {
     } else {
       game.showMessageBox("Sorry, you have lost the game.\nTry again?",
         function() {
+          console.log("inventory");
+          console.log(inventories);
           game.hideScreens();
+          game.loadLevelData();
           game.showSelectDifficulty();
+
         },
         function() {
           game.showScreen("gamestartscreen");

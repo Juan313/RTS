@@ -3,14 +3,6 @@ import {game} from './game.js';
 import {initialGameState} from './levels.js';
 
 
-function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
-
 var houses = {
   data: [{
       "name": "Stark",

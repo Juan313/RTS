@@ -441,21 +441,55 @@ export default class Unit extends Entity {
     }
     var targets;
     switch (this.orders.type) {
+      // case "move":
+      //   if (distanceFromDestination < radius) {
+      //     this.orders = {
+      //       type: "stand"
+      //     };
+      //   } else {
+      //     let moving = this.moveTo(this.orders.to, distanceFromDestination);
+      //     if (!moving) {
+      //       this.orders = {
+      //         type: "stand"
+      //       };
+      //     }
+      //   }
+      //   break;
       case "move":
+        // Move toward destination until distance from destination is less than vehicle radius
         if (distanceFromDestination < radius) {
-          this.orders = {
-            type: "stand"
-          };
+            // Stop when within on vehicle radius of destination
+            this.orders = { type: "stand" };
+        } else if (this.colliding && distanceFromDestination < 3 * radius) {
+            // Stop when within 3 radius of the destination if colliding with something
+            this.orders = { type: "stand" };
+            break;
         } else {
-          let moving = this.moveTo(this.orders.to, distanceFromDestination);
-          if (!moving) {
-            this.orders = {
-              type: "stand"
-            };
-          }
-        }
-        break;
+            if (this.colliding && distanceFromDestination < 5 * radius) {
+                // Count collisions within 5 radius distance of goal
+                if (!this.orders.collisionCount) {
+                    this.orders.collisionCount = 1;
+                } else {
+                    this.orders.collisionCount ++;
+                }
 
+                // Stop if more than 30 collisions occur
+                if (this.orders.collisionCount > 30) {
+                    this.orders = { type: "stand" };
+                    break;
+                }
+            }
+
+            let moving = this.moveTo(this.orders.to, distanceFromDestination);
+
+            // Pathfinding couldn't find a path so stop
+            if (!moving) {
+                this.orders = { type: "stand" };
+                break;
+            }
+        }
+
+        break;
       case "sentry":
         // Look for targets upto 2 squares beyond sight range
         targets = this.findTargetsInSight(2);
