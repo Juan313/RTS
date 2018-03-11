@@ -369,11 +369,11 @@ input[type="button"] {
     width: 74px;
     height: 26px;
 
-    background-position: -4px -122px;
+    background-position: -0px -192px;
 }
 
 #messageboxok:active, #messageboxok:disabled {
-    background-position: -82px -122px;
+    background-position: -74px -192px;
 }
 
 #messageboxcancel {
@@ -381,12 +381,12 @@ input[type="button"] {
 
     left: 197px;
     top: 130px;
-    width: 73px;
-    height: 24px;
+    width: 74px;
+    height: 26px;
 
-    background-position: -4px -154px;
+    background-position: -74px -218px;
 }
 
 #messageboxcancel:active, #messageboxcancel:disabled {
-    background-position: -82px -154px;
+    background-position: 0px -218px;
 }

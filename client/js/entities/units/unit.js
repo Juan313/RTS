@@ -416,11 +416,14 @@ export default class Unit extends Entity {
         }
         break;
       case "harvest_timber":
-        game.economy[game.userHouse]["timber"] += .1;
+        game.economy[this.team]["timber"] += .5;
+        // game.economy[game.userHouse]["timber"] += .1;
+
         this.action = "stand";
         break;
       case "harvest_wheat":
-        game.economy[game.userHouse]["wheat"] += .1;
+        // game.economy[game.userHouse]["wheat"] += .1;
+        game.economy[this.team]["wheat"] += .5;
         this.action = "stand";
         break;
     }

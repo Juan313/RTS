@@ -121,26 +121,48 @@ var game = {
   },
 
   //set up AI and player inventory
+  // inventory: {
+  //   "0": {
+  //     wheat: 1000,
+  //     timber: 1100,
+  //   },
+  //   "1": {
+  //     wheat: 5000,
+  //     timber: 5100,
+  //   },
+  //   "2": {
+  //     wheat: 2000,
+  //     timber: 2100,
+  //   },
+  //   "3": {
+  //     wheat: 3000,
+  //     timber: 3100,
+  //   },
+  //   "4": {
+  //     wheat: 4000,
+  //     timber: 4100,
+  //   },
+  // },
   inventory: {
     "0": {
-      wheat: 1000,
-      timber: 1100,
+      wheat: 400,
+      timber: 1000,
     },
     "1": {
-      wheat: 5000,
-      timber: 5100,
+      wheat: 400,
+      timber: 1000,
     },
     "2": {
-      wheat: 2000,
-      timber: 2100,
+      wheat: 400,
+      timber: 1000,
     },
     "3": {
-      wheat: 3000,
-      timber: 3100,
+      wheat: 400,
+      timber: 1000,
     },
     "4": {
-      wheat: 4000,
-      timber: 4100,
+      wheat: 400,
+      timber: 1000,
     },
   },
 
@@ -183,7 +205,7 @@ var game = {
   loadLevelData: function() {
     game.currentMapImage = loader.loadImage("./images/" + map['plains']['mapImage']);
     game.currentMap = map['plains'];
-
+    game.triggers = triggers;
     game.resetArrays();
 
     //load villager sprites and castle sprites
@@ -323,7 +345,7 @@ var game = {
 
     gamemessages.innerHTML = "";
 
-    triggers.forEach(function(trigger) {
+    game.triggers.forEach(function(trigger) {
       game.initTrigger(trigger);
     });
   },
@@ -687,7 +709,12 @@ var game = {
 
   endGame: function(success) {
     clearInterval(game.animationInterval);
-    // need to clear trigger!!!!!
+
+    if (game.triggers) {
+            for (var i = game.triggers.length - 1; i >= 0; i--) {
+                game.clearTrigger(game.triggers[i]);
+            }
+        }
     game.running = false;
 
     if (success) {
@@ -867,6 +894,118 @@ var game = {
       }
     });
   },
+
+  getAICastleUID: function() {
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "castle" && game.items[i].team == game.AIHouse)
+        return game.items[i].uid;
+    }
+    return -1;
+  },
+
+  getAIBarrackUID: function() {
+    return 1;
+  },
+
+  getAIStableUID: function() {
+    return 1;
+  },
+
+  getAIVillagerUID: function() {
+    var uids = [];
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "villager" && game.items[i].team == game.AIHouse)
+        uids.push(game.items[i].uid);
+    }
+    return uids;
+  },
+
+
+  getAICombatUnits: function() {
+    var uids = [];
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].team == game.AIHouse && (game.items[i].name == "knight" || game.items[i].name == "militia"))
+        uids.push(game.items[i].uid);
+    }
+    return uids;
+  },
+
+  AIVillagerNotHarvesting: function(){
+    for (let i = 0; i < game.items.length; i++) {
+      // if (game.items[i].name == "villager" && game.items[i].team == game.AIHouse){
+      //   console.log(game.items[i]);
+      // }
+      if (game.items[i].name == "villager" && game.items[i].team == game.AIHouse && !(game.items[i].orders.type == 'harvest'))
+      {
+        return game.items[i].uid;
+      }
+
+    }
+    return -1;
+  },
+
+  hasStable: function(){
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "stable" && game.items[i].team == game.AIHouse){
+        return game.items[i].uid;
+      }
+
+    }
+    return -1;
+  },
+
+  hasBarrack: function(){
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "barrack" && game.items[i].team == game.AIHouse){
+        return game.items[i].uid;
+      }
+
+    }
+    return -1;
+  },
+
+  isOnTerrain: function(x,y){
+    for (let i = 0; i < game.terrains.length; i++) {
+      if ((Math.floor(x) ==  game.terrains[i].x) && (Math.floor(y) ==  game.terrains[i].y))
+        return true;
+    }
+    return false;
+  },
+
+  findRandomTerrain: function(){
+    var randomTerrain = Math.floor((Math.random() * game.terrains.length));
+    var result = {};
+    result.x = game.terrains[randomTerrain].x;
+    result.y = game.terrains[randomTerrain].y;
+    return result;
+  },
+
+  findRandomWheat: function(){
+    var randomTerrain;
+    do{
+      randomTerrain = Math.floor((Math.random() * game.terrains.length));
+    } while (game.terrains[randomTerrain].name != 'field');
+
+    var result = {};
+    result.x = game.terrains[randomTerrain].x;
+    result.y = game.terrains[randomTerrain].y;
+    console.log("wheat target.x = " + result.x + " target.y = " + result.y );
+    return result;
+  },
+
+  findRandomTimber: function(){
+    var randomTerrain;
+    do{
+      randomTerrain = Math.floor((Math.random() * game.terrains.length));
+    } while (game.terrains[randomTerrain].name != 'forest');
+
+    var result = {};
+    result.x = game.terrains[randomTerrain].x;
+    result.y = game.terrains[randomTerrain].y;
+    console.log("timber target.x = " + result.x + " target.y = " + result.y );
+    return result;
+  }
+
 }
 
 // Intialize game once page has fully loaded

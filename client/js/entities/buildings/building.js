@@ -62,7 +62,7 @@ export default class Building extends Entity {
         }
 
         var unitOnTop = this.isUnitOnTop();
-        var cash = game.economy[game.userHouse].wheat;
+        var cash = game.economy[this.team].wheat;
         var cost = this.orders.details.cost;
 
         if (unitOnTop) {
@@ -77,7 +77,7 @@ export default class Building extends Entity {
           // Check whether player has insufficient cash
           if (this.team == game.userHouse) {
             // console.log("Warning! Insufficient Funds. Need " + cost + " wheat.");
-            game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " credits.");
+            game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " wheat.");
           }
         } else {
 
@@ -89,7 +89,7 @@ export default class Building extends Entity {
           itemDetails.y = this.y + 1 * this.pixelHeight / game.gridSize;
 
           // Subtract the cost from player cash
-          game.economy[game.userHouse].wheat -= cost;
+          game.economy[this.team].wheat -= cost;
 
           // Set unit to be teleported in once it is constructed
           itemDetails.action = "stand";
@@ -117,16 +117,27 @@ export default class Building extends Entity {
         // Teleport in building and subtract the cost from player cash
         var itemDetails = this.orders.details;
 
-        itemDetails.team = this.team;
-        itemDetails.action = "stand";
+        var cash = game.economy[this.team].timber;
+        var cost = this.orders.details.cost;
+        // console.log(game.economy[this.team]);
 
-        var item = game.add(itemDetails);
+        if (cash < cost){
+          if (this.team == game.userHouse) {
+            // console.log("Warning! Cannot build unit while " + this.name + " is occupied.");
+            game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " timber.");
 
-        game.economy[game.userHouse].timber -= item.cost;
+          }
+        } else {
+          itemDetails.team = this.team;
+          itemDetails.action = "stand";
 
-        this.orders = {
-          type: "stand"
-        };
+          var item = game.add(itemDetails);
+          game.economy[this.team].timber -= item.cost;
+          this.orders = {
+            type: "stand"
+          };
+        }
+        // console.log(game.economy[this.team]);
 
         break;
     }

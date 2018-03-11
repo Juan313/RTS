@@ -216,11 +216,11 @@ var resourcebar = {
 
         let button = document.getElementById(name);
 
-        if (item.type === "buildings")
+        if (item.type === "buildings" )
           sufficientMoney = economy.timber >= item.cost;
-        if (item.type === "units")
+        if (item.type === "units" )
           sufficientMoney = economy.wheat >= item.cost;
-        if ((game.selectedItems.length == 1) && (game.selectedItems[0].lifeCode === "alive") && (game.selectedItems[0].name === item.constructedIn))
+        if ((game.selectedItems.length == 1) && (game.selectedItems[0].team == game.userHouse) && (game.selectedItems[0].lifeCode === "alive") && (game.selectedItems[0].name === item.constructedIn))
           correctBuilding = true;
 
         button.disabled = !(sufficientMoney && correctBuilding);
@@ -297,7 +297,7 @@ var resourcebar = {
             //     x:
             //     y: mouse.gridY
             // };
-            console.log(details);
+            // console.log(details);
             game.sendCommand([base.uid], { type: "construct-building", details: details });
         }
 
