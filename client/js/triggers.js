@@ -38,7 +38,7 @@ var triggers = [
     {
       "type": "conditional",
       "condition": function() {
-        return (!game.userCastleAlive);
+        return (game.getUserCastleUID() == -1);
       },
       "action": function() {
         game.endGame(false);
@@ -88,7 +88,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 20000,
+      "time": 11000,
       "repeat": true,
       "action": function() {
         if (game.economy[parseInt(game.AIHouse)].wheat< 1000 || game.economy[parseInt(game.AIHouse)].timber< 1000){
@@ -127,7 +127,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 25000,
+      "time": 13000,
       "repeat": true,
       "action": function() {
         if (game.hasStable() == -1){
@@ -143,7 +143,7 @@ var triggers = [
     },
     {
       "type": "timed",
-      "time": 23000,
+      "time": 12000,
       "repeat": true,
       "action": function() {
         if (game.hasBarrack() == -1){
@@ -159,7 +159,7 @@ var triggers = [
     },
     {
       "type": "timed",
-      "time": 19000,
+      "time": 9000,
       "repeat": true,
       "action": function() {
         if (game.hasStable() != -1){
@@ -172,7 +172,7 @@ var triggers = [
     },
     {
       "type": "timed",
-      "time": 21000,
+      "time": 8000,
       "repeat": true,
       "action": function() {
         if (game.hasStable() != -1){
@@ -184,22 +184,41 @@ var triggers = [
       }
     },
 
-    // {
-    //   "type": "timed",
-    //   "time": 30000,
-    //   "repeat": true,
-    //   "action": function() {
-    //     if (game.hasStable() == -1){
-    //
-    //       var AIcastle = game.getAICastleUID();
-    //       let details = buildings["stable"].add();
-    //       details.x = 20;
-    //       details.y = 45;
-    //       game.sendCommand([AIcastle], { type: "construct-building", details: details });
-    //       return;
-    //     }
-    //   }
-    // },
+    {
+      "type": "timed",
+      "time": 7000,
+      "repeat": true,
+      "action": function() {
+        var AICombats = game.getAICombatUnits();
+        if (AICombats.length > 0){
+          var userVillagerUid = game.getAUserVillagerUid();
+          if (userVillagerUid != -1){
+            game.sendCommand([AICombats[0]], {
+              type: "attack",
+              toUid: userVillagerUid
+            });
+          }
+        }
+      }
+    },
+
+    {
+      "type": "timed",
+      "time": 31000,
+      "repeat": true,
+      "action": function() {
+        var AICombats = game.getAICombatUnits();
+        if (AICombats.length > 0){
+          game.sendCommand(AICombats, {
+            type: "hunt",
+            details: null
+          });
+
+        }
+      }
+    },
+
+
 
 
   ];

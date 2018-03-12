@@ -507,7 +507,6 @@ export default class Unit extends Entity {
       case "hunt":
         // Look for targets anywhere on the map
         targets = this.findTargetsInSight(100);
-
         if (targets.length > 0) {
           this.orders = {
             type: "attack",
@@ -519,9 +518,9 @@ export default class Unit extends Entity {
         break;
 
       case "attack":
-
         // If the target is no longer valid, cancel the current order
         if (!this.isValidTarget(this.orders.to)) {
+
           this.cancelCurrentOrder();
           break;
         }
@@ -650,18 +649,22 @@ export default class Unit extends Entity {
   }
 
   isValidTarget(item) {
+
     // Cannot target units that are dead or from the same team
-    if (!item || item.lifeCode === "dead" || item.team == game.userHouse) {
+    if (!item || item.lifeCode === "dead" || this.team == item.team) {
+
       return false;
     }
 
     if (item.type === "buildings" || item.type === "units") {
+
       return this.canAttack;
     }
 
   }
 
   isTargetInSight(item, sightBonus = 0) {
+
     return Math.pow(item.x - this.x, 2) + Math.pow(item.y - this.y, 2) <
       Math.pow(this.sight + sightBonus, 2);
   }

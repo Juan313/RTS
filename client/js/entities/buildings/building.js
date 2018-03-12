@@ -82,8 +82,7 @@ export default class Building extends Entity {
         } else {
 
           let itemDetails = units[this.orders.details.name].add();
-          console.log("this building is:" + this.name);
-          console.log("building:" + this.orders.details.name);
+          
           // let itemDetails = Object.assign({}, this.orders.details);
 
           // Position new unit above center of starport

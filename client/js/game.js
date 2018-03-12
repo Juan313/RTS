@@ -186,24 +186,24 @@ var game = {
     weapons['teeth'].load();
     var inventory = {
       "0": {
-        wheat: 400,
-        timber: 400,
+        wheat: 1000,
+        timber: 1000,
       },
       "1": {
-        wheat: 400,
-        timber: 400,
+        wheat: 1000,
+        timber: 1000,
       },
       "2": {
-        wheat: 400,
-        timber: 400,
+        wheat: 1000,
+        timber: 1000,
       },
       "3": {
-        wheat: 400,
-        timber: 400,
+        wheat: 1000,
+        timber: 1000,
       },
       "4": {
-        wheat: 400,
-        timber: 400,
+        wheat: 1000,
+        timber: 1000,
       },
     };
     game.economy = Object.assign({}, inventory);
@@ -344,9 +344,9 @@ var game = {
       // }
       item.draw();
       //perform passive special unit actions
-      if (item.special && item.special.type === 'passive') {
-        item.special.action(item);
-      }
+      // if (item.special && item.special.type === 'passive') {
+      //   item.special.action(item);
+      // }
     });
     game.weapons.forEach(function(weapon) {
       if (weapon.action == "explode") {
@@ -543,7 +543,7 @@ var game = {
         if (toObject)
           item.orders.to = toObject;
       }
-      
+
     });
     // console.log(details);
   },
@@ -704,8 +704,6 @@ var game = {
     } else {
       game.showMessageBox("Sorry, you have lost the game.\nTry again?",
         function() {
-          console.log("inventory");
-          console.log(inventories);
           game.hideScreens();
           game.loadLevelData();
           game.showSelectDifficulty();
@@ -885,13 +883,21 @@ var game = {
     return -1;
   },
 
-  getAIBarrackUID: function() {
-    return 1;
+  getUserCastleUID: function() {
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "castle" && game.items[i].team == game.userHouse)
+        return game.items[i].uid;
+    }
+    return -1;
   },
 
-  getAIStableUID: function() {
-    return 1;
-  },
+  // getAIBarrackUID: function() {
+  //   return 1;
+  // },
+  //
+  // getAIStableUID: function() {
+  //   return 1;
+  // },
 
   getAIVillagerUID: function() {
     var uids = [];
@@ -971,7 +977,6 @@ var game = {
     var result = {};
     result.x = game.terrains[randomTerrain].x;
     result.y = game.terrains[randomTerrain].y;
-    console.log("wheat target.x = " + result.x + " target.y = " + result.y );
     return result;
   },
 
@@ -984,9 +989,19 @@ var game = {
     var result = {};
     result.x = game.terrains[randomTerrain].x;
     result.y = game.terrains[randomTerrain].y;
-    console.log("timber target.x = " + result.x + " target.y = " + result.y );
     return result;
+  },
+
+  getAUserVillagerUid: function(){
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].name == "villager" && game.items[i].team == game.userHouse){
+        return game.items[i].uid;
+      }
+
+    }
+    return -1;
   }
+
 
 }
 
