@@ -917,7 +917,7 @@ var game = {
   getAICombatUnits: function() {
     var uids = [];
     for (let i = 0; i < game.items.length; i++) {
-      if (game.items[i].team == game.AIHouse && (game.items[i].name == "knight" || game.items[i].name == "militia"))
+      if (game.items[i].team == game.AIHouse && (game.items[i].name == "knight" || game.items[i].name == "militia") && game.items[i].orders.type == 'stand')
         uids.push(game.items[i].uid);
     }
     return uids;
@@ -1000,6 +1000,17 @@ var game = {
   getAUserVillagerUid: function(){
     for (let i = 0; i < game.items.length; i++) {
       if (game.items[i].name == "villager" && game.items[i].team == game.userHouse){
+        return game.items[i].uid;
+      }
+
+    }
+    return -1;
+  },
+
+  enemyNearAICastle: function(){
+    for (let i = 0; i < game.items.length; i++) {
+      if (game.items[i].type == "units" && game.items[i].team == game.userHouse &&
+          (Math.pow(game.items[i].x - 13, 2) + Math.pow(game.items[i].y - 45, 2) < 100)){
         return game.items[i].uid;
       }
 

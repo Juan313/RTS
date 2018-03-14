@@ -441,20 +441,7 @@ export default class Unit extends Entity {
     }
     var targets;
     switch (this.orders.type) {
-      // case "move":
-      //   if (distanceFromDestination < radius) {
-      //     this.orders = {
-      //       type: "stand"
-      //     };
-      //   } else {
-      //     let moving = this.moveTo(this.orders.to, distanceFromDestination);
-      //     if (!moving) {
-      //       this.orders = {
-      //         type: "stand"
-      //       };
-      //     }
-      //   }
-      //   break;
+  
       case "move":
         // Move toward destination until distance from destination is less than vehicle radius
         if (distanceFromDestination < radius) {

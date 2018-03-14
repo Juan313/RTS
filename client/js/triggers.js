@@ -224,19 +224,23 @@ var triggers = [
       }
     },
 
-    // {
-    //   "type": "timed",
-    //   "time": 19000,
-    //   "repeat": true,
-    //   "action": function() {
-    //     if (game.AIBuildingUnderAttack() != -1){
-    //       var AIStable = game.hasStable();
-    //       let details = units["knight"].add();
-    //       game.sendCommand([AIStable], { type: "construct-unit", details: details });
-    //       return;
-    //     }
-    //   }
-    // },
+    {
+      "type": "timed",
+      "time": 9000,
+      "repeat": true,
+      "action": function() {
+        var enemyUid =  game.enemyNearAICastle();
+        if (game.difficulty === 'hard' && enemyUid != -1 ){
+          var AICombats = game.getAICombatUnits();
+          if (AICombats.length > 0){
+            game.sendCommand(AICombats, {
+              type: "guard",
+              toUid: enemyUid
+            });
+          }
+        }
+      }
+    },
 
 
 
