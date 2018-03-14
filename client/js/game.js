@@ -699,6 +699,11 @@ var game = {
       game.showMessageBox("Congratulations! You have won the game.\nThank you for playing!",
         function() {
           game.hideScreens();
+          game.loadLevelData();
+          game.showSelectDifficulty();
+
+        },
+        function() {
           game.showScreen("gamestartscreen");
         });
     } else {

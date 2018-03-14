@@ -45,16 +45,16 @@ var triggers = [
       }
     },
     // AI building stable
-    {
-      "type": "timed",
-      "time": 10000,
-      "action": function() {
-        if (game.difficulty === 'hard')
-          game.endGame(false);
-        else{}
-
-      }
-    },
+    // {
+    //   "type": "timed",
+    //   "time": 10000,
+    //   "action": function() {
+    //     if (game.difficulty === 'hard')
+    //       game.endGame(false);
+    //     else{}
+    //
+    //   }
+    // },
     {
       "type": "timed",
       "time": 1000,
@@ -69,22 +69,6 @@ var triggers = [
         }
       }
     },
-    // make sure there's are at least two villagers
-    // {
-    //   "type": "timed",
-    //   "time": 11000,
-    //   "repeat": true,
-    //   "action": function() {
-    //     if (game.getAIVillagerUID().length <= 1)
-    //       var AIcastle = game.getAICastleUID();
-    //       let details = units["villager"].add();
-    //       game.sendCommand([AIcastle], {
-    //         type: "construct-unit",
-    //         details: details
-    //       });
-    //       game.sendCommand([AIcastle], { type: "construct-unit", details: details });
-    //   }
-    // },
 
     {
       "type": "timed",
@@ -204,20 +188,55 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 31000,
+      "time": 51000,
       "repeat": true,
       "action": function() {
-        var AICombats = game.getAICombatUnits();
-        if (AICombats.length > 0){
-          game.sendCommand(AICombats, {
-            type: "hunt",
-            details: null
-          });
+        if (game.difficulty === 'easy'){
+          var AICombats = game.getAICombatUnits();
+          if (AICombats.length > 0){
+            game.sendCommand(AICombats, {
+              type: "hunt",
+              details: null
+            });
 
+          }
         }
+
       }
     },
 
+    {
+      "type": "timed",
+      "time": 31000,
+      "repeat": true,
+      "action": function() {
+        if (game.difficulty === 'hard'){
+          var AICombats = game.getAICombatUnits();
+          if (AICombats.length > 0){
+            game.sendCommand(AICombats, {
+              type: "hunt",
+              details: null
+            });
+
+          }
+        }
+
+      }
+    },
+
+    // {
+    //   "type": "timed",
+    //   "time": 19000,
+    //   "repeat": true,
+    //   "action": function() {
+    //     if (game.AIBuildingUnderAttack() != -1){
+    //       var AIStable = game.hasStable();
+    //       let details = units["knight"].add();
+    //       game.sendCommand([AIStable], { type: "construct-unit", details: details });
+    //       return;
+    //     }
+    //   }
+    // },
 
 
 
