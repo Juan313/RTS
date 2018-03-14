@@ -51,6 +51,9 @@ export default class Building extends Entity {
   }
 
   processOrders() {
+    if (this.reloadTimeLeft == undefined){
+      this.reloadTimeLeft = this.buildTime;
+    }
     switch (this.orders.type) {
       case "construct-unit":
         if (this.lifeCode !== "alive") {
@@ -80,24 +83,30 @@ export default class Building extends Entity {
             game.showMessage("system", "Warning! Insufficient Funds. Need " + cost + " wheat.");
           }
         } else {
+          if (this.reloadTimeLeft > 0){
+            this.reloadTimeLeft--;
+            break;
+          } else {
+            this.reloadTimeLeft = undefined;
+            let itemDetails = units[this.orders.details.name].add();
 
-          let itemDetails = units[this.orders.details.name].add();
-          
-          // let itemDetails = Object.assign({}, this.orders.details);
+            // let itemDetails = Object.assign({}, this.orders.details);
 
-          // Position new unit above center of starport
-          itemDetails.x = this.x + 0.5 * this.pixelWidth / game.gridSize;
-          itemDetails.y = this.y + 1 * this.pixelHeight / game.gridSize;
+            // Position new unit above center of starport
+            itemDetails.x = this.x + 0.5 * this.pixelWidth / game.gridSize;
+            itemDetails.y = this.y + 1 * this.pixelHeight / game.gridSize;
 
-          // Subtract the cost from player cash
-          game.economy[this.team].wheat -= cost;
+            // Subtract the cost from player cash
+            game.economy[this.team].wheat -= cost;
 
-          // Set unit to be teleported in once it is constructed
-          itemDetails.action = "stand";
-          itemDetails.team = this.team;
-          // console.log(itemDetails);
-          game.add(itemDetails);
-          // itemDetails = undefined;
+            // Set unit to be teleported in once it is constructed
+            itemDetails.action = "stand";
+            itemDetails.team = this.team;
+            // console.log(itemDetails);
+            game.add(itemDetails);
+            console.log("building!!!!!");
+            // itemDetails = undefined;
+          }
 
         }
 
