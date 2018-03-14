@@ -776,10 +776,10 @@ var game = {
         password: myPassword,
         userHouse: this.userHouse,
         AIHouse: this.AIHouse,
-        userWheat: this.inventory[this.userHouse].wheat,
-        userTimber: this.inventory[this.userHouse].timber,
-        AIWheat: this.inventory[this.AIHouse].wheat,
-        AITimber: this.inventory[this.AIHouse].timber,
+        userWheat: this.economy[this.userHouse].wheat,
+        userTimber: this.economy[this.userHouse].timber,
+        AIWheat: this.economy[this.AIHouse].wheat,
+        AITimber: this.economy[this.AIHouse].timber,
         sortedItems: this.sortedItems,
         selectedItems: this.selectedItems
       }),
@@ -862,10 +862,10 @@ var game = {
               this.play();
               this.resetArrays();
               this.running = false;
-              this.inventory[this.userHouse].wheat = data.userWheat;
-              this.inventory[this.userHouse].timber = data.userTimber;
-              this.inventory[this.AIHouse].wheat = data.AIWheat;
-              this.inventory[this.AIHouse].timber = data.AITimber;
+              this.economy[this.userHouse].wheat = data.userWheat;
+              this.economy[this.userHouse].timber = data.userTimber;
+              this.economy[this.AIHouse].wheat = data.AIWheat;
+              this.economy[this.AIHouse].timber = data.AITimber;
               this.buildings = newBuildings;
               this.units = newUnits;
               this.terrains = newTerrains;
