@@ -190,8 +190,8 @@ var game = {
         timber: 1000,
       },
       "1": {
-        wheat: 1000,
-        timber: 1000,
+        wheat: 1200,
+        timber: 1200,
       },
       "2": {
         wheat: 1000,
@@ -199,7 +199,7 @@ var game = {
       },
       "3": {
         wheat: 1000,
-        timber: 1000,
+        timber: 1400,
       },
       "4": {
         wheat: 1000,
