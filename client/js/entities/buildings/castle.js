@@ -23,7 +23,7 @@ let name = 'castle',
 	cost = 500,
 	spriteImages = [{name: 'stand', count: 1, directions: 1}],
 	defaults = {
-		buildTime: 0,
+		buildTime: 30,
 	};
 
 let castle = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,

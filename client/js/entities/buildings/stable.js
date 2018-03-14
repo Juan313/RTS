@@ -17,7 +17,7 @@ let name = 'stable',
 	spriteImages = [{name: 'stand', count: 1, directions: 1}],
 	//TODO: get images for stable
 	defaults = {
-		buildTime: 30,
+		buildTime: 60,
 	};
 
 let stable = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,

@@ -17,7 +17,7 @@ let name = 'barrack',
 	spriteImages = [{name: 'stand', count: 1, directions: 1}],
 	//TODO: get images for barrack
 	defaults = {
-		buildTime: 20
+		buildTime: 40
 	};
 
 let barrack = new Building(name, pixelWidth, pixelHeight, pixelOffsetX, pixelOffsetY,
