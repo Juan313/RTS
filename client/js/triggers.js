@@ -188,7 +188,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 51000,
+      "time": 31000,
       "repeat": true,
       "action": function() {
         if (game.difficulty === 'easy'){
@@ -207,7 +207,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 31000,
+      "time": 21000,
       "repeat": true,
       "action": function() {
         if (game.difficulty === 'hard'){
