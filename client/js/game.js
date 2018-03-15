@@ -190,20 +190,20 @@ var game = {
         timber: 200,
       },
       "1": {
-        wheat: 200,
-        timber: 200,
+        wheat: 100,
+        timber: 300,
       },
       "2": {
-        wheat: 200,
-        timber: 200,
+        wheat: 300,
+        timber: 100,
       },
       "3": {
-        wheat: 200,
-        timber: 200,
+        wheat: 150,
+        timber: 250,
       },
       "4": {
-        wheat: 200,
-        timber: 200,
+        wheat: 250,
+        timber: 150,
       },
     };
     game.economy = Object.assign({}, inventory);
