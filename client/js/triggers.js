@@ -62,7 +62,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 3000,
+      "time": 9000,
       "repeat": true,
       "action": function() {
         if (game.economy[parseInt(game.AIHouse)].wheat< 1000 || game.economy[parseInt(game.AIHouse)].timber< 1000){
