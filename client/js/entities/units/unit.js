@@ -145,7 +145,7 @@ export default class Unit extends Entity {
   // }
 
   moveTo(destination, distanceFromDestination) {
-
+		console.log(this.uid + 'moving to' + destination);
     let start = [Math.floor(this.x), Math.floor(this.y)];
     let end = [Math.floor(destination.x), Math.floor(destination.y)];
     let newDirection;

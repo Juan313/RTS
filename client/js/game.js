@@ -810,8 +810,8 @@ var game = {
               newWeapons = [],
               newSelectedItems = [];
             //this.resetArrays();
+						let newCounter = 0;
             for (let i = 0; i < data.sortedItems.length; i++) {
-              this.counter++;
               let newItem = null;
               if (data.sortedItems[i].type === 'units') {
                 newItem = units[data.sortedItems[i].name].add();
@@ -820,24 +820,32 @@ var game = {
                 newItem.special = special ? special : newItem.special;
                 newItem.spriteArray = null;
                 newItem.load();
+								newItem.uid = newCounter;
+								newCounter++;
                 newUnits.push(newItem);
               } else if (data.sortedItems[i].type === 'buildings') {
                 newItem = buildings[data.sortedItems[i].name].add();
                 Object.assign(newItem, data.sortedItems[i]);
                 newItem.spriteArray = null;
                 newItem.load();
+								newItem.uid = newCounter;
+								newCounter++;
                 newBuildings.push(newItem);
               } else if (data.sortedItems[i].type === 'terrains') {
                 newItem = terrains[data.sortedItems[i].name].add();
                 Object.assign(newItem, data.sortedItems[i]);
                 newItem.spriteArray = null;
                 newItem.load();
+								newItem.uid = newCounter;
+								newCounter++;
                 newTerrains.push(newItem);
               } else {
                 newItem = weapons[data.sortedItems[i].name].add();
                 Object.assign(newItem, data.sortedItems[i]);
                 newItem.spriteArray = null;
                 newItem.load();
+								newItem.uid = newCounter;
+								newCounter++;
                 newWeapons.push(newItem);
               }
               if (data.sortedItems[i].selected) {
@@ -861,6 +869,7 @@ var game = {
             setTimeout(() => {
               this.play();
               this.resetArrays();
+							this.counter = newCounter + 1;
               this.running = false;
               this.economy[this.userHouse].wheat = data.userWheat;
               this.economy[this.userHouse].timber = data.userTimber;
