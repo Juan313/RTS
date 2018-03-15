@@ -103,9 +103,16 @@ export default class Building extends Entity {
             itemDetails.action = "stand";
             itemDetails.team = this.team;
             // console.log(itemDetails);
+
+
             game.add(itemDetails);
-            console.log("building!!!!!");
-            // itemDetails = undefined;
+            if (this.team == game.AIHouse){
+              game.showMessage("system", "Enemy's " + this.name + " has finished building " + this.orders.details.name, 1000);
+            } else {
+              game.showMessage("system", "User's " + this.name + " has finished building " + this.orders.details.name, 1000);
+
+            }
+
           }
 
         }

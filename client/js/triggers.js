@@ -44,17 +44,7 @@ var triggers = [
         game.endGame(false);
       }
     },
-    // AI building stable
-    // {
-    //   "type": "timed",
-    //   "time": 10000,
-    //   "action": function() {
-    //     if (game.difficulty === 'hard')
-    //       game.endGame(false);
-    //     else{}
-    //
-    //   }
-    // },
+
     {
       "type": "timed",
       "time": 1000,
@@ -72,7 +62,7 @@ var triggers = [
 
     {
       "type": "timed",
-      "time": 11000,
+      "time": 3000,
       "repeat": true,
       "action": function() {
         if (game.economy[parseInt(game.AIHouse)].wheat< 1000 || game.economy[parseInt(game.AIHouse)].timber< 1000){
@@ -156,7 +146,7 @@ var triggers = [
     },
     {
       "type": "timed",
-      "time": 8000,
+      "time": 4000,
       "repeat": true,
       "action": function() {
         if (game.hasStable() != -1){

@@ -186,24 +186,24 @@ var game = {
     weapons['teeth'].load();
     var inventory = {
       "0": {
-        wheat: 1000,
-        timber: 1000,
+        wheat: 200,
+        timber: 200,
       },
       "1": {
-        wheat: 1200,
-        timber: 1200,
+        wheat: 200,
+        timber: 200,
       },
       "2": {
-        wheat: 1000,
-        timber: 1000,
+        wheat: 200,
+        timber: 200,
       },
       "3": {
-        wheat: 1000,
-        timber: 1400,
+        wheat: 200,
+        timber: 200,
       },
       "4": {
-        wheat: 1000,
-        timber: 1000,
+        wheat: 200,
+        timber: 200,
       },
     };
     game.economy = Object.assign({}, inventory);
@@ -636,7 +636,7 @@ var game = {
     });
   },
 
-  showMessage: function(from, message) {
+  showMessage: function(from, message, time=5000) {
     let gamemessages = document.getElementById("gamemessages");
 
     let messageHTML = "<span>" + from + ": </span>" + message + "<br>";

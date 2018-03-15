@@ -441,7 +441,7 @@ export default class Unit extends Entity {
     }
     var targets;
     switch (this.orders.type) {
-  
+
       case "move":
         // Move toward destination until distance from destination is less than vehicle radius
         if (distanceFromDestination < radius) {
@@ -576,7 +576,6 @@ export default class Unit extends Entity {
         break;
 
       case "guard":
-      console.log("guarding! ");
 
         // If the item being guarded is dead, cancel the current order
         if (this.orders.to.lifeCode === "dead") {
