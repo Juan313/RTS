@@ -158,13 +158,15 @@ input[type="button"] {
   position: relative;
   height: 5%;
   background-color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
 }
 #topBar #gamemessages{
   width: 80%;
 	float: left;
   height: 100%;
-  border-right-style: solid;
-  border-right-color: rgb(4, 116, 4);
+  /* border-right-style: solid;
+  border-right-color: rgb(4, 116, 4); */
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
 
@@ -174,8 +176,28 @@ input[type="button"] {
 	float: right;
 	width: 20%;
 	height: 100%;
-  color: rgb(255, 255, 255);
+  /* color: rgb(255, 255, 255); */
+  vertical-align: middle;
+}
 
+#topBar #userButtons #saveGame {
+  width: 45%;
+  height: 100%;
+  border-radius: 4px;
+  color: white;
+  background-color: green;
+  font-size: 14px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#topBar #userButtons #quitGame {
+  width: 45%;
+  height: 100%;
+  border-radius: 4px;
+  color: white;
+  background-color: green;
+  font-size: 14px;
+  font-family: "Courier New", Courier, monospace;
 }
 
 #gameinterfacescreen canvas {

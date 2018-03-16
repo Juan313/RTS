@@ -34,7 +34,7 @@ var requirements = {
     "units": ["villager", "knight", "militia"],
   },
   "3": {
-    "buildings": ["barrack", "stable", "dock"],
+    "buildings": ["barrack", "stable"],
     "units": ["villager", "knight", "militia"],
   },
   "4": {
